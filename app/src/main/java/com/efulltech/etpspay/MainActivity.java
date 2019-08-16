@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.epay_tps_library_module.Utility;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +22,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utility.makeToast(MainActivity.this, "HELLO WORLD", Utility.LENGTH_SHORT);
+                Utility.makeToast(MainActivity.this, "Printer Class Initiated", Utility.LENGTH_SHORT);
+                UsbPrinter usbPrinter = new UsbPrinter(MainActivity.this);
+                usbPrinter.PrintDemoText();
+
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
             }
