@@ -25,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
                 Utility.makeToast(MainActivity.this, "Printer Class Initiated", Utility.LENGTH_SHORT);
                 UsbPrinter usbPrinter = new UsbPrinter(MainActivity.this);
                 usbPrinter.PrintDemoText();
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
     }

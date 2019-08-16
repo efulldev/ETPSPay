@@ -190,6 +190,7 @@ public class UsbPrinter {
                 } else {
                     handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null));
                 }
+
             } finally {
                 handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null));
                 if (nopaper){
