@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--User Preference-->
+    <PreferenceCategory
+        android:title="@string/user_settings"/>
+    <EditTextPreference
+        android:defaultValue="Name"
+        android:key="@string/pref_business_name_key"
+        android:icon="@drawable/ic_business_center_blue_grey_32dp"
+        android:summary="set business name"
+        android:title="Business Name" />
+
+    <EditTextPreference
+        android:defaultValue="Name@gmail.com"
+        android:key="@string/pref_business_email_key"
+        android:icon="@drawable/ic_contact_mail_bue_32dp"
+        android:summary="set business email"
+        android:title="Business E-mail" />
+
+    <!--Pin management-->
+
+    <PreferenceCategory
+        android:title="@string/pin_management"/>
+    <EditTextPreference
+        android:defaultValue="1234"
+        android:key="@string/pref_operator_pin_key"
+        android:summary="set pin for operator"
+        android:title="Operator PIN" />
+
+    <EditTextPreference
+        android:defaultValue="1234"
+        android:key="@string/pref_supervisor_pin_key"
+        android:summary="set pin for supervisor"
+        android:title="Supervisor PIN" />
+
+    <EditTextPreference
+        android:defaultValue="1234"
+        android:key="@string/pref_admin_pin_key"
+        android:summary="set pin for admin"
+        android:title="Admin PIN" />
+
+    <!--Actions-->
+    <PreferenceCategory
+        android:title="@string/actions"/>
+    <Preference
+        android:key="@string/pref_end_of_day_key"
+        android:summary="set pin for operator"
+        android:title="@string/EOD" />
+
+    <Preference
+        android:key="@string/pref_print_end_of_day_key"
+        android:summary="click to print"
+        android:title="@string/print_EOD" />
+
+    <Preference
+        android:key="@string/pref_re_print_receipt_key"
+        android:summary="print receipt again"
+        android:title="@string/re_print_receipt" />
+
+    <Preference
+        android:key="@string/pref_transaction_history_key"
+        android:summary="click to print transaction history"
+        android:title="@string/print_transaction_history" />
+
+    <Preference
+        android:key="@string/pref_close_batch_key"
+        android:summary="close all batch"
+        android:title="@string/close_batch" />
+
+    <Preference
+        android:key="@string/pref_clear_database_key"
+        android:summary="Delete all data"
+        android:title="@string/clear_database" />
+
+
+
+    <!--<CheckBoxPreference-->
+        <!--android:defaultValue="@bool/pref_show_bass_default"-->
+        <!--android:key="@string/pref_show_bass_key"-->
+        <!--android:summaryOff="@string/pref_show_false"-->
+        <!--android:summaryOn="@string/pref_show_true"-->
+        <!--android:title="Show Bass" />-->
+
+    <!--<CheckBoxPreference-->
+        <!--android:defaultValue="@bool/pref_show_mid_range_default"-->
+        <!--android:key="@string/pref_show_mid_range_key"-->
+        <!--android:summaryOff="@string/pref_show_false"-->
+        <!--android:summaryOn="@string/pref_show_true"-->
+        <!--android:title="Show Mid Range" />-->
+
+    <!--<CheckBoxPreference-->
+    <!--android:defaultValue="@bool/pref_show_treble_default"-->
+    <!--android:key="@string/pref_show_treble_key"-->
+    <!--android:summaryOff="@string/pref_show_false"-->
+    <!--android:summaryOn="@string/pref_show_true"-->
+    <!--android:title="Show Treble" />-->
+
+
+</PreferenceScreen>

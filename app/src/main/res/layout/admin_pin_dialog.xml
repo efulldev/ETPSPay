@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPinTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_pin"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_green_dark" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/pinTextField"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:focusable="auto"
+        android:importantForAutofill="no"
+        android:inputType="number|numberPassword"
+        android:padding="10dp"
+        android:textColor="@color/note_list_text"
+        tools:targetApi="o" />
+</LinearLayout>
