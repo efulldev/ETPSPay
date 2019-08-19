@@ -176,10 +176,11 @@ public class UsbPrinter {
                 }
                 mUsbThermalPrinter.setGray(printGray);
 
-                mUsbThermalPrinter.addString(printContent);
+                mUsbThermalPrinter.addString(printContent); //adds string
 
-                mUsbThermalPrinter.printString();
-                mUsbThermalPrinter.walkPaper(20);
+//                mUsbThermalPrinter.printString(); //prints string
+//                mUsbThermalPrinter.printStringAndWalk(UsbThermalPrinter.DIRECTION_FORWORD, UsbThermalPrinter.WALK_DOTLINE, 10);
+                mUsbThermalPrinter.walkPaper(20); //adds spaces after printing is done
             } catch (Exception e) {
                 e.printStackTrace();
                 Result = e.toString();
@@ -201,6 +202,35 @@ public class UsbPrinter {
             }
         }
     }
+
+    private class paperWalkPrintThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            try {
+                mUsbThermalPrinter.reset();
+                mUsbThermalPrinter.walkPaper(paperWalk);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Result = e.toString();
+                if (Result.equals("com.telpo.tps550.api.printer.NoPaperException")) {
+                    nopaper = true;
+                } else if (Result.equals("com.telpo.tps550.api.printer.OverHeatException")) {
+                    handler.sendMessage(handler.obtainMessage(OVERHEAT, 1, 0, null));
+                } else {
+                    handler.sendMessage(handler.obtainMessage(PRINTERR, 1, 0, null));
+                }
+            } finally {
+                handler.sendMessage(handler.obtainMessage(CANCELPROMPT, 1, 0, null));
+                if (nopaper){
+                    handler.sendMessage(handler.obtainMessage(NOPAPER, 1, 0, null));
+                    nopaper = false;
+                    return;
+                }
+            }
+        }
+    }
+
 
 
     public void PrintDemoText() {
