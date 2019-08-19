@@ -179,7 +179,7 @@ public class UsbPrinter {
                 mUsbThermalPrinter.addString(printContent); //adds string
 
 //                mUsbThermalPrinter.printString(); //prints string
-                mUsbThermalPrinter.printStringAndWalk(UsbThermalPrinter.DIRECTION_FORWORD, UsbThermalPrinter.WALK_DOTLINE, 10);
+//                mUsbThermalPrinter.printStringAndWalk(UsbThermalPrinter.DIRECTION_FORWORD, UsbThermalPrinter.WALK_DOTLINE, 10);
                 mUsbThermalPrinter.walkPaper(20); //adds spaces after printing is done
             } catch (Exception e) {
                 e.printStackTrace();
