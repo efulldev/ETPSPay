@@ -2,7 +2,7 @@
     <string name="app_name">E-TPS Pay</string>
     <string name="card_payment">Card Payment</string>
     <string name="history">Transaction History</string>
-    <string name="print_EOD">Print End Of Day Receipt</string>
+    <string name="print_EOD">Print EOD Receipt</string>
     <string name="user_settings">User Preferences</string>
     <string name="business_name">Business Name</string>
     <string name="business_email">Business E-mail</string>

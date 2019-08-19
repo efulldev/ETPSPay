@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.etpspay.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.efulltech.etpspay.utils.Constants;
@@ -55,12 +56,15 @@ public class MainActivity extends AppCompatActivity {
     public void transactionHistory(View view) {
         Intent transactionHistory = new Intent(MainActivity.this, TransactionHistoryActivity.class);
         startActivity(transactionHistory);
+
     }
 
     @OnClick(R.id.printEODBtn)
     public void printReceipt(View view) {
-        Intent receipt = new Intent(MainActivity.this, PrintReceiptActivity.class);
-        startActivity(receipt);
+//        Intent receipt = new Intent(MainActivity.this, PrintReceiptActivity.class);
+//        startActivity(receipt);
+        UsbPrinter usbPrinter = new UsbPrinter(MainActivity.this);
+        usbPrinter.PrintDemoText();
     }
 
     @OnClick(R.id.userPreferencesBtn)

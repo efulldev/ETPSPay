@@ -20,22 +20,23 @@ import android.widget.Toast;
 import com.telpo.tps550.api.printer.UsbThermalPrinter;
 
 public class UsbPrinter {
-    private Context ctx;
+    private static int leftDistance;
+    private static Context ctx;
     private String printVersion;
-    private final int NOPAPER = 3;
-    private final int LOWBATTERY = 4;
-    private final int PRINTVERSION = 5;
-    private final int PRINTBARCODE = 6;
-    private final int PRINTQRCODE = 7;
-    private final int PRINTPAPERWALK = 8;
-    private final int PRINTCONTENT = 9;
-    private final int CANCELPROMPT = 10;
-    private final int PRINTERR = 11;
-    private final int OVERHEAT = 12;
-    private final int MAKER = 13;
-    private final int PRINTPICTURE = 14;
-    private final int NOBLACKBLOCK = 15;
-    MyHandler handler;
+    private static final int NOPAPER = 3;
+    private static final int LOWBATTERY = 4;
+    private static final int PRINTVERSION = 5;
+    private static final int PRINTBARCODE = 6;
+    private static final int PRINTQRCODE = 7;
+    private static final int PRINTPAPERWALK = 8;
+    private static final int PRINTCONTENT = 9;
+    private static final int CANCELPROMPT = 10;
+    private static final int PRINTERR = 11;
+    private static final int OVERHEAT = 12;
+    private static final int MAKER = 13;
+    private static final int PRINTPICTURE = 14;
+    private static final int NOBLACKBLOCK = 15;
+    static MyHandler handler;
 
 //    private LinearLayout print_text, print_pic;
 //    private TextView text_index, pic_index,textPrintVersion;
@@ -46,22 +47,22 @@ public class UsbPrinter {
 //            buttonGetExampleText,buttonGetZhExampleText,buttonGetFRExampleText,buttonClearText,
 //            button_maker,button_print_picture;
 
-    private String Result;
-    private Boolean nopaper = false;
-    private boolean LowBattery = false;
+    private static String Result;
+    private static Boolean nopaper = false;
+    private static boolean LowBattery = false;
 
     public static String barcodeStr;
     public static String qrcodeStr;
     public static int paperWalk;
     public static String printContent;
-    private int leftDistance = 0;
-    private int lineDistance;
-    private int wordFont;
-    private int printGray;
-    private ProgressDialog progressDialog;
+//    private static int leftDistance = 0;
+    private static int lineDistance;
+    private static int wordFont;
+    private static int printGray;
+    private static ProgressDialog progressDialog;
     private final static int MAX_LEFT_DISTANCE = 255;
-    ProgressDialog dialog;
-    UsbThermalPrinter mUsbThermalPrinter;
+    static ProgressDialog dialog;
+    static UsbThermalPrinter mUsbThermalPrinter;
     private String picturePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/111.bmp";
 
 
@@ -71,7 +72,7 @@ public class UsbPrinter {
     }
 
 
-    private class MyHandler extends Handler {
+    private static class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -143,10 +144,10 @@ public class UsbPrinter {
     }
 
 
-    private void noPaperDlg() {
-        AlertDialog.Builder dlg = new AlertDialog.Builder(this.ctx);
-        dlg.setTitle(this.ctx.getString(R.string.noPaper));
-        dlg.setMessage(this.ctx.getString(R.string.noPaperNotice));
+    private static void noPaperDlg() {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(ctx);
+        dlg.setTitle(ctx.getString(R.string.noPaper));
+        dlg.setMessage(ctx.getString(R.string.noPaperNotice));
         dlg.setCancelable(false);
         dlg.setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
             @Override
@@ -156,7 +157,7 @@ public class UsbPrinter {
         dlg.show();
     }
 
-    private class contentPrintThread extends Thread {
+    private static class contentPrintThread extends Thread {
         @Override
         public void run() {
             super.run();
@@ -178,7 +179,7 @@ public class UsbPrinter {
 
                 mUsbThermalPrinter.addString(printContent); //adds string
 
-//                mUsbThermalPrinter.printString(); //prints string
+                mUsbThermalPrinter.printString(); //prints string
 //                mUsbThermalPrinter.printStringAndWalk(UsbThermalPrinter.DIRECTION_FORWORD, UsbThermalPrinter.WALK_DOTLINE, 10);
                 mUsbThermalPrinter.walkPaper(20); //adds spaces after printing is done
             } catch (Exception e) {
@@ -233,7 +234,7 @@ public class UsbPrinter {
 
 
 
-    public void PrintDemoText() {
+    public static void PrintDemoText() {
 				String str = "\n---------------------------\n" +
 						     "Print Test:\n" +
 			                 "Device Base Information\n" +
@@ -273,11 +274,11 @@ public class UsbPrinter {
                 printString(str);
    }
 
-   public void printString(String editText){
+   public static void printString(String editText){
        leftDistance = 1;
        lineDistance = 1;
        printContent = editText;
-       wordFont = 2;
+       wordFont = 1;
        printGray = 5;
 
 
