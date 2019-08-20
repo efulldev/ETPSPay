@@ -277,7 +277,7 @@ public class UsbPrinter {
        leftDistance = 1;
        lineDistance = 1;
        printContent = editText;
-       wordFont = 2;
+       wordFont = 1;
        printGray = 5;
 
 
