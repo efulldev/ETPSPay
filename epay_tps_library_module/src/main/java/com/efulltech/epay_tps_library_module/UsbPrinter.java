@@ -177,7 +177,47 @@ public class UsbPrinter {
                 }
                 mUsbThermalPrinter.setGray(printGray);
 
-                mUsbThermalPrinter.addString(printContent); //adds string
+//                mUsbThermalPrinter.addString(printContent); //adds string
+
+
+                mUsbThermalPrinter.addString(formatAlignedJustified("RSMARKET ASABA", "LA"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("12/08/19", "17:11:46"));
+                mUsbThermalPrinter.addString( formatAlignedJustified("TERMINAL ID", "65437"));
+                mUsbThermalPrinter.addString( formatAlignedJustified("MERCHNANT ID", "21200"));
+                mUsbThermalPrinter.addString("***********************");
+                mUsbThermalPrinter.addString("*********APPROVED********");
+                mUsbThermalPrinter.addString("-------------------------");
+                mUsbThermalPrinter.addString("*********DECLINED********");
+                mUsbThermalPrinter.addString("-------------------------");
+                mUsbThermalPrinter.addString("*********REPRINT*********");
+                mUsbThermalPrinter.addString("-------------------------");
+                mUsbThermalPrinter.addString(formatAlignedJustified("PAN", "58843XXXXX1222"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("EXPIRY", "2000"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("READER", "CONTACT CHIP"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("NAME", "CUSTOMER"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("BATCH NO", "1"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("SEQ NO", "10"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("STAN", "313788"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("RRN", "37894658"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("ACCOUNT TYPE", "SAVINGS"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("AMOUNT", "NGN1.00"));
+                mUsbThermalPrinter.addString("***COMMUNICATION ERROR***");
+                mUsbThermalPrinter.addString(formatAlignedJustified("PTSP", "Wi-Pay"));
+                mUsbThermalPrinter.addString("-------------------------");
+                mUsbThermalPrinter.addString(formatAlignedJustified("AID", "A000041010"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("CARD", "Debit MasterCard"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("AC", "1989257"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("TVR", "24434324"));
+                mUsbThermalPrinter.addString(formatAlignedJustified("TSI", "E800"));
+                mUsbThermalPrinter.addString("*************************");
+                mUsbThermalPrinter.addString("***Wi-Pay EFUPAY 0.1***");
+                mUsbThermalPrinter.addString("www.etpspay.efull.ng | pos@etpspay.com");
+                mUsbThermalPrinter.addString("Powered by pay mode");
+
+
+
+
+
 
                 mUsbThermalPrinter.printString(); //prints string
 //                mUsbThermalPrinter.printStringAndWalk(UsbThermalPrinter.DIRECTION_FORWORD, UsbThermalPrinter.WALK_DOTLINE, 10);
@@ -274,7 +314,24 @@ public class UsbPrinter {
                 printString(str);
    }
 
-   public static void printString(String editText){
+    private static String formatAlignedJustified(String left, String right) {
+        if (left != null && right != null) {
+            int leftlen = left.length();
+            int rightlen = right.length();
+            int space = 32 - (leftlen + rightlen);
+            String sp = "";
+
+            for(int i = 0; i < space; ++i) {
+                sp = sp + " ";
+            }
+
+            return left + sp + right;
+        } else {
+            return "";
+        }
+    }
+
+    public static void printString(String editText){
        leftDistance = 1;
        lineDistance = 1;
        printContent = editText;
