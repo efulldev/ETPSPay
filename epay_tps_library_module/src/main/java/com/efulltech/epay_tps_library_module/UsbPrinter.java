@@ -38,7 +38,8 @@ public class UsbPrinter {
     private static final int NOBLACKBLOCK = 15;
     static MyHandler handler;
 
-//    private LinearLayout print_text, print_pic;
+
+    private LinearLayout print_text, print_pic;
 //    private TextView text_index, pic_index,textPrintVersion;
 //    private EditText editTextLeftDistance,editTextLineDistance,editTextWordFont,editTextPrintGray,
 //            editTextBarcode,editTextQrcode,editTextPaperWalk,editTextContent,
