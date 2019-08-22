@@ -43,9 +43,6 @@
         <activity android:name=".ui.PrintReceiptActivity"
             android:label="@string/print_EOD"
             android:parentActivityName=".ui.MainActivity"/>
-        <activity android:name=".ui.CardPaymentActivity"
-            android:label="@string/card_payment"
-            android:parentActivityName=".ui.MainActivity"/>
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/user_settings"
