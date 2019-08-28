@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.etpspay.R;
 import com.google.android.material.snackbar.Snackbar;
