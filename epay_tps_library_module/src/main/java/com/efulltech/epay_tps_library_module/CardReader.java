@@ -468,7 +468,7 @@ public class CardReader {
             return true;
         } else {
             try {
-                if (this.mICCardReader.detect(this.mSlot, 500) == 0) {
+                if (this.mICCardReader.detect(this.mSlot, 5000) == 0) {
                     this.mICCardReader.power_on(this.mSlot);
                     return true;
                 } else {
@@ -636,6 +636,11 @@ public class CardReader {
             }
         }
     }
+
+//    public String setATRString() {
+//        this.mATR = null;
+//        return StringUtil.toHexString(this.mATR);
+//    }
 
     public String getATRString(int isic360) {
         if (SystemUtil.getDeviceType() != StringUtil.DeviceModelEnum.TPS900.ordinal() && SystemUtil.getDeviceType() != StringUtil.DeviceModelEnum.TPS390P.ordinal() && SystemUtil.getDeviceType() != StringUtil.DeviceModelEnum.TPS900MB.ordinal() && SystemUtil.getDeviceType() != StringUtil.DeviceModelEnum.TPS360IC.ordinal()) {
