@@ -25,7 +25,7 @@ public class TransactionOptions extends AppCompatActivity {
 
         handler = new Handler(getApplicationContext().getMainLooper());
 
-
+        threadRunT = true;
 
 
 //        Log.d("ICC stat", Boolean.toString(readerx.isICCPresent()));
@@ -36,11 +36,13 @@ public class TransactionOptions extends AppCompatActivity {
                 readerx.open();
 //                threadRunT = readerx.iccPowerOn();
 //                threadRunT = readerx.isICCPresent();
+                readerx.iccPowerOn(1);
                 Log.d("ICC status", "Running");
                 while (threadRunT){
+                    Log.d("ICC status", "Extra Running");
                     try{
-                        if (readerx.iccPowerOff()){
-                            Log.d("Card Activity", "Powered off");
+                        if (readerx.iccPowerOn(1)){
+                            Log.d("Card Activity", "Powered on");
 //                     try {
 //                            no = readerx.getATRString();
 //                         Log.d("Atr String", no);
@@ -54,8 +56,8 @@ public class TransactionOptions extends AppCompatActivity {
 //                     Toast.makeText(TransactionOptions.this, "Card removed", Toast.LENGTH_LONG).show();
 //                     startActivity(new Intent(TransactionOptions.this, CardPaymentActivity.class));
 //                            if (!readerx.isICCPresent()){
-                                threadRunT = false;
-                                Log.d("Card log error", "Card removed");
+//                                threadRunT = false;
+                                Log.d("Card log", "Card present");
 //                                finish();
 //                            }
                         }else {
