@@ -178,7 +178,6 @@ public class UsbPrinter {
                 }
                 mUsbThermalPrinter.setGray(printGray);
 
-//                mUsbThermalPrinter.addString(printContent); //adds string
 
 
                 mUsbThermalPrinter.addString(formatAlignedJustified("RSMARKET ASABA", "LA"));
