@@ -56,4 +56,7 @@
     <string name="logo">LOGO</string>
     <string name="loading_setup">Loading setup... Please wait</string>
     <string name="hello">Hello!</string>
+    <string name="payments">Payments</string>
+    <string name="last_transact">Previous Transaction</string>
+    <string name="amt">Amount</string>
 </resources>

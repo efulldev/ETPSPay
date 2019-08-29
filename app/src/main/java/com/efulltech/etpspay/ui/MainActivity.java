@@ -31,6 +31,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private TextView timeText;
+    private TextView dateText;
 
     @BindView(R.id.cardPaymentBtn)
     Button cardPayment;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         timeText = findViewById(R.id.timeText);
+//        dateText = findViewById
 
         //get current device seconds (Time)
         @SuppressLint("SimpleDateFormat") SimpleDateFormat curSec = new SimpleDateFormat("ss");

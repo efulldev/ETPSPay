@@ -127,57 +127,11 @@
 
     <!--</LinearLayout>-->
     <!--</ScrollView>-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="395dp"
-        android:layout_height="300dp"
-        android:elevation="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:fontFamily="sans-serif-black"
-                android:text="Hello Merchant !"
-                android:textColor="@android:color/secondary_text_light_nodisable"
-                android:textSize="36sp" />
-
-            <TextView
-                android:id="@+id/timeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="10dp"
-                android:text="6:31pm"
-                android:textAlignment="viewEnd"
-                android:textColor="@android:color/secondary_text_light_nodisable"
-                android:textSize="50dp" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="Wed, Aug 28"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
+        android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -187,20 +141,66 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/midnightBlue"
-            android:elevation="2dp"
+            android:elevation="1dp"
             android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="395dp"
+                android:layout_height="300dp"
+                android:elevation="2dp"
+                android:foregroundGravity="fill_horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:overScrollMode="never">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Hello Merchant !"
+                        android:textColor="@android:color/secondary_text_light_nodisable"
+                        android:textSize="36sp" />
+
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="10dp"
+                        android:text="6:31pm"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@android:color/secondary_text_light_nodisable"
+                        android:textSize="50dp" />
+
+                    <TextView
+                        android:id="@+id/dateText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Wed, Aug 28"
+                        android:textAlignment="viewEnd"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/cardPaymentBtn"
                 android:layout_width="match_parent"
                 android:layout_height="128dp"
-                android:layout_marginTop="300dp"
                 android:background="@color/light_grey"
                 android:drawableEnd="@drawable/img_cards_200"
+                android:elevation="5dp"
                 android:padding="10dp"
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"
-                android:text="@string/card_payment"
+                android:text="@string/payments"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="@color/midnightBlue"
@@ -218,6 +218,145 @@
                 android:paddingRight="0dp"
                 android:text="@string/history"
                 android:textAlignment="viewEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:orientation="vertical"
+                android:padding="3dp"
+                android:paddingTop="3dp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@string/last_transact"
+                    android:textColor="@color/midnightBlue"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/prev_trans_amt_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="5dp"
+                            android:text="#35,250.55"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:text="@string/amt"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/prev_trans_stat_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Approved"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/prev_trans_batch_no_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Batch: 23"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue" />
+
+                        <TextView
+                            android:id="@+id/prev_trans_seq_no_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Seq: 2"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/printEODBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:drawableEnd="@drawable/img_clock_100"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/print_EOD"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/printEODBtn2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:drawableEnd="@drawable/img_clock_100"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/print_EOD"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/printEODBtn3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:drawableEnd="@drawable/img_clock_100"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/print_EOD"
+                android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="@color/midnightBlue"
                 android:textSize="30sp" />
