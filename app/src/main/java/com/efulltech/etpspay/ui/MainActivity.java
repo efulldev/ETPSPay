@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.epay_tps_library_module.UsbPrinter;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         // start the recursive function to display time
         showDateTime(timer);
 
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
 //
 //        dataProccessor = new DataProccessor(this);
 //
@@ -96,9 +97,11 @@ public class MainActivity extends AppCompatActivity {
     //
     @OnClick(R.id.cardPaymentBtn)
     public void cardPayment(View view) {
+//        Toast.makeText(MainActivity.this, "I am clickable", Toast.LENGTH_LONG).show();
         Intent cardPayment = new Intent(MainActivity.this, CardPaymentActivity.class);
         startActivity(cardPayment);
     }
+
 //
 //    @OnClick(R.id.transactionHistoryBtn)
 //    public void transactionHistory(View view) {
