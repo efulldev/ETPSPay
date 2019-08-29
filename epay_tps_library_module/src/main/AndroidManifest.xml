@@ -18,9 +18,11 @@
     <uses-permission android:name="android.permission.NFC" />
 
     <application>
+        <activity android:name=".AmountActivity"
+            />
         <activity
             android:name=".TransactionOptions"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".CardPaymentActivity" />
     </application>
 

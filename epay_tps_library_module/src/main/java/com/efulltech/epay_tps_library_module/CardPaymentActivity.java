@@ -40,30 +40,27 @@ public class CardPaymentActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run(){
+                // Indicates that the thread is started
                 Log.d("CPA", "Initiated Card reader listener");
                 cardReader.open();
-//                cardReader.iccPowerOn(1);
                 while (threadRun){
+                    // Indicates that the while loop is running
                     Log.d("CPA", "Running while loop");
-//                    isPoweredOn = cardReader.iccPowerOn();
                     try {
-//                        cardReader.mICCardReader.power_on(cardReader.SLOT_ICC);
                         Log.d("CPA", "Listening for card insertion");
-                        if (cardReader.iccPowerOn(1)){
-//                            cardReader.mICCardReader.power_on(cardReader.SLOT_ICC);
+                        // Listening for insertion of a card
+                        if (cardReader.iccPowerOn()){
                             Log.d("CPA", "ICC Powered On");
                             threadRun = false;
                             finish();
                             startActivity(new Intent(CardPaymentActivity.this, TransactionOptions.class));
                             Log.d("CPA", "ICC card inserted");
-//                            cardReader.iccPowerOff();
                         }else{
-//                        isPoweredOn = cardReader.iccPowerOn();
                             Log.d("CPA", "ICC Powered off");
                         }
-//                        cardReader.close();
                     } catch (Exception e) {
                         e.printStackTrace();
+                        // terminates the thread after catching error
                         Thread.currentThread().isInterrupted();
                     }
                 }
