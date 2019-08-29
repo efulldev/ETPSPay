@@ -53,4 +53,10 @@
     <string name="old_pin">Please enter old PIN</string>
     <string name="new_pin">Enter your new PIN</string>
     <string name="confirm_pin">Confirm your new PIN</string>
+    <string name="logo">LOGO</string>
+    <string name="loading_setup">Loading setup... Please wait</string>
+    <string name="hello">Hello!</string>
+    <string name="payments">Payments</string>
+    <string name="last_transact">Previous Transaction</string>
+    <string name="amt">Amount</string>
 </resources>

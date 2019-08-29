@@ -9,6 +9,7 @@
 
         // Preference theme
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
     </style>
 
 

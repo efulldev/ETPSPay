@@ -1,131 +1,366 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/midnightBlue"
+    tools:context=".ui.MainActivity">
+
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical" >-->
+
+
+    <!--&lt;!&ndash;<androidx.constraintlayout.widget.ConstraintLayout&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="match_parent">&ndash;&gt;-->
+
+    <!--&lt;!&ndash;app:layout_constraintEnd_toStartOf="@+id/transactionHistoryBtn"&ndash;&gt;-->
+    <!--&lt;!&ndash;app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;app:layout_constraintTop_toTopOf="parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvBusinessName"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:fontFamily="sans-serif-condensed-medium"-->
+    <!--android:shadowColor="@android:color/holo_orange_dark"-->
+    <!--android:text="@string/business_name"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="24sp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<Button-->
+    <!--android:id="@+id/cardPaymentBtn"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="150dp"-->
+    <!--android:layout_marginStart="32dp"-->
+    <!--android:layout_marginTop="100dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:background="@color/grey_transparent"-->
+    <!--android:drawableTop="@drawable/ic_credit_card"-->
+    <!--android:elevation="5dp"-->
+    <!--android:paddingTop="20dp"-->
+    <!--android:text="@string/card_payment"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textColor="@color/white" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/transactionHistoryBtn"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="150dp"-->
+    <!--android:layout_marginTop="100dp"-->
+    <!--android:layout_marginEnd="32dp"-->
+    <!--android:background="@color/grey_transparent"-->
+    <!--android:drawableTop="@drawable/ic_history"-->
+    <!--android:elevation="5dp"-->
+    <!--android:paddingTop="20dp"-->
+    <!--android:text="@string/history"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textColor="@color/white"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<Button-->
+    <!--android:id="@+id/printEODBtn"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="150dp"-->
+    <!--android:layout_marginStart="32dp"-->
+    <!--android:layout_marginTop="36dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:background="@color/grey_transparent"-->
+    <!--android:clickable="true"-->
+    <!--android:drawableTop="@drawable/ic_print"-->
+    <!--android:elevation="5dp"-->
+    <!--android:focusable="true"-->
+    <!--android:paddingTop="20dp"-->
+    <!--android:text="@string/print_EOD"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textColor="@color/white"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/userPreferencesBtn"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/cardPaymentBtn" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/userPreferencesBtn"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="150dp"-->
+    <!--android:layout_marginTop="36dp"-->
+    <!--android:layout_marginEnd="32dp"-->
+    <!--android:background="@color/grey_transparent"-->
+    <!--android:clickable="true"-->
+    <!--android:drawableTop="@drawable/ic_settings_applications"-->
+    <!--android:elevation="5dp"-->
+    <!--android:focusable="true"-->
+    <!--android:paddingTop="20dp"-->
+    <!--android:text="@string/user_settings"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textColor="@color/white"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/transactionHistoryBtn" />-->
+    <!--</LinearLayout>-->
+
+    <!--&lt;!&ndash;</androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;-->
+
+    <!--</LinearLayout>-->
+    <!--</ScrollView>-->
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="@color/colorAccent"
-        tools:context=".ui.MainActivity">
+        android:elevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/midnightBlue"
+            android:elevation="1dp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="395dp"
+                android:layout_height="300dp"
+                android:elevation="2dp"
+                android:foregroundGravity="fill_horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:overScrollMode="never">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Hello Merchant !"
+                        android:textColor="@android:color/secondary_text_light_nodisable"
+                        android:textSize="36sp" />
+
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="10dp"
+                        android:text="6:31pm"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@android:color/secondary_text_light_nodisable"
+                        android:textSize="50dp" />
+
+                    <TextView
+                        android:id="@+id/dateText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Wed, Aug 28"
+                        android:textAlignment="viewEnd"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/cardPaymentBtn"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:background="@color/light_grey"
+                android:drawableEnd="@drawable/img_cards_200"
+                android:elevation="5dp"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/payments"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/cardPaymentBtn2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:drawableStart="@drawable/img_clock_100"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/history"
+                android:textAlignment="viewEnd"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-
-                <!--<androidx.constraintlayout.widget.ConstraintLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent">-->
-
-                <!--app:layout_constraintEnd_toStartOf="@+id/transactionHistoryBtn"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintTop_toTopOf="parent"-->
-                    <!--/>-->
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:orientation="vertical"
+                android:padding="3dp"
+                android:paddingTop="3dp">
 
                 <TextView
-                    android:id="@+id/tvBusinessName"
+                    android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:shadowColor="@android:color/holo_orange_dark"
-                    android:text="@string/business_name"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_margin="5dp"
+                    android:text="@string/last_transact"
+                    android:textColor="@color/midnightBlue"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/cardPaymentBtn"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="100dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@color/grey_transparent"
-                        android:drawableTop="@drawable/ic_credit_card"
-                        android:elevation="5dp"
-                        android:paddingTop="20dp"
-                        android:text="@string/card_payment"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/transactionHistoryBtn"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginTop="100dp"
-                        android:layout_marginEnd="32dp"
-                        android:background="@color/grey_transparent"
-                        android:drawableTop="@drawable/ic_history"
-                        android:elevation="5dp"
-                        android:paddingTop="20dp"
-                        android:text="@string/history"
-                        android:textAlignment="center"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/prev_trans_amt_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="5dp"
+                            android:text="#35,250.55"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:text="@string/amt"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/prev_trans_stat_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Approved"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/prev_trans_batch_no_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Batch: 23"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue" />
+
+                        <TextView
+                            android:id="@+id/prev_trans_seq_no_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Seq: 2"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/midnightBlue" />
+                    </LinearLayout>
+
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/printEODBtn"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="36dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@color/grey_transparent"
-                        android:clickable="true"
-                        android:drawableTop="@drawable/ic_print"
-                        android:elevation="5dp"
-                        android:focusable="true"
-                        android:paddingTop="20dp"
-                        android:text="@string/print_EOD"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:layout_constraintEnd_toStartOf="@+id/userPreferencesBtn"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cardPaymentBtn" />
-
-                    <Button
-                        android:id="@+id/userPreferencesBtn"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginTop="36dp"
-                        android:layout_marginEnd="32dp"
-                        android:background="@color/grey_transparent"
-                        android:clickable="true"
-                        android:drawableTop="@drawable/ic_settings_applications"
-                        android:elevation="5dp"
-                        android:focusable="true"
-                        android:paddingTop="20dp"
-                        android:text="@string/user_settings"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/transactionHistoryBtn" />
-                </LinearLayout>
-
-                <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
             </LinearLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/printEODBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:drawableEnd="@drawable/img_clock_100"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/print_EOD"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/printEODBtn2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:drawableEnd="@drawable/img_clock_100"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/print_EOD"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/printEODBtn3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/light_grey"
+                android:drawableEnd="@drawable/img_clock_100"
+                android:padding="10dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:text="@string/print_EOD"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/midnightBlue"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
