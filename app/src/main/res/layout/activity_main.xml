@@ -33,6 +33,24 @@
                 android:background="@color/black_transparent"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/sucTransCountText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="2,344"
+                    android:textAlignment="center"
+                    android:textColor="@color/light_grey"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/suc_trans"
+                    android:textAlignment="center"
+                    android:textColor="@color/light_grey" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,24 +107,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/suc_trans"
-                    android:textAlignment="center"
-                    android:textColor="@color/light_grey" />
-
-                <TextView
-                    android:id="@+id/sucTransCountText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:text="2,344"
-                    android:textAlignment="center"
-                    android:textColor="@color/light_grey"
-                    android:textSize="30sp" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
