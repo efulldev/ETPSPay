@@ -94,16 +94,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="15dp"
         android:clickable="true"
         android:focusable="auto"
         app:cardBackgroundColor="@color/peach_pink"
         app:cardCornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardView3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
 
@@ -133,6 +134,27 @@
                 android:textColor="@color/nightly_blue"
                 android:textSize="18sp" />
         </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cardView2">
+
+        <Button
+            android:id="@+id/userPreferencesBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/ic_settings_black_24dp"
+            android:paddingTop="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
     </androidx.cardview.widget.CardView>
 
 
