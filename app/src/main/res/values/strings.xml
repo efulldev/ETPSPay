@@ -59,4 +59,26 @@
     <string name="payments">Payments</string>
     <string name="last_transact">Previous Transaction</string>
     <string name="amt">Amount</string>
+    <string name="user_mgt">User Management</string>
+    <string name="title_activity_login">Authentication</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="welcome_msg">Welcome!</string>
+    <string name="sign_in">Sign In</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="wallet_payment">Wallet Payment</string>
+    <string name="ussd">USSD Payment</string>
+    <string name="transactions">Transactions</string>
+    <string name="suc_trans">Successful Transactions</string>
+    <string name="print_count">Receipts Printed</string>
+    <string name="proc_by_user">You\'ve Processed</string>
+    <string name="log_as">Logged In as</string>
+    <string name="perm_lev">Permission Level</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

@@ -2,6 +2,7 @@ package com.efulltech.etpspay.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.SplashActivity;
+import com.efulltech.etpspay.ui.data.LoginDataSource;
+import com.efulltech.etpspay.ui.data.LoginRepository;
 import com.google.android.material.snackbar.Snackbar;
 import com.efulltech.etpspay.utils.Constants;
 import com.efulltech.etpspay.utils.DataProccessor;
@@ -31,13 +34,17 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     private TextView timeText;
     private TextView dateText;
 
+    @BindView(R.id.signOutBtn)
+    Button signOutBtn;
     @BindView(R.id.cardPaymentBtn)
     Button cardPayment;
-//    @BindView(R.id.transactionHistoryBtn)
-//    Button transactionHistory;
+    @BindView(R.id.transactionHistoryBtn)
+    Button transactionHistory;
 //    @BindView(R.id.printEODBtn)
 //    Button printReceipt;
 //    @BindView(R.id.userPreferencesBtn)
@@ -51,13 +58,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        timeText = findViewById(R.id.timeText);
+//        timeText = findViewById(R.id.timeText);
 //        dateText = findViewById
 
         //get current device seconds (Time)
         @SuppressLint("SimpleDateFormat") SimpleDateFormat curSec = new SimpleDateFormat("ss");
         // convert seconds to int
-        Integer timer = Integer.parseInt(curSec.format(new Date()));
+        Integer timer = 60 - Integer.parseInt(curSec.format(new Date()));
+        Log.d(TAG, "Timer: " + timer);
         // start the recursive function to display time
         showDateTime(timer);
 
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat curTime = new SimpleDateFormat("HH:mm:ss z");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G");
         String currentTime = curTime.format(new Date());
-        timeText.setText(currentTime);
+//        timeText.setText(currentTime);
 
         Thread background = new Thread() {
             public void run() {
@@ -97,18 +105,31 @@ public class MainActivity extends AppCompatActivity {
     //
     @OnClick(R.id.cardPaymentBtn)
     public void cardPayment(View view) {
-//        Toast.makeText(MainActivity.this, "I am clickable", Toast.LENGTH_LONG).show();
         Intent cardPayment = new Intent(MainActivity.this, CardPaymentActivity.class);
         startActivity(cardPayment);
     }
-
 //
-//    @OnClick(R.id.transactionHistoryBtn)
-//    public void transactionHistory(View view) {
-//        Intent transactionHistory = new Intent(MainActivity.this, TransactionHistoryActivity.class);
-//        startActivity(transactionHistory);
+//    @OnClick(R.id.printEODBtn2)
+//    public void logOut(View view){
+//
+//        LoginDataSource dataSource = new LoginDataSource();
+//        LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
+//        loginRepository.logout();
+//
+//        finish();
+//        // open slash screen activity
+//        Intent splashIntent = new Intent(MainActivity.this, SplashActivity.class);
+//        startActivity(splashIntent);
 //
 //    }
+
+//
+    @OnClick(R.id.transactionHistoryBtn)
+    public void transactionHistory(View view) {
+        Intent transactionHistory = new Intent(MainActivity.this, TransactionHistoryActivity.class);
+        startActivity(transactionHistory);
+
+    }
 //
 //    @OnClick(R.id.printEODBtn)
 //    public void printReceipt(View view) {

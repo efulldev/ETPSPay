@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.efulltech.etpspay.ui.MainActivity;
+import com.efulltech.etpspay.ui.auth.login.LoginActivity;
+import com.efulltech.etpspay.ui.data.LoginDataSource;
+import com.efulltech.etpspay.ui.data.LoginRepository;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,9 +24,32 @@ public class SplashActivity extends AppCompatActivity {
                     // Thread will sleep for 5 seconds
                     sleep(5*1000);
 
-                    // After 5 seconds redirect
-                    Intent i=new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(i);
+                    // get username and pin from shared preferences
+                    String username = "admin";
+                    String password = "1234567890";
+
+                    if(username.trim().length() > 0 && password.trim().length() > 0){
+
+                        LoginDataSource dataSource = new LoginDataSource();
+                        dataSource.login(username, password);
+                        LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
+
+                        // check if user is logged in
+                        if(loginRepository.isLoggedIn()){
+                            // grant user access
+                            Intent appIntent =new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(appIntent);
+                        }else{
+                            // take user to log in view
+                            Intent loginIntent =new Intent(SplashActivity.this, LoginActivity.class);
+                            startActivity(loginIntent);
+                        }
+                    }else{
+                        // take user to log in view
+                        Intent loginIntent =new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(loginIntent);
+                    }
+
 
                     //Remove activity
                     finish();
