@@ -27,150 +27,153 @@
 <!--                android:background="@color/black_transparent"-->
 <!--                android:minHeight="400dp">-->
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black_transparent"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/sucTransCountText"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="185dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:text="2,344"
-                        android:textAlignment="center"
-                        android:textColor="@color/light_grey"
-                        android:textSize="30sp" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/printOutCountText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="25dp"
+                            android:paddingBottom="0dp"
+                            android:text="4,988"
+                            android:textAlignment="center"
+                            android:textColor="@color/light_grey"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/print_count"
+                            android:textAlignment="center"
+                            android:textColor="@color/light_grey" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="185dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/suc_trans"
-                        android:textAlignment="center"
-                        android:textColor="@color/light_grey" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/transByUserCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="25dp"
+                            android:paddingBottom="0dp"
+                            android:text="300"
+                            android:textAlignment="center"
+                            android:textColor="@color/light_grey"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/proc_by_user"
+                            android:textAlignment="center"
+                            android:textColor="@color/light_grey" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/suc_trans"
+                    android:textAlignment="center"
+                    android:textColor="@color/light_grey" />
+
+                <TextView
+                    android:id="@+id/sucTransCountText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="2,344"
+                    android:textAlignment="center"
+                    android:textColor="@color/light_grey"
+                    android:textSize="30sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:padding="10dp"
+                    app:cardBackgroundColor="@color/light_grey"
+                    app:cardCornerRadius="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="185dp"
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:paddingLeft="10dp"
+                            android:text="@string/log_as" />
 
-                            <TextView
-                                android:id="@+id/printOutCountText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="25dp"
-                                android:paddingBottom="0dp"
-                                android:text="4,988"
-                                android:textAlignment="center"
-                                android:textColor="@color/light_grey"
-                                android:textSize="24sp" />
-
-                            <TextView
-                                android:id="@+id/textView9"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/print_count"
-                                android:textAlignment="center"
-                                android:textColor="@color/light_grey" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="185dp"
+                        <TextView
+                            android:id="@+id/permLevText"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:paddingLeft="10dp"
+                            android:text="@string/perm_lev" />
 
-                            <TextView
-                                android:id="@+id/transByUserCount"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="25dp"
-                                android:paddingBottom="0dp"
-                                android:text="300"
-                                android:textAlignment="center"
-                                android:textColor="@color/light_grey"
-                                android:textSize="24sp" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            <TextView
-                                android:id="@+id/textView11"
-                                android:layout_width="match_parent"
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardView"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/proc_by_user"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:minHeight="40dp"
+                                android:padding="20dp"
                                 android:textAlignment="center"
-                                android:textColor="@color/light_grey" />
-                        </LinearLayout>
+                                app:cardBackgroundColor="@color/peach_pink"
+                                app:cardCornerRadius="25dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <Button
+                                    android:id="@+id/signOutBtn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:background="@android:color/transparent"
+                                    android:drawableEnd="@android:drawable/ic_lock_power_off"
+                                    android:text="@string/sign_out"
+                                    android:textAllCaps="false"
+                                    android:textColor="#180F0F" />
+                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:minHeight="180dp"
-                        app:cardBackgroundColor="@color/light_grey"
-                        app:cardCornerRadius="10dp">
+                </androidx.cardview.widget.CardView>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView13"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="@string/log_as" />
-
-                            <TextView
-                                android:id="@+id/permLevText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="@string/perm_lev" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/cardView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:minHeight="40dp"
-                                    android:padding="20dp"
-                                    android:textAlignment="center"
-                                    app:cardBackgroundColor="@color/peach_pink"
-                                    app:cardCornerRadius="25dp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <Button
-                                        android:id="@+id/signOutBtn"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="20dp"
-                                        android:layout_marginEnd="20dp"
-                                        android:background="@color/peach_pink"
-                                        android:drawableEnd="@android:drawable/ic_lock_power_off"
-                                        android:text="@string/sign_out"
-                                        android:textAllCaps="false"
-                                        android:textColor="#180F0F" />
-                                </androidx.cardview.widget.CardView>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
+            </LinearLayout>
 <!--            </RelativeLayout>-->
 
             <include
