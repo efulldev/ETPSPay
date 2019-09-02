@@ -32,9 +32,33 @@ import butterknife.OnClick;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+
+
+
+
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.view.View;
+import android.widget.EditText;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+import android.content.Intent;
+import java.util.Locale;
+import android.widget.Toast;
+
+//import org.example.orafucharles.texttospeech.R;
+
+
+
+public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
+    private static final int MY_DATA_CHECK_CODE = 23456;
+    private TextToSpeech myTTS;
 
     private TextView timeText;
     private TextView dateText;
@@ -59,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         dataProccessor = new DataProccessor(this);
-//
+
 //        checkOsVersion();
 
     }
@@ -206,4 +230,7 @@ public class MainActivity extends AppCompatActivity {
 //////        add jsonObjectRequest to the queue
 ////        requestQueue.add(stringRequest);
 //    }
+
+
+
 }

@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.efulltech.etpspay.ui.MainActivity;
 import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
+
+import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -23,7 +27,6 @@ public class SplashActivity extends AppCompatActivity {
                 try {
                     // Thread will sleep for 5 seconds
                     sleep(5*1000);
-
                     // get username and pin from shared preferences
                     String username = "admin";
                     String password = "1234567890";
