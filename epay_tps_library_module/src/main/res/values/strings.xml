@@ -247,5 +247,6 @@
     <string name="uid_data">UID: </string>
 
     <string name="open_success">Open successfully:</string>
+    <string name="proceed">Proceed</string>
 
 </resources>

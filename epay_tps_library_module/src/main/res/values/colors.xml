@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="grey_lighten_3">#D7D7D7</color>
+    <color name="midnightBlue">#03122E</color>
+    <color name="light_grey">#F7F7F5</color>
+    <color name="peach_pink">#E40C2A</color>
+    <color name="peach_pink_transparent">#A1E40C2A</color>
+    <color name="black_transparent">#3B030009</color>
+    <color name="nightly_blue">#020016</color>
+    <color name="grey_transparent">#A9000000</color>
+</resources>
