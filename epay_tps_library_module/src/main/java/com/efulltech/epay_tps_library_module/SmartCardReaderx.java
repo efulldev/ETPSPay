@@ -22,6 +22,9 @@ public class SmartCardReaderx extends CardReader {
     public static final int SLOT_PSAM2 = 2;
     public static final int SLOT_PSAM3 = 3;
 
+    private Context context;
+    public  CardReader mCardReader;
+
     public SmartCardReaderx() {
         this.cardType = 1;
         this.mSlot = 0;
@@ -32,6 +35,7 @@ public class SmartCardReaderx extends CardReader {
         this.cardType = 1;
         this.mSlot = 0;
         this.mICCardReader = new ICCardReader(context);
+        this.mCardReader = new CardReader(context);
     }
 
     public SmartCardReaderx(Context context, int slot) {
