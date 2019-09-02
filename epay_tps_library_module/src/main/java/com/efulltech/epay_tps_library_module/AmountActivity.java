@@ -22,12 +22,12 @@ public class AmountActivity extends AppCompatActivity {
 //        String accType = getIntent().getStringExtra("AccountType");
 
 //        Log.d("Account type", accType);
-
-        test = findViewById(R.id.test);
-
-        preferences = getSharedPreferences("AccCat", MODE_PRIVATE);
-
-
-        test.setText(preferences.getString("accType", "No type Given"));
+//
+//        test = findViewById(R.id.test);
+//
+//        preferences = getSharedPreferences("AccCat", MODE_PRIVATE);
+//
+//
+//        test.setText(preferences.getString("accType", "No type Given"));
     }
 }
