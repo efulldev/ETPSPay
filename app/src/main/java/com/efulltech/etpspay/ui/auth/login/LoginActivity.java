@@ -146,8 +146,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 
 //        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        myTTS.setPitch(1.0f);
-        myTTS.setSpeechRate(0.7f);
+        myTTS.setSpeechRate(1.1f);
         myTTS.speak("ACCESS GRANTED!!!", TextToSpeech.QUEUE_FLUSH, null);
 
         Intent appIntent =new Intent(LoginActivity.this, MainActivity.class);
