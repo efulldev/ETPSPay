@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/old_pin"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_green_dark" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/oldPinTextField"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number|numberPassword"
+        android:padding="10dp"
+        android:textColor="@color/note_list_text" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_pin"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_green_dark" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/newPinTextField"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number|numberPassword"
+        android:padding="10dp"
+        android:textColor="@color/note_list_text" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm_pin"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_green_dark" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/confirmNewPinTextField"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number|numberPassword"
+        android:padding="10dp"
+        android:textColor="@color/note_list_text" />
+</LinearLayout>

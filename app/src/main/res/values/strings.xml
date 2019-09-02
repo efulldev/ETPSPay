@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">E-TPS Pay</string>
+    <string name="card_payment">Card Payment</string>
+    <string name="history">Transaction History</string>
+    <string name="print_EOD">Print EOD Receipt</string>
+    <string name="user_settings">User Preferences</string>
+    <string name="business_name">Business Name</string>
+    <string name="business_email">Business E-mail</string>
+    <string name="pin_management">PIN Management</string>
+    <string name="change_of_pin">Operator PIN</string>
+    <string name="change_supervisor_pin">Supervisor PIN</string>
+    <string name="change_admin_pin">Admin PIN</string>
+    <string name="actions">Actions</string>
+    <string name="EOD">End Of Day</string>
+    <string name="re_print_receipt">Re-print Receipt</string>
+    <string name="print_transaction_history">Print Transaction History</string>
+    <string name="close_batch">Close Batch</string>
+    <string name="clear_database">Clear Database</string>
+    <string name="system">System</string>
+    <string name="cloud">Cloud Database URI</string>
+    <string name="check_updates">Check For Software Updates</string>
+
+    <!--<string name="pref_show_treble_key" translatable="false">show_treble</string>-->
+    <!-- Summary for Checkboxes -->
+    <string name="pref_show_true">Shown</string>
+    <string name="pref_show_false">Hidden</string>
+
+    <!-- Key name for storing business name in SharedPreferences -->
+    <string name="pref_business_name_key" translatable="false">business_name</string>
+    <!-- Key name for storing business email in SharedPreferences -->
+    <string name="pref_business_email_key" translatable="false">business_email</string>
+    <!-- Key name for storing operator pin in SharedPreferences -->
+    <string name="pref_operator_pin_key" translatable="false">operator_pin</string>
+    <!-- Key name for storing supervisor pin in SharedPreferences -->
+    <string name="pref_supervisor_pin_key" translatable="false">supervisor_pin</string>
+    <!-- Key name for storing business name in SharedPreferences -->
+    <string name="pref_admin_pin_key" translatable="false">admin_pin</string>
+    <!-- Key name for storing end of day in SharedPreferences -->
+    <string name="pref_end_of_day_key" translatable="false">end_of_day</string>
+    <!-- Key name for storing print end of day in SharedPreferences -->
+    <string name="pref_print_end_of_day_key" translatable="false">print_end_of_day_receipt</string>
+    <!-- Key name for storing re print receipt in SharedPreferences -->
+    <string name="pref_re_print_receipt_key" translatable="false">re_print_receipt</string>
+    <!-- Key name for storing transaction history in SharedPreferences -->
+    <string name="pref_transaction_history_key" translatable="false">print_transaction_history</string>
+    <!-- Key name for storing close batch in SharedPreferences -->
+    <string name="pref_close_batch_key" translatable="false">close_batch</string>
+    <!-- Key name for storing clear database in SharedPreferences -->
+    <string name="pref_clear_database_key" translatable="false">clear_database</string>
+    <string name="msg_no_notes">No Recent Transaction has been carried out on this terminal</string>
+
+    <string name="enter_pin">Enter PIN</string>
+    <string name="old_pin">Please enter old PIN</string>
+    <string name="new_pin">Enter your new PIN</string>
+    <string name="confirm_pin">Confirm your new PIN</string>
+    <string name="logo">LOGO</string>
+    <string name="loading_setup">Loading setup... Please wait</string>
+    <string name="hello">Hello!</string>
+    <string name="payments">Payments</string>
+    <string name="last_transact">Previous Transaction</string>
+    <string name="amt">Amount</string>
+    <string name="user_mgt">User Management</string>
+    <string name="title_activity_login">Authentication</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="welcome_msg">Welcome!</string>
+    <string name="sign_in">Sign In</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="wallet_payment">Wallet Payment</string>
+    <string name="ussd">USSD Payment</string>
+    <string name="transactions">Transactions</string>
+    <string name="suc_trans">Successful Transactions</string>
+    <string name="print_count">Receipts Printed</string>
+    <string name="proc_by_user">You\'ve Processed</string>
+    <string name="log_as">Logged In as</string>
+    <string name="perm_lev">Permission Level</string>
+    <string name="sign_out">Sign Out</string>
+</resources>

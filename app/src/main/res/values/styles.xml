@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/peach_pink</item>
+        <item name="colorPrimaryDark">@color/midnightBlue</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        // Preference theme
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
+        // Hide status bar
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+
+</resources>
