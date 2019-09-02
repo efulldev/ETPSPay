@@ -18,12 +18,19 @@ public class CardPaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_payment);
 
+        //thsi is an animation of the atm card display
         moveUpwards = new TranslateAnimation(0, 0, 1000, 0);
         moveUpwards.setDuration(3000);
         moveUpwards.setFillAfter(true);
         moveUpwards.setRepeatCount(-1);
         findViewById(R.id.card).startAnimation(moveUpwards);
+
+
+//        creating an instance of smartreaderx class
         cardReader = new SmartCardReaderx(CardPaymentActivity.this);
+
+
+//        opening up the card reader port
         cardReader.open();
 
         // Initialize a boolean data type to control the thread

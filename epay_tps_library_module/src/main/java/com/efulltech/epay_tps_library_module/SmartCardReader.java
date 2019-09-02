@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.telpo.tps550.api.TelpoException;
+import com.telpo.tps550.api.reader.CardReader;
 import com.telpo.tps550.api.reader.ICCardReader;
 import com.telpo.tps550.api.util.StringUtil;
 import com.telpo.tps550.api.util.SystemUtil;
