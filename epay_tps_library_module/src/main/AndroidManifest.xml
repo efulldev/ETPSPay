@@ -19,6 +19,7 @@
 
     <application>
         <activity android:name=".AmountActivity"
+            android:theme="@style/NoActionBar"
             />
         <activity
             android:name=".TransactionOptions"

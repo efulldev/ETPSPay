@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources  xmlns:ns1="http://schemas.android.com/tools">
+    <style name="NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

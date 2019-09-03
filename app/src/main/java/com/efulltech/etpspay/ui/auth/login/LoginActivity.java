@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,12 +41,21 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
     private LoginViewModel loginViewModel;
     private static final int MY_DATA_CHECK_CODE = 2309;
     private TextToSpeech myTTS;
+    private TranslateAnimation moveUpwards;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
+
+
+        moveUpwards = new TranslateAnimation(0, 0, 1000, 0);
+        moveUpwards.setDuration(3000);
+        moveUpwards.setFillAfter(true);
+        moveUpwards.setRepeatCount(-1);
+        findViewById(R.id.login).startAnimation(moveUpwards);
+        
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
