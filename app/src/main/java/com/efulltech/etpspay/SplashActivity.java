@@ -3,7 +3,9 @@ package com.efulltech.etpspay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,10 +19,16 @@ import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mPreferences.edit();
+        checkSharedPreferences();
 
         Thread background = new Thread() {
             public void run() {
@@ -64,5 +72,17 @@ public class SplashActivity extends AppCompatActivity {
         };
         // start thread
         background.start();
+    }
+
+    //checking the shared preferences and set them accordingly
+    private void checkSharedPreferences() {
+        String ttsOption = mPreferences.getString("ttsOption", "false");
+
+        if (ttsOption.trim().length() == 0){
+            mEditor.putString("ttsOption", "false");
+            mEditor.apply();
+        }else{
+            Toast.makeText(this, ""+mPreferences.getString("ttsOption", "false"), Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -6,12 +6,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
 import android.text.Editable;
@@ -30,6 +32,7 @@ import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.MainActivity;
 import com.efulltech.etpspay.ui.auth.login.LoginViewModel;
 import com.efulltech.etpspay.ui.auth.login.LoginViewModelFactory;
+import com.efulltech.etpspay.utils.TTS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +43,11 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 
     private LoginViewModel loginViewModel;
     private static final int MY_DATA_CHECK_CODE = 2309;
-    private TextToSpeech myTTS;
-    private TranslateAnimation moveUpwards;
 
+    private TranslateAnimation moveUpwards;
+    public static TextToSpeech myTTS;
+
+    private SharedPreferences mPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         final EditText usernameEditText = findViewById(R.id.username);
@@ -156,12 +162,22 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 
 //        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        myTTS.setSpeechRate(1.1f);
-        myTTS.speak("ACCESS GRANTED!!!", TextToSpeech.QUEUE_FLUSH, null);
+        String ttsOption = mPreferences.getString("ttsOption", "false");
+        if(ttsOption.equals("true")){
+            speakWords("ACCESS GRANTED!!!");
+        }
 
-        Intent appIntent =new Intent(LoginActivity.this, MainActivity.class);
+        Intent appIntent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(appIntent);
 
+    }
+
+
+    //speak the user text
+    public static void speakWords(String speech) {
+        myTTS.setSpeechRate(1.1f);
+        //speak straight away
+        myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

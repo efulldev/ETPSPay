@@ -21,6 +21,7 @@
         <activity android:name=".AmountActivity"
             android:theme="@style/NoActionBar"
             />
+        <activity android:name=".PinActivity"></activity>
         <activity
             android:name=".TransactionOptions"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
