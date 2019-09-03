@@ -1,7 +1,6 @@
 package com.efulltech.epay_tps_library_module;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,31 +9,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.telpo.tps550.api.util.StringUtil;
 
 public class AmountActivity extends AppCompatActivity {
-
-    EditText test;
-    SharedPreferences preferences;
-    Button procced, cancel;
+    Button proceed, cancel;
 
     SmartCardReaderx readerx;
     boolean threadRunT;
     String no = "";
     Handler handler;
     boolean turnedOn;
-
-
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amount);
-
-        test = findViewById(R.id.amount);
-        procced = findViewById(R.id.proceedAmount);
+//        test = findViewById(R.id.amount);
+        proceed = findViewById(R.id.proceedAmount);
         cancel = findViewById(R.id.cancelAmount);
 
         readerx = new SmartCardReaderx(AmountActivity.this);
@@ -43,11 +40,11 @@ public class AmountActivity extends AppCompatActivity {
 
         threadRunT = true;
 
-        procced.setOnClickListener(new View.OnClickListener() {
+        proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                preferences = getSharedPreferences("AmountCat", MODE_PRIVATE);
-                preferences.edit().putString("AmountSent", test.getText().toString()).apply();
+//                preferences = getSharedPreferences("AmountCat", MODE_PRIVATE);
+//                preferences.edit().putString("AmountSent", test.getText().toString()).apply();
                 finish();
                 startActivity(new Intent(AmountActivity.this, PinActivity.class));
             }
@@ -87,8 +84,14 @@ public class AmountActivity extends AppCompatActivity {
         }).start();
 
 
+//        String accType = getIntent().getStringExtra("AccountType");
 
-
-
+//        Log.d("Account type", accType);
+//        test = findViewById(R.id.test);
+//
+//        preferences = getSharedPreferences("AccCat", MODE_PRIVATE);
+//
+//
+//        test.setText(preferences.getString("accType", "No type Given"));
     }
 }

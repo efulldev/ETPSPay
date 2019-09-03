@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.telpo.tps550.api.TelpoException;
 
+import static com.telpo.tps550.api.printer.ThermalPrinter.start;
+
 public class TransactionOptions extends AppCompatActivity {
 
     SmartCardReaderx readerx;
@@ -61,11 +63,17 @@ public class TransactionOptions extends AppCompatActivity {
                     try{
                         if (readerx.iccPowerOff()){
                             Log.d("Card Activity", "Powered on");
+//                            if (!readerx.isICCPresent()){
+//                                threadRunT = false;
+//                                Log.d("Card log", "Card is on");
+////                                finish();
+//                            }
                         }else {
                             Log.d("Card log error", "Card turned off");
                             threadRunT = false;
                             new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
                             Thread.currentThread().isInterrupted();
+
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -73,6 +81,7 @@ public class TransactionOptions extends AppCompatActivity {
                     }
                 }
             }
+
         }).start();
 
         savings = findViewById(R.id.savings);
@@ -86,6 +95,7 @@ public class TransactionOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+
                 Intent intent = new Intent(TransactionOptions.this, AmountActivity.class);
 //                intent.putExtra("AccountType", "type1");
                 preferences.edit().putString("accType", "type1").apply();
@@ -105,6 +115,7 @@ public class TransactionOptions extends AppCompatActivity {
         Thread.currentThread().isInterrupted();
         //Hey
 
-
+        threadRunT = false;
+        Thread.currentThread().isInterrupted();
     }
 }
