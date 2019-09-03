@@ -26,6 +26,7 @@
                 android:layout_marginTop="96dp"
                 android:layout_marginEnd="40dp"
                 android:background="@color/black_transparent"
+                android:editable="true"
                 android:gravity="right"
                 android:hint="0.00"
                 android:inputType="numberDecimal"
@@ -64,6 +65,7 @@
                     android:background="@color/grey_lighten_3"
                     android:padding="10dp"
                     android:text="@string/cancel"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
@@ -77,6 +79,7 @@
                     android:background="#01141a"
                     android:padding="10dp"
                     android:text="@string/proceed"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />

@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
     private LoginViewModel loginViewModel;
     private static final int MY_DATA_CHECK_CODE = 2309;
 
-    private TranslateAnimation moveUpwards;
+//    private TranslateAnimation moveUpwards;
     public static TextToSpeech myTTS;
 
     private SharedPreferences mPreferences;
@@ -55,12 +55,12 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         setContentView(R.layout.activity_login2);
 
 
-        moveUpwards = new TranslateAnimation(0, 0, 1000, 0);
-        moveUpwards.setDuration(3000);
-        moveUpwards.setFillAfter(true);
-        moveUpwards.setRepeatCount(-1);
-        findViewById(R.id.login).startAnimation(moveUpwards);
-        
+//        moveUpwards = new TranslateAnimation(0, 0, 1000, 0);
+//        moveUpwards.setDuration(3000);
+//        moveUpwards.setFillAfter(true);
+//        moveUpwards.setRepeatCount(-1);
+//        findViewById(R.id.login).startAnimation(moveUpwards);
+//
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
