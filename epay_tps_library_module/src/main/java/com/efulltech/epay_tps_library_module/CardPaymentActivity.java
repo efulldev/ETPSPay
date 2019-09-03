@@ -95,6 +95,7 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
                             threadRun = false;
                             finish();
                             startActivity(new Intent(CardPaymentActivity.this, TransactionOptions.class));
+                            Thread.currentThread().isInterrupted();
                             Log.d("CPA", "ICC card inserted");
                         }else{
                             Log.d("CPA", "ICC Powered off");

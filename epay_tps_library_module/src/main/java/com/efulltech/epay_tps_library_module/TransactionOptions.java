@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,6 +17,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.telpo.tps550.api.TelpoException;
+
+import static com.telpo.tps550.api.printer.ThermalPrinter.start;
 
 public class TransactionOptions extends AppCompatActivity {
 
@@ -80,6 +83,7 @@ public class TransactionOptions extends AppCompatActivity {
                 }
                 while (threadRunT){
                     Log.d("ICC status", "Extra Running");
+                    Log.d("Card type", Integer.toString(readerx.getCardType()));
                     try{
                         if (readerx.iccPowerOff()){
                             Log.d("Card Activity", "Powered on");
@@ -92,6 +96,8 @@ public class TransactionOptions extends AppCompatActivity {
                             Log.d("Card log error", "Card turned off");
                             threadRunT = false;
                             new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            Thread.currentThread().isInterrupted();
+
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -99,6 +105,7 @@ public class TransactionOptions extends AppCompatActivity {
                     }
                 }
             }
+
         }).start();
 
         savings = findViewById(R.id.savings);
@@ -111,12 +118,13 @@ public class TransactionOptions extends AppCompatActivity {
         savings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
+
                 Intent intent = new Intent(TransactionOptions.this, AmountActivity.class);
 //                intent.putExtra("AccountType", "type1");
                 preferences.edit().putString("accType", "type1").apply();
                 //Type 1 is for savings
                 startActivity(intent);
-
             }
         });
 
@@ -125,6 +133,12 @@ public class TransactionOptions extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+//        Thread.currentThread().isInterrupted();
+//        new AsyncError(TransactionOptions.this).execute();
+        threadRunT = false;
+        Thread.currentThread().isInterrupted();
+        //Hey
+
         threadRunT = false;
         Thread.currentThread().isInterrupted();
     }

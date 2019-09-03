@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
+import com.efulltech.epay_tps_library_module.PinActivity;
 import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.SplashActivity;
