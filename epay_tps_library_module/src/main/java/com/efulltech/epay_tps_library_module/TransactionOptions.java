@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,9 @@ import com.telpo.tps550.api.TelpoException;
 
 public class TransactionOptions extends AppCompatActivity {
 
+
+    private static final int MY_DATA_CHECK_CODE = 1309;
+    private static TextToSpeech myTTS;
     SmartCardReaderx readerx;
     boolean threadRunT;
     String no = "";
@@ -34,11 +38,31 @@ public class TransactionOptions extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_options);
 
         readerx = new SmartCardReaderx(TransactionOptions.this);
-
         handler = new Handler(getApplicationContext().getMainLooper());
-
         threadRunT = true;
 
+
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
+
+        Thread _ttsThread = new Thread() {
+            private boolean speakThread = true;
+            public void run() {
+                while(speakThread) {
+                    try {
+                        // Thread will sleep for 5 seconds
+                        sleep(1 * 500);
+                        CardPaymentActivity.speakWords("Please Choose account type");
+                        speakThread = false;
+                        Thread.currentThread().isInterrupted();
+                    } catch (Exception e) {
+                        Log.d("Splash", e.toString());
+                    }
+                }
+            }
+        };
+        _ttsThread.start();
 
 //        Log.d("ICC stat", Boolean.toString(readerx.isICCPresent()));
 

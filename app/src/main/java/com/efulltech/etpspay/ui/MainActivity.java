@@ -19,6 +19,7 @@ import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.SplashActivity;
+import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
 import com.google.android.material.snackbar.Snackbar;
@@ -57,8 +58,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
-    private static final int MY_DATA_CHECK_CODE = 23456;
-    private TextToSpeech myTTS;
 
     private TextView timeText;
     private TextView dateText;
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity{
 
     @OnClick(R.id.signOutBtn)
     public void logOut(View view){
-
+        com.efulltech.etpspay.ui.auth.login.LoginActivity.speakWords("Please don't go");
         LoginDataSource dataSource = new LoginDataSource();
         LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
         loginRepository.logout();
@@ -117,15 +116,7 @@ public class MainActivity extends AppCompatActivity{
         startActivity(transactionHistory);
 
     }
-//
-//    @OnClick(R.id.printEODBtn)
-//    public void printReceipt(View view) {
-////        Intent receipt = new Intent(MainActivity.this, PrintReceiptActivity.class);
-////        startActivity(receipt);
-//        UsbPrinter usbPrinter = new UsbPrinter(MainActivity.this);
-//        usbPrinter.PrintDemoText();
-//    }
-//
+
     @OnClick(R.id.userPreferencesBtn)
     public void userPreferences(View view) {
         confirmPinThenSettings();
