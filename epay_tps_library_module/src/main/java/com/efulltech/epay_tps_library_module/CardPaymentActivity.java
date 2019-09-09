@@ -20,7 +20,7 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
     //    Handler handler;
     private static final int MY_DATA_CHECK_CODE = 1309;
     private static TextToSpeech myTTS;
-    private TranslateAnimation moveUpwards;
+    private TranslateAnimation moveSideways;
     boolean threadRun;
     private SmartCardReaderx cardReader;
     private SharedPreferences mPreferences;
@@ -61,12 +61,12 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
         };
         ttsThread.start();
 
-        //thsi is an animation of the atm card display
-        moveUpwards = new TranslateAnimation(0, 0, 1000, 0);
-        moveUpwards.setDuration(3000);
-        moveUpwards.setFillAfter(true);
-        moveUpwards.setRepeatCount(-1);
-        findViewById(R.id.card).startAnimation(moveUpwards);
+        //this is an animation of the atm card display
+        moveSideways = new TranslateAnimation(1000, 0, 0, 0);
+        moveSideways.setDuration(3000);
+        moveSideways.setFillAfter(true);
+        moveSideways.setRepeatCount(-1);
+        findViewById(R.id.card).startAnimation(moveSideways);
 
 
         cardReader = new SmartCardReaderx(CardPaymentActivity.this);

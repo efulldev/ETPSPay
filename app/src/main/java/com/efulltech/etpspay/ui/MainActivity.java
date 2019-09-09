@@ -2,27 +2,23 @@ package com.efulltech.etpspay.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
-import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
-import com.efulltech.epay_tps_library_module.PinActivity;
-import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.etpspay.R;
-import com.efulltech.etpspay.SplashActivity;
-import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
+import com.efulltech.etpspay.ui.preferences.MainPreferencesActivity;
+import com.efulltech.etpspay.ui.preferences.SettingsActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.efulltech.etpspay.utils.Constants;
 import com.efulltech.etpspay.utils.DataProccessor;
@@ -31,27 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-
-
-
-
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.view.View;
-import android.widget.EditText;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
-import android.content.Intent;
-import java.util.Locale;
-import android.widget.Toast;
-
 //import org.example.orafucharles.texttospeech.R;
 
 
@@ -59,9 +34,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
-
-    private TextView timeText;
-    private TextView dateText;
 
     @BindView(R.id.signOutBtn)
     Button signOutBtn;
@@ -98,7 +70,6 @@ public class MainActivity extends AppCompatActivity{
 
     @OnClick(R.id.signOutBtn)
     public void logOut(View view){
-        com.efulltech.etpspay.ui.auth.login.LoginActivity.speakWords("Please don't go");
         LoginDataSource dataSource = new LoginDataSource();
         LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
         loginRepository.logout();
@@ -120,8 +91,15 @@ public class MainActivity extends AppCompatActivity{
 
     @OnClick(R.id.userPreferencesBtn)
     public void userPreferences(View view) {
-        confirmPinThenSettings();
+//        confirmPinThenSettings();
+        Button setLogo = findViewById(R.id.userPreferencesBtn);
+        Intent intent = new Intent(MainActivity.this, MainPreferencesActivity.class);
 
+        Pair[] pairs  = new Pair[1];
+        pairs[0] = new Pair<View, String>(setLogo, "logoTransition");
+        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+
+        startActivity(intent, activityOptions.toBundle());
     }
 
     private void confirmPinThenSettings() {
@@ -160,9 +138,15 @@ public class MainActivity extends AppCompatActivity{
 //                            permission = "operator";
                         }
 //                            display SettingsActivity page
-                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        Button setLogo = findViewById(R.id.userPreferencesBtn);
+                        Intent intent = new Intent(MainActivity.this, MainPreferencesActivity.class);
 //
-                        startActivity(intent);
+                        Pair[] pairs  = new Pair[1];
+                        pairs[0] = new Pair<View, String>(setLogo, "logoTransition");
+                        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+
+                        startActivity(intent, activityOptions.toBundle());
+
                     }else{
 //                            alert invalid PIN
                         Snackbar.make(findViewById(android.R.id.content), "Invalid PIN! Please try again", Snackbar.LENGTH_LONG).show();

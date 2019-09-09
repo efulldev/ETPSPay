@@ -81,4 +81,32 @@
     <string name="log_as">Logged In as</string>
     <string name="perm_lev">Permission Level</string>
     <string name="sign_out">Sign Out</string>
+    <string name="title_activity_main_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="settings_info">Manage application behaviour and configuration</string>
+    <string name="dev_mgt">Device Management</string>
+    <string name="user_mgt_info">Manage user accounts and more</string>
+    <string name="dev_mgt_info">Set-up terminal communication</string>
+    <string name="db_mgt">Database Management</string>
+    <string name="db_mgt_info">Manage database records</string>
+    <string name="speech_syn">Speech Synthesis</string>
+    <string name="tog">Toggle</string>
+    <string name="speech_syn_info">Speech synthesis, when enabled, gives the app a voice. This helps to give the user an audio feedback on certain key operations.</string>
+    <string name="data_sync">Synchronization &amp; Updates</string>
+    <string name="syn_info">Synchronize device data</string>
+    <string name="title_activity_user_mgt">User Manager</string>
 </resources>

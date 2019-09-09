@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentPadding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/nameAvatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:clipToPadding="true"
+                app:cardBackgroundColor="@color/midnightBlue"
+                app:cardCornerRadius="100dp"
+                app:contentPaddingTop="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/avatarText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:text="O"
+                        android:textAlignment="center"
+                        android:textColor="@color/grey_lighten_3"
+                        android:textSize="30sp" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/userFullnameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_toEndOf="@+id/nameAvatar"
+                android:ellipsize="end"
+                android:text="Omashola Warri"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/permissionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/userFullnameTextView"
+                android:layout_alignStart="@+id/userFullnameTextView"
+                android:layout_alignEnd="@+id/userFullnameTextView"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="0dp"
+                android:text="Operator" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
