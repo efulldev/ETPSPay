@@ -1,7 +1,5 @@
 package com.efulltech.epay_tps_library_module;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +9,10 @@ import android.util.Log;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.telpo.tps550.api.TelpoException;
+import com.telpo.tps550.api.led.Led900;
 
 import java.util.Locale;
 
@@ -24,14 +25,24 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
     boolean threadRun;
     private SmartCardReaderx cardReader;
     private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
+    Led900 led = new Led900(this);
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_payment);
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+//        initialising shared preferences
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mPreferences.edit();
+
+//        getting value from intent
+        String ttsOpt = getIntent().getStringExtra("ttsOption");
+//        setting shared preference value to what was gotten from the intent
+        mEditor.putString("ttsOption", ttsOpt);
+        mEditor.commit();
 
 //        Text to speech code
         //check for TTS data
@@ -39,6 +50,10 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
+
+
+
+//        this is the thread for text to speech
         Thread ttsThread = new Thread() {
             private boolean speakThread = true;
             String ttsOption = mPreferences.getString("ttsOption", "true");
@@ -46,11 +61,19 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
             public void run() {
                 while(speakThread) {
                     try {
+
+//                        led.on(4);
+
                         // Thread will sleep for 5 seconds
                         if(ttsOption.equals("true")) {
                             sleep(1 * 500);
+
+                            led.blink(3,5000);
+
                             CardPaymentActivity.speakWords("Please insert your card");
+
                             speakThread = false;
+
                             Thread.currentThread().isInterrupted();
                         }
                     } catch (Exception e) {
@@ -68,13 +91,8 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
         moveUpwards.setRepeatCount(-1);
         findViewById(R.id.card).startAnimation(moveUpwards);
 
-
         cardReader = new SmartCardReaderx(CardPaymentActivity.this);
-//        cardReader.mCardReader.open(1);
-//        Log.d("New String", cardReader.getATRString());
-//
-//        // Initialize a boolean data type to control the thread
-//        threadRun = cardReader.open(1);
+
 //
 //        //Run the thread to enable active listening for changes on the state of the port.
         threadRun = true;
@@ -92,6 +110,11 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
                         // Listening for insertion of a card
                         if (cardReader.iccPowerOn()){
                             Log.d("CPA", "ICC Powered On");
+                            try {
+                                led.off(3);
+                            } catch (TelpoException e) {
+                                e.printStackTrace();
+                            }
                             threadRun = false;
                             finish();
                             startActivity(new Intent(CardPaymentActivity.this, TransactionOptions.class));
@@ -121,7 +144,7 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
     }
 
     public static void speakWords(String speech) {
-        myTTS.setSpeechRate(1.1f);
+        myTTS.setSpeechRate(1.3f);
         //speak straight away
         myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
     }
@@ -160,5 +183,16 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
 
     }
 
+
+//    This function destroys the yellow led light when back buuton is pressed
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            led.off(3);
+        } catch (TelpoException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

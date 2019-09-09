@@ -26,6 +26,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
+
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mPreferences.edit();
         checkSharedPreferences();
@@ -76,13 +79,12 @@ public class SplashActivity extends AppCompatActivity {
 
     //checking the shared preferences and set them accordingly
     private void checkSharedPreferences() {
-        String ttsOption = mPreferences.getString("ttsOption", "false");
+        String ttsOption = mPreferences.getString("ttsOption", null);
 
-        if (ttsOption.trim().length() == 0){
-            mEditor.putString("ttsOption", "false");
+        if (ttsOption == null){
+            //initialize all app default settings
+            mEditor.putString("ttsOption", "true");
             mEditor.apply();
-        }else{
-            Toast.makeText(this, ""+mPreferences.getString("ttsOption", "false"), Toast.LENGTH_SHORT).show();
         }
     }
 }

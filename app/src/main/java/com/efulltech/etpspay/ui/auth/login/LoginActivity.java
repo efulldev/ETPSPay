@@ -63,6 +63,9 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
+
+//        initialise sharepreference here
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
@@ -160,9 +163,8 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         // TODO : initiate successful logged in experience
 
 
-//        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        String ttsOption = mPreferences.getString("ttsOption", "false");
+        String ttsOption = mPreferences.getString("ttsOption", "true");
         if(ttsOption.equals("true")){
             speakWords("ACCESS GRANTED!!!");
         }

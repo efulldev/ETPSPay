@@ -1,61 +1,33 @@
 package com.efulltech.etpspay.ui;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
-import com.efulltech.epay_tps_library_module.PinActivity;
-import com.efulltech.epay_tps_library_module.UsbPrinter;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.SplashActivity;
 import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
-import com.google.android.material.snackbar.Snackbar;
 import com.efulltech.etpspay.utils.Constants;
 import com.efulltech.etpspay.utils.DataProccessor;
+import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-
-
-
-
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.view.View;
-import android.widget.EditText;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
-import android.content.Intent;
-import java.util.Locale;
-import android.widget.Toast;
-
 //import org.example.orafucharles.texttospeech.R;
-
-
-
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
@@ -75,7 +47,11 @@ public class MainActivity extends AppCompatActivity{
     Button userPreferences;
 //
     DataProccessor dataProccessor;
-//
+
+//    declaration
+    private SharedPreferences mPreferences;
+
+    //
 //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,21 +60,50 @@ public class MainActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         dataProccessor = new DataProccessor(this);
 
+//        initialisation ver important
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 //        checkOsVersion();
 
     }
 
-
+//try {
+//        led.off(3);
+//    } catch (TelpoException e) {
+//        e.printStackTrace();
+//    }
     //
-    @OnClick(R.id.cardPaymentBtn)
+       @OnClick(R.id.cardPaymentBtn)
     public void cardPayment(View view) {
         Intent cardPayment = new Intent(MainActivity.this, CardPaymentActivity.class);
+
+//        we have to pass this line of codes anytime we want to implement the tts on any activity
+        String ttsOption = mPreferences.getString("ttsOption", "false");
+
+        cardPayment.putExtra("ttsOption", ttsOption);
         startActivity(cardPayment);
     }
 
+
+//
+//    @OnClick(R.id.walletPaymentBtn)
+//    public void walletPayment(View view) {
+//        Intent walletPayment = new Intent(MainActivity.this, LedActivity.class);
+//
+////        we have to pass this line of codes anytime we want to implement the tts on any activity
+////        String ttsOption = mPreferences.getString("ttsOption", "false");
+//
+////        cardPayment.putExtra("ttsOption", ttsOption);
+//        startActivity(walletPayment);
+//    }
+
+
+
+
+
     @OnClick(R.id.signOutBtn)
     public void logOut(View view){
-        com.efulltech.etpspay.ui.auth.login.LoginActivity.speakWords("Please don't go");
+        LoginActivity.speakWords("Goodbye");
         LoginDataSource dataSource = new LoginDataSource();
         LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
         loginRepository.logout();
