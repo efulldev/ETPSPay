@@ -11,6 +11,7 @@ import com.efulltech.etpspay.utils.UsersDBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,8 +30,6 @@ public class UserMgtActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_mgt);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         UsersDBHelper usersDBHelper = new UsersDBHelper(this);
         mDatabase = usersDBHelper.getWritableDatabase();
@@ -44,8 +43,13 @@ public class UserMgtActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addUser(view);
-               }
+//                addUser(view);
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserMgtActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.add_new_user_layout, null);
+                builder.setView(mView);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         });
     }
 

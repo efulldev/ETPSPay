@@ -13,7 +13,6 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.preferences.UserMgtActivity"
-            android:label="@string/title_activity_user_mgt"
             android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
         <activity
             android:name=".ui.preferences.MainPreferencesActivity"

@@ -109,4 +109,5 @@
     <string name="data_sync">Synchronization &amp; Updates</string>
     <string name="syn_info">Synchronize device data</string>
     <string name="title_activity_user_mgt">User Manager</string>
+    <string name="add_user">Add User Account</string>
 </resources>

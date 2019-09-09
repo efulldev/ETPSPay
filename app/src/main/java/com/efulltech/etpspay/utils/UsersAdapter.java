@@ -76,7 +76,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         }
         holder.fullNameText.setText(fullName);
         holder.permissionText.setText(level);
-        holder.avatarText.setText(level.substring(0,1));
+        holder.avatarText.setText(fullName.trim().substring(0,1));
 
     }
 
