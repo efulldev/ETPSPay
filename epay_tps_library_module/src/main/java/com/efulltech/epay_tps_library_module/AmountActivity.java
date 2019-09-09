@@ -16,8 +16,9 @@ import android.widget.TextView;
 
 import com.telpo.tps550.api.util.StringUtil;
 
-public class AmountActivity extends AppCompatActivity {
+public class AmountActivity extends BaseActivity {
     Button proceed, cancel;
+    EditText amountTxt;
 
     SmartCardReaderx readerx;
     boolean threadRunT;
@@ -26,6 +27,8 @@ public class AmountActivity extends AppCompatActivity {
     boolean turnedOn;
     SharedPreferences preferences;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +36,11 @@ public class AmountActivity extends AppCompatActivity {
 //        test = findViewById(R.id.amount);
         proceed = findViewById(R.id.proceedAmount);
         cancel = findViewById(R.id.cancelAmount);
+        amountTxt = findViewById(R.id.amount);
 
         readerx = new SmartCardReaderx(AmountActivity.this);
 
-//        handler = new Handler(getApplicationContext().getMainLooper());
+        sharedPreferences = getSharedPreferences("SessionController", MODE_PRIVATE);
 
         threadRunT = true;
 
@@ -61,18 +65,19 @@ public class AmountActivity extends AppCompatActivity {
                     turnedOn = readerx.iccPowerOn(1);
                 }catch (Exception e){
                     e.printStackTrace();
-                    finish();
                 }
                 while (threadRunT){
                     Log.d("ICC status", "Extra Running");
-                    Log.d("Card type", Integer.toString(readerx.getCardType()));
+//                    Log.d("Card type", Integer.toString(readerx.getCardType()));
                     try{
                         if (readerx.iccPowerOff()){
                             Log.d("Card Activity", "Powered on");
                         }else {
                             Log.d("Card log error", "Card turned off");
                             threadRunT = false;
-                            new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            if (sharedPreferences.getString("sessionState", "sessionLoggedIn") != "sessionLogOut") {
+                                new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            }
                             Thread.currentThread().isInterrupted();
                         }
                     }catch (Exception e){

@@ -5,17 +5,27 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PinActivity extends AppCompatActivity {
+public class PinActivity extends BaseActivity {
 
     RecyclerView mRecycler;
     PinRecycler pinRecycler;
     ArrayList<PinClass> pinClasses;
+
+    TextView pinInput;
+
+    SmartCardReaderx readerx;
+    boolean threadRunT;
+    String no = "";
+    boolean turnedOn;
 
     ArrayList<Integer> sortArr;
     Button one, two, three, four, five, six, seven, eight, nine, zero;
@@ -39,34 +49,62 @@ public class PinActivity extends AppCompatActivity {
         nine = findViewById(R.id.nine);
         zero = findViewById(R.id.zero);
 
+        pinInput = findViewById(R.id.pinInput);
+
         sortArr = new ArrayList<>();
 
-//        pinRecycler = new PinRecycler(this, pinClasses);
-//        GridLayoutManager gridLayoutManager =new GridLayoutManager(this,3);
-//        mRecycler.setLayoutManager(gridLayoutManager);
-//        mRecycler.setAdapter(pinRecycler);
+        readerx = new SmartCardReaderx(PinActivity.this);
+
+        sharedPreferences = getSharedPreferences("SessionController", MODE_PRIVATE);
+
+        threadRunT = true;
 
         TextView txtArr[] = {one, two, three, four, five, six, seven, eight, nine, zero};
 
 
         scatterAlgorithm();
 
-//        pinClasses.add(new PinClass("2"));
-
-//        for (int i = 0; i < sortArr.size(); i++){
-//            pinClasses.add(new PinClass(sortArr.get(i) + ""));
-//        }
-
-//        getSortStr(one, 0);
-//        getSortStr(two, 1);
-//        getSortStr(three, 2);
-//        getSortStr(four, 3);
-//        getSortStr(five, 4);
-//        getSortStr(six, 5);
-
         for (int i = 0; i < 10; i++){
             getSortStr(txtArr[i], i);
         }
+
+
+        onButtonPressed(one, "1");
+        onButtonPressed(two, "2");
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Opens the card readerx object in the thread to handle loop
+                readerx.open();
+                Log.d("ICC status", "Running");
+                try{
+                    turnedOn = readerx.iccPowerOn(1);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                while (threadRunT){
+                    Log.d("ICC status", "Extra Running");
+//                    Log.d("Card type", Integer.toString(readerx.getCardType()));
+                    try{
+                        if (readerx.iccPowerOff()){
+                            Log.d("Card Activity", "Powered on");
+                        }else {
+                            Log.d("Card log error", "Card turned off");
+                            threadRunT = false;
+                            if (sharedPreferences.getString("sessionState", "sessionLoggedIn") != "sessionLogOut") {
+                                new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            }
+                            Thread.currentThread().isInterrupted();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        Thread.currentThread().isInterrupted();
+                    }
+                }
+            }
+        }).start();
 
     }
 
@@ -104,6 +142,21 @@ public class PinActivity extends AppCompatActivity {
 
         if (sortArr.size() < 10) {
             scatterAlgorithm();
+        }
+    }
+
+    public void onButtonPressed(Button btnVal, final String value){
+        if (pinInput.getText().toString().length() > 0) {
+            final String pinContent = pinInput.getText().toString();
+            btnVal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pinInput.setText(pinContent + value);
+                }
+            });
+
+        }else {
+            pinInput.setText(value);
         }
     }
 }

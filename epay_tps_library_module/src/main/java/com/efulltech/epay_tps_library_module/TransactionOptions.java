@@ -3,6 +3,8 @@ package com.efulltech.epay_tps_library_module;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +22,7 @@ import com.telpo.tps550.api.TelpoException;
 
 import static com.telpo.tps550.api.printer.ThermalPrinter.start;
 
-public class TransactionOptions extends AppCompatActivity {
+public class TransactionOptions extends BaseActivity {
 
 
     private static final int MY_DATA_CHECK_CODE = 1309;
@@ -54,7 +56,7 @@ public class TransactionOptions extends AppCompatActivity {
             public void run() {
                 while(speakThread) {
                     try {
-                        // Thread will sleep for 5 seconds
+                        // Thread will sleep for 0.5 second
                         sleep(1 * 500);
                         CardPaymentActivity.speakWords("Please Choose account type");
                         speakThread = false;
@@ -87,17 +89,11 @@ public class TransactionOptions extends AppCompatActivity {
                     try{
                         if (readerx.iccPowerOff()){
                             Log.d("Card Activity", "Powered on");
-//                            if (!readerx.isICCPresent()){
-//                                threadRunT = false;
-//                                Log.d("Card log", "Card is on");
-////                                finish();
-//                            }
                         }else {
                             Log.d("Card log error", "Card turned off");
                             threadRunT = false;
-                            new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
                             Thread.currentThread().isInterrupted();
-
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -135,11 +131,72 @@ public class TransactionOptions extends AppCompatActivity {
         super.onBackPressed();
 //        Thread.currentThread().isInterrupted();
 //        new AsyncError(TransactionOptions.this).execute();
-        threadRunT = false;
+//        threadRunT = false;
         Thread.currentThread().isInterrupted();
-        //Hey
-
-        threadRunT = false;
-        Thread.currentThread().isInterrupted();
+//        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
     }
+
+    public class AsyncDialog extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog progressDialog;
+        Context mContext;
+
+        public AsyncDialog(Context mContext) {
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(mContext);
+            progressDialog.setMessage("Please eject your card");
+            progressDialog.setTitle("Card error");
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            readerx.open();
+            Log.d("ICC status", "Running");
+            try{
+                turnedOn = readerx.iccPowerOn(1);
+            }catch (Exception e){
+                e.printStackTrace();
+                finish();
+            }
+            while (threadRunT){
+                Log.d("ICC status", "Extra Running");
+                Log.d("Card type", Integer.toString(readerx.getCardType()));
+                try{
+                    if (readerx.iccPowerOff()){
+                        Log.d("Card Activity", "Powered on");
+                    }else {
+                        Log.d("Card log error", "Card turned off");
+                        threadRunT = false;
+                        ((TimeOutController) getApplication()).cancelTimer();
+                        new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
+                        Thread.currentThread().isInterrupted();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Thread.currentThread().isInterrupted();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+        }
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//
+//        ((TimeOutController) getApplication()).onActivityDestroyed();
+//    }
 }

@@ -13,9 +13,12 @@ import android.widget.Toast;
 
 import com.telpo.tps550.api.TelpoException;
 
+import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class CardPaymentActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class CardPaymentActivity extends BaseActivity implements TextToSpeech.OnInitListener {
 
     //    Handler handler;
     private static final int MY_DATA_CHECK_CODE = 1309;
@@ -39,6 +42,7 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
+
         Thread ttsThread = new Thread() {
             private boolean speakThread = true;
             String ttsOption = mPreferences.getString("ttsOption", "true");
@@ -48,7 +52,7 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
                     try {
                         // Thread will sleep for 5 seconds
                         if(ttsOption.equals("true")) {
-                            sleep(1 * 500);
+                            sleep(500);
                             CardPaymentActivity.speakWords("Please insert your card");
                             speakThread = false;
                             Thread.currentThread().isInterrupted();
@@ -61,7 +65,7 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
         };
         ttsThread.start();
 
-        //thsi is an animation of the atm card display
+        //this is an animation of the atm card display
         moveUpwards = new TranslateAnimation(0, 0, 1000, 0);
         moveUpwards.setDuration(3000);
         moveUpwards.setFillAfter(true);
@@ -93,10 +97,10 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
                         if (cardReader.iccPowerOn()){
                             Log.d("CPA", "ICC Powered On");
                             threadRun = false;
-                            finish();
-                            startActivity(new Intent(CardPaymentActivity.this, TransactionOptions.class));
                             Thread.currentThread().isInterrupted();
                             Log.d("CPA", "ICC card inserted");
+                            finish();
+                            startActivity(new Intent(CardPaymentActivity.this, TransactionOptions.class));
                         }else{
                             Log.d("CPA", "ICC Powered off");
                         }
@@ -132,7 +136,7 @@ public class CardPaymentActivity extends AppCompatActivity implements TextToSpee
         if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 //the user has the necessary data - create the TTS
-                myTTS = new TextToSpeech(this,this);
+                myTTS = new TextToSpeech(CardPaymentActivity.this,this);
             } else {
                 //no data - install it now
                 Intent installTTSIntent = new Intent();
