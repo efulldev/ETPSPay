@@ -154,7 +154,8 @@
             android:drawableTop="@drawable/ic_settings_black_24dp"
             android:paddingTop="10dp"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:transitionName="settingLogoTransition" />
     </androidx.cardview.widget.CardView>
 
 

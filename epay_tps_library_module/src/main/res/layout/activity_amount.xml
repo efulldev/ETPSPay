@@ -34,6 +34,7 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 android:textSize="30sp"
+                android:focusableInTouchMode="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +65,7 @@
                     android:background="@color/grey_lighten_3"
                     android:padding="10dp"
                     android:text="@string/cancel"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
@@ -77,6 +79,7 @@
                     android:background="#01141a"
                     android:padding="10dp"
                     android:text="@string/proceed"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />

@@ -1,9 +1,12 @@
 package com.efulltech.etpspay.ui;
-
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +16,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.etpspay.R;
-import com.efulltech.etpspay.SplashActivity;
-import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
+
+import com.efulltech.etpspay.ui.preferences.MainPreferencesActivity;
+import com.efulltech.etpspay.ui.preferences.SettingsActivity;
+import com.google.android.material.snackbar.Snackbar;
 import com.efulltech.etpspay.utils.Constants;
 import com.efulltech.etpspay.utils.DataProccessor;
 import com.google.android.material.snackbar.Snackbar;
@@ -31,9 +37,6 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
-
-    private TextView timeText;
-    private TextView dateText;
 
     @BindView(R.id.signOutBtn)
     Button signOutBtn;
@@ -103,7 +106,7 @@ public class MainActivity extends AppCompatActivity{
 
     @OnClick(R.id.signOutBtn)
     public void logOut(View view){
-        LoginActivity.speakWords("Goodbye");
+//        LoginActivity.speakWords("Goodbye");
         LoginDataSource dataSource = new LoginDataSource();
         LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
         loginRepository.logout();
@@ -125,8 +128,15 @@ public class MainActivity extends AppCompatActivity{
 
     @OnClick(R.id.userPreferencesBtn)
     public void userPreferences(View view) {
-        confirmPinThenSettings();
+//        confirmPinThenSettings();
+        Button setLogo = findViewById(R.id.userPreferencesBtn);
+        Intent intent = new Intent(MainActivity.this, MainPreferencesActivity.class);
 
+        Pair[] pairs  = new Pair[1];
+        pairs[0] = new Pair<View, String>(setLogo, "logoTransition");
+        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+
+        startActivity(intent, activityOptions.toBundle());
     }
 
     private void confirmPinThenSettings() {
@@ -165,9 +175,15 @@ public class MainActivity extends AppCompatActivity{
 //                            permission = "operator";
                         }
 //                            display SettingsActivity page
-                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        Button setLogo = findViewById(R.id.userPreferencesBtn);
+                        Intent intent = new Intent(MainActivity.this, MainPreferencesActivity.class);
 //
-                        startActivity(intent);
+                        Pair[] pairs  = new Pair[1];
+                        pairs[0] = new Pair<View, String>(setLogo, "logoTransition");
+                        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+
+                        startActivity(intent, activityOptions.toBundle());
+
                     }else{
 //                            alert invalid PIN
                         Snackbar.make(findViewById(android.R.id.content), "Invalid PIN! Please try again", Snackbar.LENGTH_LONG).show();

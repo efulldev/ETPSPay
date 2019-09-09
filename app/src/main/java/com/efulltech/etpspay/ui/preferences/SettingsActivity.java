@@ -1,4 +1,4 @@
-package com.efulltech.etpspay.ui;
+package com.efulltech.etpspay.ui.preferences;
 
 import android.os.Bundle;
 

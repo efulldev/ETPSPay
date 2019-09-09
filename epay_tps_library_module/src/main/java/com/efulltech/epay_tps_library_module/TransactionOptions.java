@@ -1,12 +1,15 @@
 package com.efulltech.epay_tps_library_module;
+
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -20,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.telpo.tps550.api.led.Led900;
 
-import java.io.IOException;
 import java.util.Locale;
 
 public class TransactionOptions extends AppCompatActivity  implements TextToSpeech.OnInitListener{
@@ -86,6 +88,7 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                             Thread.currentThread().isInterrupted();
                         }
 
+
                     } catch (Exception e) {
                         Log.d("Splash", e.toString());
                     }
@@ -120,30 +123,24 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
 
 
                         if (readerx.iccPowerOff()){
-                            led.on(2);
+//                            led.on(2);
 
                             Log.d("Card Activity", "Powered on");
-//                            if (!readerx.isICCPresent()){
-//                                threadRunT = false;
-//                                Log.d("Card log", "Card is on");
-////                                finish();
-//                            }
                         }else {
                             Log.d("Card log error", "Card turned off");
                             threadRunT = false;
-                            new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
                             Thread.currentThread().isInterrupted();
 
 //                            This are the various led activities when ever an atm card is removed
-                            led.blink(3,5000);
+                            led.blink(3, 5000);
                             led.off(2);
                             led.off(3);
                             led.off(4);
 
-                            playSound(TransactionOptions.this);
+//                            playSound(TransactionOptions.this);
 
                             TransactionOptions.speakWords("Transaction Error, Card Remove");
-
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -177,22 +174,7 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
 
 }
 
-    public void playSound(Context context) throws IllegalArgumentException,
-            SecurityException,
-            IllegalStateException,
-            IOException {
 
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        MediaPlayer mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setDataSource(context, soundUri);
-        final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-
-        if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-            mMediaPlayer.prepare();
-            mMediaPlayer.start();
-        }
-    }
 
 
     @Override
@@ -200,12 +182,66 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
         super.onBackPressed();
 //        Thread.currentThread().isInterrupted();
 //        new AsyncError(TransactionOptions.this).execute();
-        threadRunT = false;
+//        threadRunT = false;
         Thread.currentThread().isInterrupted();
-        //Hey
+//        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
+    }
 
-        threadRunT = false;
-        Thread.currentThread().isInterrupted();
+    public class AsyncDialog extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog progressDialog;
+        Context mContext;
+
+        public AsyncDialog(Context mContext) {
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(mContext);
+            progressDialog.setMessage("Please eject your card");
+            progressDialog.setTitle("Card error");
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            readerx.open();
+            Log.d("ICC status", "Running");
+            try{
+                turnedOn = readerx.iccPowerOn(1);
+            }catch (Exception e){
+                e.printStackTrace();
+                finish();
+            }
+            while (threadRunT){
+                Log.d("ICC status", "Extra Running");
+                Log.d("Card type", Integer.toString(readerx.getCardType()));
+                try{
+                    if (readerx.iccPowerOff()){
+                        Log.d("Card Activity", "Powered on");
+                    }else {
+                        Log.d("Card log error", "Card turned off");
+                        threadRunT = false;
+                        ((TimeOutController) getApplication()).cancelTimer();
+                        new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
+                        Thread.currentThread().isInterrupted();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Thread.currentThread().isInterrupted();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+        }
     }
 
 
@@ -251,4 +287,22 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            led.off(2);
+//        }catch (TelpoException e){
+//            e.printStackTrace();
+//        }
+//    }
+
+
+    //    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//
+//        ((TimeOutController) getApplication()).onActivityDestroyed();
+//    }
 }

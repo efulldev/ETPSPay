@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,8 +26,13 @@ import com.telpo.tps550.api.led.Led900;
 import java.io.IOException;
 import java.util.Locale;
 
+
+
+
 public class AmountActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+
     Button proceed, cancel;
+    EditText amountTxt;
     private static final int MY_DATA_CHECK_CODE = 1209;
     public static TextToSpeech myTTS;
     SmartCardReaderx readerx;
@@ -42,6 +49,8 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
     SharedPreferences mPreferences;
 
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +58,11 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
 //        test = findViewById(R.id.amount);
         proceed = findViewById(R.id.proceedAmount);
         cancel = findViewById(R.id.cancelAmount);
+        amountTxt = findViewById(R.id.amount);
 
         readerx = new SmartCardReaderx(AmountActivity.this);
 
-//        handler = new Handler(getApplicationContext().getMainLooper());
+        sharedPreferences = getSharedPreferences("SessionController", MODE_PRIVATE);
 
         threadRunT = true;
 
@@ -115,11 +125,10 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
                     turnedOn = readerx.iccPowerOn(1);
                 }catch (Exception e){
                     e.printStackTrace();
-                    finish();
                 }
                 while (threadRunT){
                     Log.d("ICC status", "Extra Running");
-                    Log.d("Card type", Integer.toString(readerx.getCardType()));
+//                    Log.d("Card type", Integer.toString(readerx.getCardType()));
                     try{
                         if (readerx.iccPowerOff()){
 
@@ -128,7 +137,9 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
                         }else {
                             Log.d("Card log error", "Card turned off");
                             threadRunT = false;
-                            new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            if (sharedPreferences.getString("sessionState", "sessionLoggedIn") != "sessionLogOut") {
+                                new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                            }
                             Thread.currentThread().isInterrupted();
                             //      This are the various led activities when ever an atm card is removed
 
@@ -139,6 +150,10 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
 
 //                            playSound(AmountActivity.this);
 
+                            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+
+                            while (readerx.iccPowerOff()){
+                            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 800);}
 
                             AmountActivity.speakWords("Transaction Error, Card Remove");
 
