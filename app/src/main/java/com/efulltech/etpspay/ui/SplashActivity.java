@@ -1,26 +1,30 @@
-package com.efulltech.etpspay;
+package com.efulltech.etpspay.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.widget.Toast;
+import android.util.Pair;
+import android.view.View;
+import android.widget.ImageView;
 
-import com.efulltech.etpspay.ui.MainActivity;
+import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
 
-import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
 
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
+    private ImageView splashLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +34,12 @@ public class SplashActivity extends AppCompatActivity {
         mEditor = mPreferences.edit();
         checkSharedPreferences();
 
-        Thread background = new Thread() {
+        splashLogo = findViewById(R.id.logo_splash);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask(){
             public void run() {
                 try {
-                    // Thread will sleep for 5 seconds
-                    sleep(5*1000);
                     // get username and pin from shared preferences
                     String username = "admin";
                     String password = "1234567890";
@@ -49,15 +54,27 @@ public class SplashActivity extends AppCompatActivity {
                         if(loginRepository.isLoggedIn()){
                             // grant user access
                             Intent appIntent =new Intent(SplashActivity.this, MainActivity.class);
-                            startActivity(appIntent);
+                              startActivity(appIntent);
                         }else{
                             // take user to log in view
                             Intent loginIntent =new Intent(SplashActivity.this, LoginActivity.class);
+
+//                            Pair[] pairs  = new Pair[1];
+//                            pairs[0] = new Pair<View, String>(splashLogo, "logoTransition");
+//                            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this, pairs);
+//
+//                            startActivity(loginIntent, activityOptions.toBundle());
                             startActivity(loginIntent);
                         }
                     }else{
                         // take user to log in view
                         Intent loginIntent =new Intent(SplashActivity.this, LoginActivity.class);
+
+//                        Pair[] pairs  = new Pair[1];
+//                        pairs[0] = new Pair<View, String>(splashLogo, "logoTransition");
+//                        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this, pairs);
+//
+//                        startActivity(loginIntent, activityOptions.toBundle());
                         startActivity(loginIntent);
                     }
 
@@ -66,23 +83,19 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
                 catch (Exception e) {
-                    Log.d("Splash", e.toString());
+//                    Log.d("Splash", e.toString());
                 }
             }
-        };
-        // start thread
-        background.start();
+        }, 3000);
+
     }
 
     //checking the shared preferences and set them accordingly
     private void checkSharedPreferences() {
-        String ttsOption = mPreferences.getString("ttsOption", "false");
-
-        if (ttsOption.trim().length() == 0){
-            mEditor.putString("ttsOption", "false");
+        String ttsOption = mPreferences.getString("ttsOption", null);
+        if (ttsOption == null){
+            mEditor.putString("ttsOption", "true");
             mEditor.apply();
-        }else{
-            Toast.makeText(this, ""+mPreferences.getString("ttsOption", "false"), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -18,6 +18,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -44,7 +45,8 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
     private LoginViewModel loginViewModel;
     private static final int MY_DATA_CHECK_CODE = 2309;
 
-//    private TranslateAnimation moveUpwards;
+    private TranslateAnimation moveRight;
+    private TranslateAnimation moveLeft;
     public static TextToSpeech myTTS;
 
     private SharedPreferences mPreferences;
@@ -53,14 +55,6 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
-
-
-//        moveUpwards = new TranslateAnimation(0, 0, 1000, 0);
-//        moveUpwards.setDuration(3000);
-//        moveUpwards.setFillAfter(true);
-//        moveUpwards.setRepeatCount(-1);
-//        findViewById(R.id.login).startAnimation(moveUpwards);
-//
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -154,6 +148,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
             }
         });
     }
+
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome_msg) + model.getDisplayName();

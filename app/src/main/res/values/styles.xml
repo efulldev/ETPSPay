@@ -13,8 +13,21 @@
         // Hide status bar
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+
+
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

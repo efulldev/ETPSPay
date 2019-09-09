@@ -12,15 +12,23 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.preferences.UserMgtActivity"
+            android:label="@string/title_activity_user_mgt"
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+        <activity
+            android:name=".ui.preferences.MainPreferencesActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
             android:name=".ui.auth.login.LoginActivity"
-            android:theme="@style/Theme.Design.NoActionBar"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".ui.PrintReceiptActivity"
             android:label="@string/print_EOD"
             android:parentActivityName=".ui.MainActivity" />
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.preferences.SettingsActivity"
             android:label="@string/user_settings"
             android:parentActivityName=".ui.MainActivity" />
         <activity
@@ -28,7 +36,7 @@
             android:label="@string/history"
             android:parentActivityName=".ui.MainActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

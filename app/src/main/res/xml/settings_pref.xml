@@ -48,6 +48,10 @@
         android:summary="set pin for operator"
         android:title="@string/EOD" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_preference_1"
+        android:title="Enable TTS" />
     <Preference
         android:key="@string/pref_print_end_of_day_key"
         android:summary="click to print"
