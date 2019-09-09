@@ -1,20 +1,17 @@
 package com.efulltech.etpspay.ui.preferences;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.efulltech.etpspay.R;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainPreferencesActivity extends AppCompatActivity {

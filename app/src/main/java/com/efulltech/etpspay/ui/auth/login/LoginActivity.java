@@ -1,24 +1,13 @@
 package com.efulltech.etpspay.ui.auth.login;
 
 import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.Voice;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -29,16 +18,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.MainActivity;
-import com.efulltech.etpspay.ui.auth.login.LoginViewModel;
-import com.efulltech.etpspay.ui.auth.login.LoginViewModelFactory;
-import com.efulltech.etpspay.utils.TTS;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
@@ -57,6 +46,9 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         setContentView(R.layout.activity_login2);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
+
+//        initialise sharepreference here
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
@@ -155,9 +147,8 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         // TODO : initiate successful logged in experience
 
 
-//        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        String ttsOption = mPreferences.getString("ttsOption", "false");
+        String ttsOption = mPreferences.getString("ttsOption", "true");
         if(ttsOption.equals("true")){
             speakWords("ACCESS GRANTED!!!");
         }
@@ -186,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 //the user has the necessary data - create the TTS
-                myTTS = new TextToSpeech(this,this);
+                myTTS = new TextToSpeech(LoginActivity.this,this);
             } else {
                 //no data - install it now
                 Intent installTTSIntent = new Intent();

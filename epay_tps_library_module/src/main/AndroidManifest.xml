@@ -17,11 +17,14 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.NFC" />
 
-    <application>
+    <application
+        android:name=".TimeOutController"
+        >
         <activity android:name=".AmountActivity"
             android:theme="@style/NoActionBar"
             />
         <activity android:name=".PinActivity"></activity>
+        <activity android:name=".LedActivity"></activity>
         <activity
             android:name=".TransactionOptions"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

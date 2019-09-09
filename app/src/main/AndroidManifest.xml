@@ -45,6 +45,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
+
             android:label="@string/dashboard">
 
             <!-- <intent-filter> -->
