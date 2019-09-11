@@ -92,11 +92,12 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
 
-                //Complete and destroy login activity once successful
-                finish();
+                    setResult(Activity.RESULT_OK);
+
+                    //Complete and destroy login activity once successful
+                    finish();
+                }
             }
         });
 
@@ -125,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                            passwordEditText.getText().toString(), LoginActivity.this);
                 }
                 return false;
             }
@@ -136,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                        passwordEditText.getText().toString(), LoginActivity.this);
             }
         });
     }
@@ -150,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 
         String ttsOption = mPreferences.getString("ttsOption", "true");
         if(ttsOption.equals("true")){
-            speakWords("ACCESS GRANTED!!!");
+            speakWords("You have been granted "+model.getPermLevelName()+" access");
         }
 
         Intent appIntent = new Intent(LoginActivity.this, MainActivity.class);

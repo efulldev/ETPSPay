@@ -122,7 +122,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView13"
+                            android:id="@+id/userNameText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"

@@ -13,9 +13,13 @@
 
 package com.efulltech.etpspay.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.utils.Constants.*;
 import androidx.annotation.Nullable;
 
@@ -38,11 +42,31 @@ public class UsersDBHelper extends SQLiteOpenHelper {
         UserEntry.COLUMN_TIMESTAMP +" TIMESTAMP DEFAULT CURRENT_TIMESTAMP);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_USERS_TABLE);
+        initRootUserAcc(sqLiteDatabase);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+UserEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
+    }
+
+
+    private void initRootUserAcc(SQLiteDatabase sqLiteDatabase) {
+        // initialize the app with default super admin user account
+        String username = "root";
+        String password = "260089";
+        try {
+            String encPin = LoginDataSource.encrypt(username.trim(),  password.trim());
+            String SQL_INSERT_ROOT_USER = "INSERT INTO "+UserEntry.TABLE_NAME
+                    +" ("+UserEntry.COLUMN_NAME+","+UserEntry.COLUMN_USERNAME+","
+                    +" "+UserEntry.COLUMN_PASSWORD
+                    +", "+UserEntry.COLUMN_PERMISSION_LEVEL+") " +
+                    "VALUES ('ROOT ADMIN', '"+username+"', '"+encPin+"', "+3+")";
+            //save new user into the database
+            sqLiteDatabase.execSQL(SQL_INSERT_ROOT_USER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

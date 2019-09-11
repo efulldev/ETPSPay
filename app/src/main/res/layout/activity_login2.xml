@@ -40,14 +40,14 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="24dp"
-
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
+        android:maxLength="6"
         android:selectAllOnFocus="true"
         android:textColor="@color/light_grey"
-        android:textColorHighlight="@color/light_grey"
+        android:textColorHighlight="@color/peach_pink"
         android:textColorHint="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -61,17 +61,18 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="156dp"
         android:layout_marginEnd="24dp"
-
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
+        android:focusedByDefault="true"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
         android:selectAllOnFocus="true"
         android:textColor="@color/light_grey"
-        android:textColorHighlight="@color/light_grey"
+        android:textColorHighlight="@color/peach_pink"
         android:textColorHint="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
 
     <ProgressBar
         android:id="@+id/loading"
