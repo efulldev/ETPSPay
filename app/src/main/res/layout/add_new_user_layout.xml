@@ -47,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:capitalize="words"
                     android:ems="10"
                     android:hint="@string/fullname"
                     android:inputType="textPersonName" />

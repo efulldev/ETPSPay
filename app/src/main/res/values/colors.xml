@@ -16,4 +16,7 @@
     <color name="black_transparent">#3B030009</color>
     <color name="nightly_blue">#020016</color>
     <color name="transparent">#00333333</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="black_transparent_100">#AA030009</color>
 </resources>

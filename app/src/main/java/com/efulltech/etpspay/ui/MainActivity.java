@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity{
         // open slash screen activity
         Intent splashIntent = new Intent(MainActivity.this, SplashActivity.class);
         startActivity(splashIntent);
-
     }
 
 //
