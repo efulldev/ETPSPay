@@ -12,7 +12,6 @@ public class TimeOutController extends Application {
 
     public void startUserSession() {
         cancelTimer();
-
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

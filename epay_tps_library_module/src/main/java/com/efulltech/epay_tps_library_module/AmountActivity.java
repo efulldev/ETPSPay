@@ -42,6 +42,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
     boolean turnedOn;
     SharedPreferences preferences;
     Led900 led = new Led900(this);
+    Thread aThread;
 
 
 
@@ -113,7 +114,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
         tsThread.start();
 
 
-        new Thread(new Runnable() {
+        aThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // Opens the card readerx object in the thread to handle loop
@@ -130,7 +131,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
                     Log.d("ICC status", "Extra Running");
 //                    Log.d("Card type", Integer.toString(readerx.getCardType()));
                     try{
-                        if (readerx.iccPowerOff()){
+                        if (readerx.iccPowerOff()){ // Turned it to power on
 
                             Log.d("Card Activity", "Powered on");
 
@@ -152,11 +153,11 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
 
                             ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
 
-                            while (readerx.iccPowerOff()){
-                            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 800);}
+                            while (readerx.iccPowerOn()){ //// Turned it to power on
+                            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 800);
+                            }
 
                             AmountActivity.speakWords("Transaction Error, Card Remove");
-
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -164,19 +165,21 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
                     }
                 }
             }
-        }).start();
-
-
+        });
+        aThread.start();
 //
 //
 //        test.setText(preferences.getString("accType", "No type Given"));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        aThread.isInterrupted();
+    }
 
 
-
-
-//    Note: onActivityResult,  speakwords onInt, onPointer capture change are functions that makes the text to speech work so it must be included in all pages
+    //    Note: onActivityResult,  speakwords onInt, onPointer capture change are functions that makes the text to speech work so it must be included in all pages
 
     //act on result of TTS data check
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

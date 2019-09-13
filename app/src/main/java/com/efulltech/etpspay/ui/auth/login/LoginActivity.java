@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 //        initialise sharepreference here
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        myTTS = new TextToSpeech(LoginActivity.this,this);
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
@@ -177,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 //the user has the necessary data - create the TTS
-                myTTS = new TextToSpeech(LoginActivity.this,this);
+//                myTTS = new TextToSpeech(LoginActivity.this,this);
             } else {
                 //no data - install it now
                 Intent installTTSIntent = new Intent();

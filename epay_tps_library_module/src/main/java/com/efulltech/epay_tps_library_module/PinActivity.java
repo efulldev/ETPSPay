@@ -27,6 +27,8 @@ public class PinActivity extends BaseActivity {
     String no = "";
     boolean turnedOn;
 
+    public Thread nTHread;
+
     ArrayList<Integer> sortArr;
     Button one, two, three, four, five, six, seven, eight, nine, zero;
 
@@ -73,7 +75,7 @@ public class PinActivity extends BaseActivity {
         onButtonPressed(two, "2");
 
 
-        new Thread(new Runnable() {
+        nTHread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // Opens the card readerx object in the thread to handle loop
@@ -101,12 +103,21 @@ public class PinActivity extends BaseActivity {
                     }catch (Exception e){
                         e.printStackTrace();
                         Thread.currentThread().isInterrupted();
+                        threadRunT = false;
                     }
                 }
             }
-        }).start();
+        });
+        nTHread.start();
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        nTHread.isInterrupted();
+    }
+
 
     public void getSortStr(TextView button, int i){
         String s = sortArr.get(i) + "";
@@ -154,7 +165,6 @@ public class PinActivity extends BaseActivity {
                     pinInput.setText(pinContent + value);
                 }
             });
-
         }else {
             pinInput.setText(value);
         }

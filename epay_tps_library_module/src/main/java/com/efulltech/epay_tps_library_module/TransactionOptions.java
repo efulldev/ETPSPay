@@ -37,6 +37,9 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
     boolean turnedOn;
     Led900 led = new Led900(this);
 
+    public Thread thread;
+
+
     SharedPreferences preferences;
 
 
@@ -82,9 +85,7 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                             sleep(1 * 500);
                             TransactionOptions.speakWords(" Choose account type to proceed");
                             speakThread = false;
-
-
-
+                            //Interrupt the thread
                             Thread.currentThread().isInterrupted();
                         }
 
@@ -98,11 +99,7 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
         _ttsThread.start();
 
 
-
-
-//        Log.d("ICC stat", Boolean.toString(readerx.isICCPresent()));
-
-        new Thread(new Runnable() {
+       thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 String ttsOption = mPreferences.getString("ttsOption", "true");
@@ -110,19 +107,17 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                 // Opens the card readerx object in the thread to handle loop
                 readerx.open();
                 Log.d("ICC status", "Running");
-                try{
-                   turnedOn = readerx.iccPowerOn(1);
-                }catch (Exception e){
-                    e.printStackTrace();
-                    finish();
-                }
+//                try{
+//                   turnedOn = readerx.iccPowerOn(1);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                    finish();
+//                }
                 while (threadRunT){
                     Log.d("ICC status", "Extra Running");
                     Log.d("Card type", Integer.toString(readerx.getCardType()));
                     try{
-
-
-                        if (readerx.iccPowerOff()){
+                        if (readerx.iccPowerOn()){ // Turned it from Off to On
 //                            led.on(2);
 
                             Log.d("Card Activity", "Powered on");
@@ -132,15 +127,13 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                             new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
                             Thread.currentThread().isInterrupted();
 
-//                            This are the various led activities when ever an atm card is removed
+//                          These are the various led activities whenever an atm card is removed
                             led.blink(3, 5000);
                             led.off(2);
                             led.off(3);
                             led.off(4);
 
-//                            playSound(TransactionOptions.this);
-
-                            TransactionOptions.speakWords("Transaction Error, Card Remove");
+                            TransactionOptions.speakWords("Transaction Error, Card Removed");
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -149,7 +142,8 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                 }
             }
 
-        }).start();
+        });
+       thread.start();
 
         savings = findViewById(R.id.savings);
         current = findViewById(R.id.current);
@@ -181,67 +175,10 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
     public void onBackPressed() {
         super.onBackPressed();
 //        Thread.currentThread().isInterrupted();
-//        new AsyncError(TransactionOptions.this).execute();
 //        threadRunT = false;
-        Thread.currentThread().isInterrupted();
+        ((TimeOutController) getApplication()).cancelTimer();
+        thread.isInterrupted();
 //        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
-    }
-
-    public class AsyncDialog extends AsyncTask<Void, Void, Void> {
-
-        ProgressDialog progressDialog;
-        Context mContext;
-
-        public AsyncDialog(Context mContext) {
-            this.mContext = mContext;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            progressDialog = new ProgressDialog(mContext);
-            progressDialog.setMessage("Please eject your card");
-            progressDialog.setTitle("Card error");
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            readerx.open();
-            Log.d("ICC status", "Running");
-            try{
-                turnedOn = readerx.iccPowerOn(1);
-            }catch (Exception e){
-                e.printStackTrace();
-                finish();
-            }
-            while (threadRunT){
-                Log.d("ICC status", "Extra Running");
-                Log.d("Card type", Integer.toString(readerx.getCardType()));
-                try{
-                    if (readerx.iccPowerOff()){
-                        Log.d("Card Activity", "Powered on");
-                    }else {
-                        Log.d("Card log error", "Card turned off");
-                        threadRunT = false;
-                        ((TimeOutController) getApplication()).cancelTimer();
-                        new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
-                        Thread.currentThread().isInterrupted();
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    Thread.currentThread().isInterrupted();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            progressDialog.dismiss();
-        }
     }
 
 
@@ -299,10 +236,10 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
 //    }
 
 
-    //    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//
-//        ((TimeOutController) getApplication()).onActivityDestroyed();
-//    }
+        @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        thread.isInterrupted();
+        ((TimeOutController) getApplication()).cancelTimer();
+    }
 }

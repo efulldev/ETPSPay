@@ -31,8 +31,6 @@ public class CardErrorFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 dismiss();
                 getActivity().finish();
-
-                Toast.makeText(getActivity(), "Session timeout", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -43,6 +41,8 @@ public class CardErrorFragment extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+        getActivity().finish();
+//        Toast.makeText(getActivity(), "Session timeout", Toast.LENGTH_SHORT).show();
         dismiss();
     }
 }

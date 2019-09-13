@@ -49,8 +49,6 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
 
-
-
 //        this is the thread for text to speech
 
         Thread ttsThread = new Thread() {
@@ -96,7 +94,7 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
 //
 //        //Run the thread to enable active listening for changes on the state of the port.
         threadRun = true;
-        new Thread(new Runnable() {
+        Thread newThread = new Thread(new Runnable() {
             @Override
             public void run(){
                 // Indicates that the thread is started
@@ -121,6 +119,9 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
                             finish();
                             startActivity(new Intent(CardPaymentActivity.this, TransactionOptions.class));
                         }else{
+                            if (!cardReader.iccPowerOff()){
+                                cardReader.iccPowerOff();
+                            }
                             Log.d("CPA", "ICC Powered off");
                         }
                     } catch (Exception e) {
@@ -130,7 +131,9 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
                     }
                 }
             }
-        }).start();
+        });
+
+        newThread.start();
 
     }
 
@@ -184,10 +187,12 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
     }
 
 
-//    This function destroys the yellow led light when back buuton is pressed
+//    This function destroys the yellow led light when back button is pressed
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        cardReader.iccPowerOff();
+        ((TimeOutController) getApplication()).cancelTimer();
         try {
             led.off(3);
         } catch (TelpoException e) {
