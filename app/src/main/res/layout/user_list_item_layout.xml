@@ -17,16 +17,24 @@
             <TextView
                 android:id="@+id/userFullnameTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="27dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
                 android:layout_toEndOf="@+id/nameAvatar"
                 android:ellipsize="end"
                 android:text="Omashola Warri"
                 android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/userTagImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/userFullnameTextView"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@+id/userFullnameTextView"
+                app:srcCompat="@drawable/ic_brightness_low_black_24dp" />
 
             <TextView
                 android:id="@+id/permissionTextView"
@@ -34,10 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/userFullnameTextView"
                 android:layout_alignStart="@+id/userFullnameTextView"
-                android:layout_alignEnd="@+id/userFullnameTextView"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="-5dp"
-                android:layout_marginEnd="0dp"
                 android:text="Operator" />
 
             <androidx.cardview.widget.CardView
@@ -66,6 +72,7 @@
                         android:layout_marginBottom="0dp"
                         android:text="O"
                         android:textAlignment="center"
+                        android:textAllCaps="true"
                         android:textColor="@color/grey_lighten_3"
                         android:textSize="30sp" />
                 </RelativeLayout>

@@ -13,6 +13,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.preferences.UserProfileActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
             android:name=".ui.preferences.UserMgtActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar"/>
         <activity
@@ -46,7 +49,6 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-
             android:label="@string/dashboard">
 
             <!-- <intent-filter> -->

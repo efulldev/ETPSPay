@@ -62,12 +62,12 @@
     <string name="user_mgt">User Management</string>
     <string name="title_activity_login">Authentication</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_password">PIN</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">PIN must be 6 digits long</string>
     <string name="login_failed">"Login failed"</string>
     <string name="welcome_msg">Welcome!</string>
     <string name="sign_in">Sign In</string>
@@ -110,4 +110,15 @@
     <string name="syn_info">Synchronize device data</string>
     <string name="title_activity_user_mgt">User Manager</string>
     <string name="add_user">Add User Account</string>
+    <string name="fullname">Full name</string>
+    <string name="user_name">Username</string>
+    <string name="_6Pins">6-digit PIN</string>
+    <string name="username">Username</string>
+
+    <string name="title_activity_user_profile">User Profile</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="view_processed_transactions">View Processed Transactions</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="change_pwd">Change Password</string>
 </resources>

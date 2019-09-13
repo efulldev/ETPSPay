@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -30,7 +31,6 @@ public class MainPreferencesActivity extends AppCompatActivity {
         // Initiate shared preferences
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mPreferences.edit();
-
         // initiate tts Switch
         ttsSwitch = findViewById(R.id.ttsSwitch);
         // check current state of a Switch (true or false).
