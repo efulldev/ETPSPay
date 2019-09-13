@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 
         String ttsOption = mPreferences.getString("ttsOption", "true");
         if(ttsOption.equals("true")){
-            speakWords("You have been granted "+model.getPermLevelName()+" access");
+            speakWords("Access Granted");
         }
 
         Intent appIntent = new Intent(LoginActivity.this, MainActivity.class);

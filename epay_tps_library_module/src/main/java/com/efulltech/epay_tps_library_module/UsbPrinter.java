@@ -3,18 +3,11 @@ package com.efulltech.epay_tps_library_module;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Environment;
-import android.os.Message;
-import android.view.View;
 import android.os.Handler;
-
-import android.widget.Button;
-import android.widget.EditText;
+import android.os.Message;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.telpo.tps550.api.printer.UsbThermalPrinter;
@@ -210,7 +203,7 @@ public class UsbPrinter {
                 mUsbThermalPrinter.addString(formatAlignedJustified("TVR", "24434324"));
                 mUsbThermalPrinter.addString(formatAlignedJustified("TSI", "E800"));
                 mUsbThermalPrinter.addString("*************************");
-                mUsbThermalPrinter.addString("***Wi-Pay EFUPAY 0.1***");
+                mUsbThermalPrinter.addString("***Wi-Pay EfuPay 0.1***");
                 mUsbThermalPrinter.addString("www.etpspay.efull.ng | pos@etpspay.com");
                 mUsbThermalPrinter.addString("Powered by pay mode");
 
@@ -274,7 +267,7 @@ public class UsbPrinter {
 
 
 
-    public static void PrintDemoText() {
+    public void PrintDemoText() {
 				String str = "\n---------------------------\n" +
 						     "Print Test:\n" +
 			                 "Device Base Information\n" +

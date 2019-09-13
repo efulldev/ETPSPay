@@ -1,6 +1,4 @@
 package com.efulltech.etpspay.ui;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,17 +11,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
-
 import com.efulltech.etpspay.ui.data.model.LoggedInUser;
 import com.efulltech.etpspay.ui.preferences.MainPreferencesActivity;
-import com.google.android.material.snackbar.Snackbar;
 import com.efulltech.etpspay.utils.Constants;
 import com.efulltech.etpspay.utils.DataProccessor;
-
+import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity{
 
     TextView userNameText;
     TextView permLevelText;
+
 
     @BindView(R.id.signOutBtn)
     Button signOutBtn;
@@ -94,16 +94,18 @@ public class MainActivity extends AppCompatActivity{
 
 
 //
-//    @OnClick(R.id.walletPaymentBtn)
-//    public void walletPayment(View view) {
+    @OnClick(R.id.walletPaymentBtn)
+    public void walletPayment(View view) {
+        com.efulltech.epay_tps_library_module.UsbPrinter usbPrinter = new com.efulltech.epay_tps_library_module.UsbPrinter(this);
+        usbPrinter.PrintDemoText();
 //        Intent walletPayment = new Intent(MainActivity.this, LedActivity.class);
-//
-////        we have to pass this line of codes anytime we want to implement the tts on any activity
-////        String ttsOption = mPreferences.getString("ttsOption", "false");
-//
-////        cardPayment.putExtra("ttsOption", ttsOption);
+
+//        we have to pass this line of codes anytime we want to implement the tts on any activity
+//        String ttsOption = mPreferences.getString("ttsOption", "false");
+
+//        cardPayment.putExtra("ttsOption", ttsOption);
 //        startActivity(walletPayment);
-//    }
+    }
 
 
 
