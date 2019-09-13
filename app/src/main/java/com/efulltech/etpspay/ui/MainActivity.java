@@ -13,30 +13,36 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
 
+import com.efulltech.etpspay.ui.data.model.LoggedInUser;
 import com.efulltech.etpspay.ui.preferences.MainPreferencesActivity;
-import com.efulltech.etpspay.ui.preferences.SettingsActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.efulltech.etpspay.utils.Constants;
 import com.efulltech.etpspay.utils.DataProccessor;
-import com.google.android.material.snackbar.Snackbar;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-//import org.example.orafucharles.texttospeech.R;
+
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
+
+    DataProccessor dataProccessor;
+    //    declaration
+    private SharedPreferences mPreferences;
+    private LoginDataSource dataSource;
+    private LoginRepository loginRepository;
+    private LoggedInUser user;
+
+    TextView userNameText;
+    TextView permLevelText;
 
     @BindView(R.id.signOutBtn)
     Button signOutBtn;
@@ -48,35 +54,34 @@ public class MainActivity extends AppCompatActivity{
 //    Button printReceipt;
     @BindView(R.id.userPreferencesBtn)
     Button userPreferences;
-//
-    DataProccessor dataProccessor;
 
-//    declaration
-    private SharedPreferences mPreferences;
 
-    //
-//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        dataProccessor = new DataProccessor(this);
 
-//        initialisation ver important
+        userNameText = findViewById(R.id.userNameText);
+        permLevelText = findViewById(R.id.permLevText);
+        // get current user
+        dataSource = new LoginDataSource();
+        loginRepository = LoginRepository.getInstance(dataSource);
+        user = loginRepository.getLoggedInUser();
+
+        // display user details
+        userNameText.setText("You\'re logged in as "+user.getDisplayName());
+        permLevelText.setText(user.getPermLevelName());
+
+        dataProccessor = new DataProccessor(this);
+//        initialisation very important
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 //        checkOsVersion();
 
     }
 
-//try {
-//        led.off(3);
-//    } catch (TelpoException e) {
-//        e.printStackTrace();
-//    }
-    //
-       @OnClick(R.id.cardPaymentBtn)
+    @OnClick(R.id.cardPaymentBtn)
     public void cardPayment(View view) {
         Intent cardPayment = new Intent(MainActivity.this, CardPaymentActivity.class);
 
@@ -110,12 +115,10 @@ public class MainActivity extends AppCompatActivity{
         LoginDataSource dataSource = new LoginDataSource();
         LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
         loginRepository.logout();
-
         finish();
         // open slash screen activity
         Intent splashIntent = new Intent(MainActivity.this, SplashActivity.class);
         startActivity(splashIntent);
-
     }
 
 //
