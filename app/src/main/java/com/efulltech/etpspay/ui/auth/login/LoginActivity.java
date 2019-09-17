@@ -33,9 +33,6 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 
     private LoginViewModel loginViewModel;
     private static final int MY_DATA_CHECK_CODE = 2309;
-
-    private TranslateAnimation moveRight;
-    private TranslateAnimation moveLeft;
     public static TextToSpeech myTTS;
 
     private SharedPreferences mPreferences;
@@ -46,12 +43,8 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         setContentView(R.layout.activity_login2);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
-
-
-//        initialise sharepreference here
+//        initialise shared preference here
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        myTTS = new TextToSpeech(LoginActivity.this,this);
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
@@ -179,7 +172,7 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
         if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 //the user has the necessary data - create the TTS
-//                myTTS = new TextToSpeech(LoginActivity.this,this);
+                myTTS = new TextToSpeech(LoginActivity.this,this);
             } else {
                 //no data - install it now
                 Intent installTTSIntent = new Intent();
@@ -191,7 +184,6 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
 
     //setup TTS
     public void onInit(int initStatus) {
-
         //check for successful instantiation
         if (initStatus == TextToSpeech.SUCCESS) {
             if(myTTS.isLanguageAvailable(Locale.UK)==TextToSpeech.LANG_AVAILABLE)
@@ -205,5 +197,13 @@ public class LoginActivity extends AppCompatActivity implements TextToSpeech.OnI
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        // end TTS
+        myTTS.stop();
+        myTTS.shutdown();
     }
 }

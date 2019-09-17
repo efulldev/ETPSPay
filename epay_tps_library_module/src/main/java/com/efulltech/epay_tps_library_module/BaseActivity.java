@@ -19,10 +19,8 @@ public class BaseActivity extends AppCompatActivity implements LogoutListener {
         isBeeping = true;
         // Initialize the session listener
         ((TimeOutController) getApplication()).registerSessionListener(this);
-
         // Start session
         ((TimeOutController) getApplication()).startUserSession();
-
         // Create shared preference to control the session and card removal clashes
         sharedPreferences = getSharedPreferences("SessionController", MODE_PRIVATE);
     }
@@ -55,7 +53,7 @@ public class BaseActivity extends AppCompatActivity implements LogoutListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        ((TimeOutController) getApplication()).cancelTimer();
+        ((TimeOutController) getApplication()).cancelTimer();
         isBeeping = false;
     }
 }

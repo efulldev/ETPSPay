@@ -248,5 +248,9 @@
 
     <string name="open_success">Open successfully:</string>
     <string name="proceed">Proceed</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="card_type_dummy">Card Type</string>
+    <string name="account_type">Account Type</string>
+    <string name="pin_confirm_msg">You are about to be charged the above stated amount.\n Kindly input your pin if you wish to proceed with this transaction.</string>
 
 </resources>

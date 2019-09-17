@@ -36,13 +36,13 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
     private static final int MY_DATA_CHECK_CODE = 1209;
     public static TextToSpeech myTTS;
     SmartCardReaderx readerx;
-    boolean threadRunT;
+    private boolean threadRunT, speakThread;
     String no = "";
     Handler handler;
     boolean turnedOn;
     SharedPreferences preferences;
     Led900 led = new Led900(this);
-    Thread aThread;
+    Thread aThread, ttsThread;
 
 
 
@@ -51,24 +51,26 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
 
 
     SharedPreferences sharedPreferences;
+    private String cardType;
+    private int accType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_amount);
+        // get values passed via intent
+        Intent intent = getIntent();
+        this.cardType = intent.getStringExtra("cardType");
+        this.accType = intent.getIntExtra("accType", 0);
+
 //        test = findViewById(R.id.amount);
         proceed = findViewById(R.id.proceedAmount);
         cancel = findViewById(R.id.cancelAmount);
         amountTxt = findViewById(R.id.amount);
 
         readerx = new SmartCardReaderx(AmountActivity.this);
-
         sharedPreferences = getSharedPreferences("SessionController", MODE_PRIVATE);
-
-        threadRunT = true;
-
-
-
+        threadRunT = true; speakThread = true;
 //        used to initiate
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -80,19 +82,37 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
 //        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
 //        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
 
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               finish();
+           }
+       });
+
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                preferences = getSharedPreferences("AmountCat", MODE_PRIVATE);
-//                preferences.edit().putString("AmountSent", test.getText().toString()).apply();
-                finish();
-                startActivity(new Intent(AmountActivity.this, PinActivity.class));
+                String amount = amountTxt.getText().toString().trim();
+//                if(amount != null) {
+//                    if(Integer.parseInt(amount) > 0) {
+                        Intent pinIntent = new Intent(AmountActivity.this, PinActivity.class);
+                        pinIntent.putExtra("cardType", cardType);
+                        pinIntent.putExtra("accType", accType);
+                        pinIntent.putExtra("amount", amount);
+                        finish();
+                        startActivity(pinIntent);
+//                    }else{
+//                        Toast.makeText(AmountActivity.this, "Invalid amount", Toast.LENGTH_SHORT).show();
+//                    }
+//                }else{
+//                    Toast.makeText(AmountActivity.this, "Input amount to proceed", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
 
-        Thread tsThread = new Thread() {
-            private boolean speakThread = true;
+        ttsThread = new Thread() {
             String ttsOption = mPreferences.getString("ttsOption", "true");
 
             public void run() {
@@ -103,7 +123,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
                             sleep(1 * 500);
                             CardPaymentActivity.speakWords("Kindly, input amount");
                             speakThread = false;
-                            Thread.currentThread().isInterrupted();
+                            ttsThread.isInterrupted();
                         }
                     } catch (Exception e) {
                         Log.d("Splash", e.toString());
@@ -111,7 +131,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
                 }
             }
         };
-        tsThread.start();
+        ttsThread.start();
 
 
         aThread = new Thread(new Runnable() {
@@ -172,11 +192,6 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
 //        test.setText(preferences.getString("accType", "No type Given"));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        aThread.isInterrupted();
-    }
 
 
     //    Note: onActivityResult,  speakwords onInt, onPointer capture change are functions that makes the text to speech work so it must be included in all pages
@@ -220,7 +235,6 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
 
     public static void speakWords(String speech) {
         myTTS.setSpeechRate(1.3f);
-
         //speak straight away
         myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
     }
@@ -239,5 +253,28 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+
+    private void interruptThreads(){
+        Thread[] threads = {aThread, ttsThread};
+        Boolean[] threadsBoo = {threadRunT, speakThread};
+
+        for(int i = 0; i < threads.length; i++){
+            // interrupt threads
+            threads[i].isInterrupted();
+            // set booleans to false
+            threadsBoo[i] = false;
+        }
+        ((TimeOutController) getApplication()).cancelTimer();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myTTS.stop();
+        myTTS.shutdown();
+        interruptThreads();
     }
 }

@@ -1,1 +1,1 @@
-include ':app', ':epay_tps_library_module'
+include ':app', ':epay_tps_library_module', ':efull-nibss-bridge'

@@ -4,39 +4,48 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PinActivity extends BaseActivity {
 
+    public Thread cardWatcherThread;
+    boolean threadRunT, turnedOn;
+    private String cardType;
+    private int accType;
+    private String amount;
+
     RecyclerView mRecycler;
     PinRecycler pinRecycler;
     ArrayList<PinClass> pinClasses;
-
-    TextView pinInput;
-
     SmartCardReaderx readerx;
-    boolean threadRunT;
     String no = "";
-    boolean turnedOn;
-
-    public Thread nTHread;
-
     ArrayList<Integer> sortArr;
-    Button one, two, three, four, five, six, seven, eight, nine, zero;
+    Button one, two, three, four, five, six, seven, eight, nine, zero, cancel, clear, enter;
+    TextView pinInput, custNameText, cardTypeText, accTypeText, amountText;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
+        // get values passed via intent
+        Intent intent = getIntent();
+        this.cardType = intent.getStringExtra("cardType");
+        this.accType = intent.getIntExtra("accType", 0);
+        this.amount = intent.getStringExtra("amount");
 
         pinClasses = new ArrayList<>();
 //        mRecycler = findViewById(R.id.mRecycler);
@@ -51,31 +60,40 @@ public class PinActivity extends BaseActivity {
         nine = findViewById(R.id.nine);
         zero = findViewById(R.id.zero);
 
+        cancel = findViewById(R.id.cancelPinBtn);
+        clear = findViewById(R.id.clearPinBtn);
+        enter = findViewById(R.id.confirmPinBtn);
+
         pinInput = findViewById(R.id.pinInput);
+        custNameText = findViewById(R.id.custNameText);
+        cardTypeText = findViewById(R.id.cardTypeText);
+        accTypeText = findViewById(R.id.accTypeText);
+        amountText = findViewById(R.id.amountText);
+
+        custNameText.setText("James St Patrick");
+        cardTypeText.setText(this.cardType);
+        accTypeText.setText(this.accType+"");
+        amountText.setText("NGN" + this.amount);
 
         sortArr = new ArrayList<>();
-
         readerx = new SmartCardReaderx(PinActivity.this);
-
         sharedPreferences = getSharedPreferences("SessionController", MODE_PRIVATE);
-
         threadRunT = true;
 
-        TextView txtArr[] = {one, two, three, four, five, six, seven, eight, nine, zero};
-
-
+        Button txtArr[] = {one, two, three, four, five, six, seven, eight, nine, zero};
+        // Implement the scattering of the digits
         scatterAlgorithm();
-
+        // populate the pin pad with the random buttons
         for (int i = 0; i < 10; i++){
             getSortStr(txtArr[i], i);
         }
+        // Populate the memory with the necessary listeners
+        for (int i = 0; i < txtArr.length; i++){
+            onButtonPressed(txtArr[i], txtArr[i].getText().toString().trim());
+        }
 
 
-        onButtonPressed(one, "1");
-        onButtonPressed(two, "2");
-
-
-        nTHread = new Thread(new Runnable() {
+        cardWatcherThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // Opens the card readerx object in the thread to handle loop
@@ -98,30 +116,67 @@ public class PinActivity extends BaseActivity {
                             if (sharedPreferences.getString("sessionState", "sessionLoggedIn") != "sessionLogOut") {
                                 new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
                             }
-                            Thread.currentThread().isInterrupted();
+                            cardWatcherThread.isInterrupted();
                         }
                     }catch (Exception e){
                         e.printStackTrace();
-                        Thread.currentThread().isInterrupted();
+                        cardWatcherThread.isInterrupted();
                         threadRunT = false;
                     }
                 }
             }
         });
-        nTHread.start();
+        cardWatcherThread.start();
 
+        // cancel pin button click listener
+        cancel.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beep(1);
+                finish();
+            }
+        }));
+
+        // clear pin button click listener
+        clear.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beep(1);
+                pinInput.setText("");
+            }
+        }));
+
+        // confirm pin button click listener
+        enter.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beep(2);
+            }
+        }));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        nTHread.isInterrupted();
-    }
 
-
-    public void getSortStr(TextView button, int i){
+    public void getSortStr(Button button, int i){
         String s = sortArr.get(i) + "";
         button.setText(s);
+    }
+
+    public void scatterAlgorithm(){
+        int numArr[][] = {
+                {1,2,3},
+                {4,5,6},
+                {7,8,9},
+                {0,0,0}
+        };
+        int rand1 = (int) Math.floor(Math.random() * 4);
+        int rand2 = (int) Math.floor(Math.random() * 3);
+        int temp = numArr[rand1][rand2];
+        if (!isPresent(temp)){
+            sortArr.add(temp);
+        }
+        if (sortArr.size() < 10) {
+            scatterAlgorithm();
+        }
     }
 
     public boolean isPresent(int temp){
@@ -133,40 +188,50 @@ public class PinActivity extends BaseActivity {
         return false;
     }
 
-    public void scatterAlgorithm(){
-        int numArr[][] = {
-                {1,2,3},
-                {4,5,6},
-                {7,8,9},
-                {0,0,0}
-        };
 
-        int rand1 = (int) Math.floor(Math.random() * 4);
-        int rand2 = (int) Math.floor(Math.random() * 3);
+    public void onButtonPressed(Button btnVal, final String value){
+        btnVal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String pinContent = pinInput.getText().toString();
+                if (pinInput.getText().toString().length() > 0) {
+                    if( pinInput.getText().toString().length() < 4) {
+                        pinInput.setText(pinContent + value);
+                    }else{
+                        beep(3);
+                        Toast.makeText(PinActivity.this, "PIN must be 4 digits long", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    pinInput.setText(value);
+                }
+                beep(1);
+            }
+        });
+    }
 
-        int temp = numArr[rand1][rand2];
-
-        if (!isPresent(temp)){
-            sortArr.add(temp);
-        }
-
-
-        if (sortArr.size() < 10) {
-            scatterAlgorithm();
+    private void beep(int iterator) {
+        ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
+        
+        for(int i = 0; i < iterator; i++) {
         }
     }
 
-    public void onButtonPressed(Button btnVal, final String value){
-        if (pinInput.getText().toString().length() > 0) {
-            final String pinContent = pinInput.getText().toString();
-            btnVal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    pinInput.setText(pinContent + value);
-                }
-            });
-        }else {
-            pinInput.setText(value);
-        }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        threadRunT = false;
+        cardWatcherThread.isInterrupted();
+        ((TimeOutController) getApplication()).cancelTimer();
+        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        threadRunT = false;
+        cardWatcherThread.isInterrupted();
+        ((TimeOutController) getApplication()).cancelTimer();
     }
 }

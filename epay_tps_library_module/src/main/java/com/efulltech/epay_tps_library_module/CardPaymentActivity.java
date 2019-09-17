@@ -16,16 +16,16 @@ import java.util.Locale;
 
 public class CardPaymentActivity extends BaseActivity implements TextToSpeech.OnInitListener {
 
-    //    Handler handler;
-    private static final int MY_DATA_CHECK_CODE = 1309;
+    private static final int MY_DATA_CHECK_CODE = 13409;
+    private static final String TAG = "CardPaymentActivity";
     private static TextToSpeech myTTS;
     private TranslateAnimation moveSideways;
-    boolean threadRun;
     private SmartCardReaderx cardReader;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
-    Led900 led = new Led900(this);
-
+    private Led900 led = new Led900(this);
+    private Thread cardWatcherThread, ttsThread;
+    private boolean speakThread, threadRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,8 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
 
 //        getting value from intent
         String ttsOpt = getIntent().getStringExtra("ttsOption");
-//        setting shared preference value to what was gotten from the intent
         mEditor.putString("ttsOption", ttsOpt);
-        mEditor.commit();
+        mEditor.apply();
 
 //        Text to speech code
         //check for TTS data
@@ -48,19 +47,16 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
+        speakThread = true; threadRun = true;
 
 //        this is the thread for text to speech
-
-        Thread ttsThread = new Thread() {
-            private boolean speakThread = true;
-            String ttsOption = mPreferences.getString("ttsOption", "true");
+        ttsThread = new Thread() {
+            String ttsOption = mPreferences.getString("ttsOption", "false");
 
             public void run() {
                 while(speakThread) {
                     try {
-
 //                        led.on(4);
-
                         // Thread will sleep for 5 seconds
                         if(ttsOption.equals("true")) {
                             sleep(1 * 500);
@@ -70,11 +66,12 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
                             CardPaymentActivity.speakWords("Please insert your card");
 
                             speakThread = false;
-
-                            Thread.currentThread().isInterrupted();
+                            ttsThread.isInterrupted();
                         }
                     } catch (Exception e) {
-                        Log.d("Splash", e.toString());
+                        Log.d(TAG, e.toString());
+                        speakThread = false;
+                        ttsThread.isInterrupted();
                     }
                 }
             }
@@ -90,61 +87,55 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         findViewById(R.id.card).startAnimation(moveSideways);
 
         cardReader = new SmartCardReaderx(CardPaymentActivity.this);
-
-//
 //        //Run the thread to enable active listening for changes on the state of the port.
-        threadRun = true;
-        Thread newThread = new Thread(new Runnable() {
+        cardWatcherThread = new Thread(new Runnable() {
             @Override
             public void run(){
                 // Indicates that the thread is started
-                Log.d("CPA", "Initiated Card reader listener");
+                Log.d(TAG, "Initiated Card reader listener");
                 cardReader.open();
                 while (threadRun){
                     // Indicates that the while loop is running
-                    Log.d("CPA", "Running while loop");
+                    Log.d(TAG, "Running while loop");
                     try {
-                        Log.d("CPA", "Listening for card insertion");
+                        Log.d(TAG, "Listening for card insertion");
                         // Listening for insertion of a card
                         if (cardReader.iccPowerOn()){
-                            Log.d("CPA", "ICC Powered On");
+                            Log.d(TAG, "ICC Powered On");
                             try {
                                 led.off(3);
                             } catch (TelpoException e) {
                                 e.printStackTrace();
                             }
                             threadRun = false;
-                            Thread.currentThread().isInterrupted();
-                            Log.d("CPA", "ICC card inserted");
+                            cardWatcherThread.isInterrupted();
+                            Log.d(TAG, "ICC card inserted");
                             finish();
-                            startActivity(new Intent(CardPaymentActivity.this, TransactionOptions.class));
+
+                            Intent transOptions = new Intent(CardPaymentActivity.this, TransactionOptions.class);
+                            transOptions.putExtra("cardType", "Master Card");
+                            startActivity(transOptions);
+
                         }else{
                             if (!cardReader.iccPowerOff()){
                                 cardReader.iccPowerOff();
                             }
-                            Log.d("CPA", "ICC Powered off");
+                            Log.d(TAG, "ICC Powered off");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                         // terminates the thread after catching error
-                        Thread.currentThread().isInterrupted();
+//                        threadRun = false;
+//                        cardWatcherThread.isInterrupted();
                     }
                 }
             }
         });
 
-        newThread.start();
+        cardWatcherThread.start();
 
     }
 
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        startTimer();
-    }
 
     public static void speakWords(String speech) {
         myTTS.setSpeechRate(1.3f);
@@ -170,7 +161,6 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
 
     //setup TTS
     public void onInit(int initStatus) {
-
         //check for successful instantiation
         if (initStatus == TextToSpeech.SUCCESS) {
             if(myTTS.isLanguageAvailable(Locale.UK)==TextToSpeech.LANG_AVAILABLE)
@@ -186,11 +176,41 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
 
     }
 
+    private void interruptThreads(){
+        Thread[] threads = {cardWatcherThread, ttsThread};
+        Boolean[] threadsBoo = {threadRun, speakThread};
 
-//    This function destroys the yellow led light when back button is pressed
+        for(int i = 0; i < threads.length; i++){
+            // interrupt threads
+            threads[i].isInterrupted();
+            // set booleans to false
+            threadsBoo[i] = false;
+        }
+        ((TimeOutController) getApplication()).cancelTimer();
+    }
+
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        interruptThreads();
+//        myTTS.stop();
+//        myTTS.shutdown();
+//        cardReader.iccPowerOff();
+//        ((TimeOutController) getApplication()).cancelTimer();
+//        try {
+//            led.off(3);
+//        } catch (TelpoException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        interruptThreads();
+        myTTS.stop();
+        myTTS.shutdown();
         cardReader.iccPowerOff();
         ((TimeOutController) getApplication()).cancelTimer();
         try {

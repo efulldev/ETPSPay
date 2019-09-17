@@ -9,12 +9,65 @@
     tools:context=".PinActivity">
 
     <TextView
+        android:id="@+id/custNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/customer_name"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/cardTypeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/card_type_dummy"
+        android:textAlignment="center"
+        android:textColor="@android:color/tab_indicator_text"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/accTypeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/account_type"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/amountText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:text="@string/input_amount"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/midnightBlue"
+        android:padding="10dp"
+        android:text="@string/pin_confirm_msg"
+        android:textAlignment="center"
+        android:textColor="@android:color/white" />
+
+    <TextView
         android:id="@+id/pinInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
         android:inputType="textPassword"
-        />
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textSize="36sp" />
 
     <!--<androidx.recyclerview.widget.RecyclerView-->
         <!--android:id="@+id/mRecycler"-->
@@ -28,35 +81,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="220dp"
-        >
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/one"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="30sp"
             android:background="#FFF"
-            />
+            android:text="1"
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/two"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="30sp"
             android:background="#FFF"
-            />
+            android:text="1"
+            android:textSize="30sp" />
+
         <Button
             android:id="@+id/three"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="30sp"
             android:background="#FFF"
-            />
+            android:text="1"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
@@ -135,13 +185,13 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/cancelPinBtn"
             android:layout_width="120dp"
             android:layout_height="100dp"
-            android:text="Cancel"
-            android:textColor="#FFF"
             android:background="#F00"
             android:padding="10dp"
-            />
+            android:text="Cancel"
+            android:textColor="#FFF" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -159,23 +209,23 @@
                 />
 
             <Button
+                android:id="@+id/clearPinBtn"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="clear"
                 android:background="#FFF"
-                />
+                android:text="clear" />
 
 
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/confirmPinBtn"
             android:layout_width="120dp"
             android:layout_height="100dp"
-            android:text="Enter"
             android:background="#FFF"
             android:padding="10dp"
-            />
+            android:text="Enter" />
 
     </LinearLayout>
 
