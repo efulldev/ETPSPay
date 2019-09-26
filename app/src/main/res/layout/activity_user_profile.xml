@@ -27,6 +27,7 @@
         android:layout_marginEnd="10dp"
         android:contentDescription="@string/logo"
         android:elevation="10dp"
+        android:onClick="showUpdateProfileDialog"
         android:src="@android:drawable/ic_menu_edit"
         app:layout_constraintEnd_toEndOf="@+id/view2"
         app:layout_constraintTop_toTopOf="@+id/view2" />
@@ -158,6 +159,7 @@
                 android:padding="5dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:onClick="showUpdatePasswordDialog"
                 android:text="@string/change_pwd"
                 android:textAllCaps="false"
                 android:textColor="@color/nightly_blue"

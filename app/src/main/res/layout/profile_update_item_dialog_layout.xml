@@ -43,18 +43,17 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/newUserFullName_EditText"
+                    android:id="@+id/fullnameUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:capitalize="words"
                     android:ems="10"
                     android:hint="@string/fullname"
                     android:inputType="textPersonName" />
 
                 <EditText
-                    android:id="@+id/newUserName_EditText"
+                    android:id="@+id/userNameUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -64,33 +63,32 @@
                     android:inputType="textPersonName" />
 
                 <EditText
-                    android:id="@+id/newUserPin"
+                    android:id="@+id/permLevUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:ems="10"
-                    android:hint="@string/_6Pins"
-                    android:inputType="number"
-                    android:password="true" />
+                    android:hint="@string/perm_lev"
+                    android:inputType="textPersonName" />
 
-                <Spinner
-                    android:id="@+id/userLevelSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp" />
+<!--                <Spinner-->
+<!--                    android:id="@+id/userLevelSpinner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginEnd="20dp" />-->
 
                 <Button
-                    android:id="@+id/addUserBtn"
+                    android:id="@+id/updateProfileBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@color/midnightBlue"
-                    android:drawableEnd="@drawable/ic_person_add_white_24dp"
+                    android:drawableEnd="@drawable/ic_update_white_24dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="@string/add_user"
+                    android:text="@string/update_profile"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
 
@@ -104,9 +102,20 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="30dp"
-                android:text="@string/add_user"
+                android:text="@string/update_profile"
                 android:textColor="@color/midnightBlue"
                 android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="12dp"
+                android:clickable="true"
+                android:layout_marginEnd="17dp"
+                app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -123,6 +132,6 @@
         app:layout_constraintEnd_toStartOf="@+id/view"
         app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:srcCompat="@drawable/ic_person_add_black_24dp" />
+        app:srcCompat="@drawable/ic_update_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity{
     TextView permLevelText;
 
 
+    Button eodBtn, printEodBtn, rePrintRecieptBtn, printTransHistoryBtn;
     @BindView(R.id.signOutBtn)
     Button signOutBtn;
     @BindView(R.id.cardPaymentBtn)
@@ -61,6 +63,31 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        eodBtn = findViewById(R.id.eodBtn);
+        printEodBtn = findViewById(R.id.printEODBtn);
+        rePrintRecieptBtn = findViewById(R.id.reprintRecieptBtn);
+        printTransHistoryBtn = findViewById(R.id.printTransHistoryBtn);
+
+//        on click of end of the day btn
+        eodBtn.setOnClickListener(view ->
+                Toast.makeText(this, "End of the day was clicked", Toast.LENGTH_SHORT).show()
+        );
+
+//        on click of print end of the day
+        printEodBtn.setOnClickListener(view ->
+                Toast.makeText(this, "Printing end of the day reciept", Toast.LENGTH_SHORT).show()
+        );
+
+        //        on click of print end of the day
+        rePrintRecieptBtn.setOnClickListener(view ->
+                Toast.makeText(this, "Re Printing end of the day reciept", Toast.LENGTH_SHORT).show()
+        );
+
+        //        on click of print end of the day
+        printTransHistoryBtn.setOnClickListener(view ->
+                Toast.makeText(this, "Printing Transaction History reciept", Toast.LENGTH_SHORT).show()
+        );
 
         userNameText = findViewById(R.id.userNameText);
         permLevelText = findViewById(R.id.permLevText);

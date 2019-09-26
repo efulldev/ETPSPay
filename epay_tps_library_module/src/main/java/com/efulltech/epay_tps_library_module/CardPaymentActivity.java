@@ -63,7 +63,7 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
 
                             led.blink(3,5000);
 
-                            CardPaymentActivity.speakWords("Please insert your card");
+                            speakWords("Please insert your card");
 
                             speakThread = false;
                             ttsThread.isInterrupted();

@@ -154,6 +154,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/white"
                         android:elevation="0dp"
+                        android:onClick="openDevMgt"
                         app:cardElevation="0dp"
                         app:cardMaxElevation="0dp"
                         app:contentPadding="10dp">
@@ -180,7 +181,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="1dp"
-                                android:layout_marginBottom="1dp"
                                 android:text="@string/dev_mgt"
                                 android:textColor="@color/nightly_blue"
                                 android:textSize="18sp"
@@ -208,6 +208,7 @@
                         android:background="@color/white"
                         android:elevation="0dp"
                         app:cardElevation="0dp"
+                        android:onClick="openDbMgt"
                         app:cardMaxElevation="0dp"
                         app:contentPadding="10dp">
 
