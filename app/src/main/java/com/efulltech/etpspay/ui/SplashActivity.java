@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.efulltech.epay_tps_library_module.TimeOutController;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
@@ -26,6 +27,8 @@ public class SplashActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
+    private String ttsOption;
+    private boolean time;
     private ImageView splashLogo;
 
     @Override
@@ -43,10 +46,18 @@ public class SplashActivity extends AppCompatActivity {
         timer.schedule(new TimerTask(){
             public void run() {
                 try {
+//                    if(ttsOption == null && timer(5000)){
                         Intent loginIntent =new Intent(SplashActivity.this, LoginActivity.class);
                         startActivity(loginIntent);
                         //Remove activity
                         finish();
+//                    }else{
+//                        Intent mainIntent =new Intent(SplashActivity.this, MainActivity.class);
+//                        startActivity(mainIntent);
+//                        //Remove activity
+//                        finish();
+//                    }
+
                 }
                 catch (Exception e) {
 //                    Log.d("Splash", e.toString());
@@ -56,10 +67,16 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    private boolean timer(int i) {
+        time = false;
+        TimeOutController timeout;
+        return true;
+    }
+
 
     //checking the shared preferences and set them accordingly
     private void checkSharedPreferences() {
-        String ttsOption = mPreferences.getString("ttsOption", null);
+        ttsOption = mPreferences.getString("ttsOption", null);
         if (ttsOption == null){
             mEditor.putString("ttsOption", "true");
             mEditor.apply();

@@ -61,6 +61,16 @@ public class UsersDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql);
     }
 
+    public void updateUserProfile(SQLiteDatabase sqLiteDatabase, int id, String username, String fullname, String permLevelName){
+//        String sql = "UPDATE FROM "+UserEntry.TABLE_NAME+" WHERE _ID = "+id;
+//        sqLiteDatabase.execSQL(sql);
+    ContentValues data = new ContentValues();
+    data.put(UserEntry.COLUMN_NAME, fullname);
+    data.put(UserEntry.COLUMN_USERNAME, username);
+    data.put(UserEntry.COLUMN_PERMISSION_LEVEL, permLevelName);
+        sqLiteDatabase.update(UserEntry.TABLE_NAME, data, "_id =" + id, null );
+    }
+
     public static List<LoggedInUser> listAllUsers(SQLiteDatabase sqLiteDatabase){
         // get current logged in user
         LoginDataSource dataSource = new LoginDataSource();

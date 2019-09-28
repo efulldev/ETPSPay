@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.efulltech.etpspay.R;
+import com.efulltech.etpspay.ui.DatabaseMgtActivity;
+import com.efulltech.etpspay.ui.DeviceMgtActivity;
 import com.efulltech.etpspay.ui.auth.login.LoginActivity;
 
 import java.util.Locale;
@@ -123,5 +125,15 @@ public class MainPreferencesActivity extends AppCompatActivity implements TextTo
         // end TTS
         myTTS.stop();
         myTTS.shutdown();
+    }
+
+    public void openDevMgt(View view) {
+        Intent deviceMgtintent = new Intent(MainPreferencesActivity.this, DeviceMgtActivity.class);
+        startActivity(deviceMgtintent);
+    }
+
+    public void openDbMgt(View view) {
+        Intent databaseMgtintent = new Intent(MainPreferencesActivity.this, DatabaseMgtActivity.class);
+        startActivity(databaseMgtintent);
     }
 }

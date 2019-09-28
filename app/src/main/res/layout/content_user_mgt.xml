@@ -9,19 +9,6 @@
     tools:context=".ui.preferences.UserMgtActivity"
     tools:showIn="@layout/activity_user_mgt">
 
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-
     <androidx.cardview.widget.CardView
         android:id="@+id/userMgtCardViewHeader"
         android:layout_width="match_parent"
@@ -40,15 +27,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
                 android:text="@string/user_mgt"
                 android:textColor="@color/grey_lighten_3"
                 android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView18"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,9 +47,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/user_mgt_info"
                 android:textColor="@color/grey_lighten_3"
-                app:layout_constraintStart_toStartOf="@+id/custNameText"
-                app:layout_constraintTop_toBottomOf="@+id/custNameText" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -71,6 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userMgtCardViewHeader" />
-<!--        </LinearLayout>-->
+
+    <!--        </LinearLayout>-->
 <!--    </ScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

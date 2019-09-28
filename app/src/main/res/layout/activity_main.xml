@@ -20,12 +20,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--            <RelativeLayout-->
-            <!--                android:id="@+id/relativeLayout2"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:background="@color/black_transparent"-->
-            <!--                android:minHeight="400dp">-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -174,13 +168,96 @@
                 </androidx.cardview.widget.CardView>
 
             </LinearLayout>
-            <!--            </RelativeLayout>-->
 
             <include
                 layout="@layout/action_buttons_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout_editor_absoluteY="400dp" />
+
+<!--            End of day and print end of day button-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/eodBtn"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0.5"
+                    android:background="#020016"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/ic_assignment_late_black_24dp"
+                    android:padding="15dp"
+                    android:text="@string/EOD"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/printEODBtn"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0.5"
+                    android:background="#020016"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/ic_receipt_black_24dp"
+                    android:ellipsize="marquee"
+                    android:padding="15dp"
+                    android:text="@string/print_EOD"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+<!--            Reprint and print transsaction history button-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/reprintRecieptBtn"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0.5"
+                    android:background="#020016"
+                    android:drawablePadding="10dp"
+                    android:padding="15dp"
+                    android:text="@string/re_print_receipt"
+                    android:drawableTop="@drawable/ic_rotate_90_degrees_ccw_black_24dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/printTransHistoryBtn"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0.5"
+                    android:background="#020016"
+                    android:drawablePadding="10dp"
+                    android:padding="15dp"
+                    android:text="@string/print_transaction_history"
+                    android:drawableTop="@drawable/ic_receipt_black_24dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

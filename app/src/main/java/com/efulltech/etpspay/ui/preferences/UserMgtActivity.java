@@ -211,6 +211,8 @@ public class UserMgtActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
 
@@ -275,4 +277,9 @@ public class UserMgtActivity extends AppCompatActivity {
         updateUsersList();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
