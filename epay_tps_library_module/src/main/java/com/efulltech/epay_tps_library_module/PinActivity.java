@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.efulltech.efull_nibss_bridge.Transaction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,6 +153,10 @@ public class PinActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 beep(2);
+                // card type
+//                Transaction transaction = new Transaction();
+//                transaction.setAccType(accType);
+//                transaction.setCardType(cardType);
             }
         }));
     }
@@ -212,9 +218,6 @@ public class PinActivity extends BaseActivity {
     private void beep(int iterator) {
         ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-        
-        for(int i = 0; i < iterator; i++) {
-        }
     }
 
 

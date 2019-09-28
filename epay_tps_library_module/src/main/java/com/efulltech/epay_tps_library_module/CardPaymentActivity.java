@@ -101,7 +101,8 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
                         Log.d(TAG, "Listening for card insertion");
                         // Listening for insertion of a card
                         if (cardReader.iccPowerOn()){
-                            Log.d(TAG, "ICC Powered On");
+//                            String ATR = cardReader.getATRString();
+//                            Log.d(TAG, "ICC Powered On "+ATR);
                             try {
                                 led.off(3);
                             } catch (TelpoException e) {
