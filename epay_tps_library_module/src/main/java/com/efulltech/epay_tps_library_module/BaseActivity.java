@@ -31,9 +31,10 @@ public class BaseActivity extends AppCompatActivity implements LogoutListener {
         ((TimeOutController) getApplication()).cancelTimer();
         final ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 800);
-
         // Display an alert dialog indicating timeout
-        new CardErrorFragment("Session timed out").show(getSupportFragmentManager(), "Card insertion timed out");
+        CardErrorFragment errorFragment = new CardErrorFragment("Session timed out");
+//        errorFragment.getActivity().finish();
+        errorFragment.show(getSupportFragmentManager(), "Card insertion timed out");
     }
 
     @Override

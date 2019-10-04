@@ -30,12 +30,11 @@ public class CardErrorFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dismiss();
-                getActivity().finish();
+//                getActivity().finish();
             }
         });
 
         return builder.create();
-
     }
 
     @Override

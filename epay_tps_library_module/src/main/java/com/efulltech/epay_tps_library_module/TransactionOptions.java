@@ -1,5 +1,6 @@
 package com.efulltech.epay_tps_library_module;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,23 +26,27 @@ import com.telpo.tps550.api.led.Led900;
 
 import java.util.Locale;
 
+import static android.os.SystemClock.sleep;
+
 public class TransactionOptions extends AppCompatActivity  implements TextToSpeech.OnInitListener{
 
 
     private static final int MY_DATA_CHECK_CODE = 1309;
+    private static final int AMT_RES_CODE = 874;
     public static TextToSpeech myTTS;
     private SmartCardReaderx readerx;
-    private boolean threadRunT, speakThread;
-    private Thread thread, _ttsThread;
+    private boolean threadRunT;
+    private Thread thread;
     private String no = "";
     private Handler handler;
     private boolean turnedOn;
     private Led900 led;
-    private SharedPreferences preferences, mPreferences;
+    private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     Button savings,current, credits, defaultBtn;
     private String cardType;
     private int accType;
+    private String ttsOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,79 +61,37 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
         credits = findViewById(R.id.credits);
         defaultBtn = findViewById(R.id.defaultBtn);
 
-        preferences = getSharedPreferences("AccCat", MODE_PRIVATE);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mPreferences.edit();
+        ttsOption = mPreferences.getString("ttsOption", "false");
 
         readerx = new SmartCardReaderx(TransactionOptions.this);
         handler = new Handler(getApplicationContext().getMainLooper());
-        threadRunT = true; speakThread = true;
+        threadRunT = true;
         led = new Led900(this);
 
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
-
-        _ttsThread = new Thread() {
-            String ttsOption = mPreferences.getString("ttsOption", "false");
-
-            public void run() {
-                while(speakThread) {
-                    try {
-                        // Thread will sleep for 5 seconds
-                        if(ttsOption.equals("true")) {
-                            sleep(1 * 500);
-                            TransactionOptions.speakWords(" Choose account type to proceed");
-                            speakThread = false;
-                            //Interrupt the thread
-                            _ttsThread.isInterrupted();
-                        }
-                    } catch (Exception e) {
-                        speakThread = false;
-                        _ttsThread.isInterrupted();
-                        Log.d("Splash", e.toString());
-                    }
-                }
-            }
-        };
-        _ttsThread.start();
-
-
        thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String ttsOption = mPreferences.getString("ttsOption", "true");
-
                 // Opens the card readerx object in the thread to handle loop
                 readerx.open();
-                Log.d("ICC status", "Running");
-//                try{
-//                   turnedOn = readerx.iccPowerOn(1);
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                    finish();
-//                }
+                // Thread will sleep for 5 seconds
+                if(ttsOption.equals("true")) {
+                    sleep(1 * 500);
+                    TransactionOptions.speakWords(" Choose account type to proceed");
+                }
                 while (threadRunT){
-                    Log.d("ICC status", "Extra Running");
-                    Log.d("Card type", Integer.toString(readerx.getCardType()));
                     try{
-                        if (readerx.iccPowerOff()){ // Turned it from Off to On
-//                            led.on(2);
-                            Log.d("Card Activity", "Powered on");
-                        }else {
+                        if (!readerx.iccPowerOff()){
                             Log.d("Card log error", "Card turned off");
                             threadRunT = false;
                             new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
                             thread.isInterrupted();
-
-//                          These are the various led activities whenever an atm card is removed
-                            led.blink(3, 5000);
-                            led.off(2);
-                            led.off(3);
-                            led.off(4);
-
-                            if(ttsOption == "true") {
+                            if(ttsOption.equals("true")) {
                                 TransactionOptions.speakWords("Transaction Error, Card Removed");
                             }
                         }
@@ -157,12 +120,10 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
         Intent intent = new Intent(TransactionOptions.this, AmountActivity.class);
         intent.putExtra("cardType", this.cardType);
         intent.putExtra("accType", this.accType);
-        finish();
-        startActivity(intent);
+        startActivityForResult(intent, AMT_RES_CODE);
     }
 
-//    Note: onActivityResult,  speakwords onInt, onPointer capture change are functions that makes the text to speech work so it must be included in all pages
-    //act on result of TTS data check
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MY_DATA_CHECK_CODE) {
@@ -175,6 +136,18 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                 installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installTTSIntent);
             }
+        }
+        else if(requestCode == AMT_RES_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                // process was completed
+
+                Toast.makeText(this, "Activity completed!!!", Toast.LENGTH_SHORT).show();
+            }else{
+                // process was interrupted
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+            interruptThreads();
         }
     }
 
@@ -208,8 +181,15 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        interruptThreads();
-        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
+//        interruptThreads();
+//        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
+
+
+        // return result to the calling activity
+//        Intent _data = new Intent();
+//        _data.putExtra("response", "Transaction Successful");
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
 
@@ -219,11 +199,12 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
         myTTS.stop();
         myTTS.shutdown();
         interruptThreads();
+        setResult(RESULT_CANCELED);
     }
 
     private void interruptThreads(){
-        Thread[] threads = {thread, _ttsThread};
-        Boolean[] threadsBoo = {threadRunT, speakThread};
+        Thread[] threads = {thread};
+        Boolean[] threadsBoo = {threadRunT};
 
         for(int i = 0; i < threads.length; i++){
             // interrupt threads
@@ -231,6 +212,6 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
             // set booleans to false
             threadsBoo[i] = false;
         }
-        ((TimeOutController) getApplication()).cancelTimer();
+//        ((TimeOutController) getApplication()).cancelTimer();
     }
 }

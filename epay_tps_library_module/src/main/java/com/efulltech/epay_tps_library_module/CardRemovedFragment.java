@@ -24,7 +24,7 @@ public class CardRemovedFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 getActivity().finish();
-                Toast.makeText(getActivity(), "Card Removed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Card Removed", Toast.LENGTH_SHORT).show();
             }
         });
 

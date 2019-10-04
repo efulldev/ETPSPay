@@ -1,9 +1,11 @@
 package com.efulltech.etpspay.ui;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
+import com.efulltech.epay_tps_library_module.misc.ATRParser;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
 import com.efulltech.etpspay.ui.data.LoginRepository;
@@ -33,6 +36,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
+    private static final int CARD_PAY_REQ_CODE = 384;
 
     DataProccessor dataProccessor;
     //    declaration
@@ -69,10 +73,6 @@ public class MainActivity extends AppCompatActivity{
         rePrintRecieptBtn = findViewById(R.id.reprintRecieptBtn);
         printTransHistoryBtn = findViewById(R.id.printTransHistoryBtn);
 
-//        on click of end of the day btn
-        eodBtn.setOnClickListener(view ->
-                Toast.makeText(this, "End of the day was clicked", Toast.LENGTH_SHORT).show()
-        );
 
 //        on click of print end of the day
         printEodBtn.setOnClickListener(view ->
@@ -95,10 +95,13 @@ public class MainActivity extends AppCompatActivity{
         dataSource = new LoginDataSource();
         loginRepository = LoginRepository.getInstance(dataSource);
         user = loginRepository.getLoggedInUser();
-
+//        if(user == null){
+//            // log out
+//            this.logUserOut();
+//        }
         // display user details
-        userNameText.setText("You\'re logged in as "+user.getDisplayName());
-        permLevelText.setText(user.getPermLevelName());
+//        userNameText.setText("You\'re logged in as "+user.getDisplayName());
+//        permLevelText.setText(user.getPermLevelName());
 
         dataProccessor = new DataProccessor(this);
 //        initialisation very important
@@ -108,6 +111,24 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+
+
+//        on click of end of the day btn
+
+    @OnClick(R.id.eodBtn)
+    public void eodBtn(View view) {
+
+        ATRParser atr = new ATRParser("3B 6D 00 00 80 31 80 65 B0 89 35 01 F1 83 00 90 00");
+        byte[] history = atr.getBytes();
+        byte item = 0;
+        for (int i = 0; i < history.length; i++){
+            item = history[i];
+            Log.d(TAG, "BYTE ITEM: "+item);
+        }
+        Toast.makeText(this, "End of the day was clicked "+atr.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+
     @OnClick(R.id.cardPaymentBtn)
     public void cardPayment(View view) {
         Intent cardPayment = new Intent(MainActivity.this, CardPaymentActivity.class);
@@ -116,7 +137,7 @@ public class MainActivity extends AppCompatActivity{
         String ttsOption = mPreferences.getString("ttsOption", "false");
 
         cardPayment.putExtra("ttsOption", ttsOption);
-        startActivity(cardPayment);
+        startActivityForResult(cardPayment, CARD_PAY_REQ_CODE);
     }
 
 
@@ -140,6 +161,11 @@ public class MainActivity extends AppCompatActivity{
 
     @OnClick(R.id.signOutBtn)
     public void logOut(View view){
+        this.logUserOut();
+    }
+
+
+    private void logUserOut() {
 //        LoginActivity.speakWords("Goodbye");
         LoginDataSource dataSource = new LoginDataSource();
         LoginRepository loginRepository = LoginRepository.getInstance(dataSource);
@@ -149,7 +175,6 @@ public class MainActivity extends AppCompatActivity{
         Intent splashIntent = new Intent(MainActivity.this, SplashActivity.class);
         startActivity(splashIntent);
     }
-
 //
     @OnClick(R.id.transactionHistoryBtn)
     public void transactionHistory(View view) {
@@ -277,5 +302,16 @@ public class MainActivity extends AppCompatActivity{
 //    }
 
 
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CARD_PAY_REQ_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                // process was completed
+                Toast.makeText(MainActivity.this, "mActivity completed!!!", Toast.LENGTH_SHORT).show();
+            }else{
+                // process was interrupted
+                Toast.makeText(MainActivity.this, "mActivity interrupted", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

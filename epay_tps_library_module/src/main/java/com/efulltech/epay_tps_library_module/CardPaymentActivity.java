@@ -1,5 +1,6 @@
 package com.efulltech.epay_tps_library_module;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,10 +15,13 @@ import com.telpo.tps550.api.led.Led900;
 
 import java.util.Locale;
 
+import static android.os.SystemClock.sleep;
+
 public class CardPaymentActivity extends BaseActivity implements TextToSpeech.OnInitListener {
 
     private static final int MY_DATA_CHECK_CODE = 13409;
     private static final String TAG = "CardPaymentActivity";
+    private static final int TRAN_OPT_REQ_CODE = 104;
     private static TextToSpeech myTTS;
     private TranslateAnimation moveSideways;
     private SmartCardReaderx cardReader;
@@ -25,7 +29,8 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
     private SharedPreferences.Editor mEditor;
     private Led900 led = new Led900(this);
     private Thread cardWatcherThread, ttsThread;
-    private boolean speakThread, threadRun;
+    private boolean threadRun;
+    private String ttsOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +41,13 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mPreferences.edit();
 
-//        getting value from intent
+//        getting value from intent and update the shared preference in this module
         String ttsOpt = getIntent().getStringExtra("ttsOption");
         mEditor.putString("ttsOption", ttsOpt);
         mEditor.apply();
+        // initialize ttsOption
+        ttsOption = mPreferences.getString("ttsOption", "false");
+        threadRun = true;
 
 //        Text to speech code
         //check for TTS data
@@ -47,45 +55,17 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
-        speakThread = true; threadRun = true;
-
-//        this is the thread for text to speech
-        ttsThread = new Thread() {
-            String ttsOption = mPreferences.getString("ttsOption", "false");
-
-            public void run() {
-                while(speakThread) {
-                    try {
-//                        led.on(4);
-                        // Thread will sleep for 5 seconds
-                        if(ttsOption.equals("true")) {
-                            sleep(1 * 500);
-
-                            led.blink(3,5000);
-
-                            speakWords("Please insert your card");
-
-                            speakThread = false;
-                            ttsThread.isInterrupted();
-                        }
-                    } catch (Exception e) {
-                        Log.d(TAG, e.toString());
-                        speakThread = false;
-                        ttsThread.isInterrupted();
-                    }
-                }
-            }
-        };
-        ttsThread.start();
-
         //this is an animation of the atm card display
-
         moveSideways = new TranslateAnimation(1000, 0, 0, 0);
         moveSideways.setDuration(3000);
         moveSideways.setFillAfter(true);
         moveSideways.setRepeatCount(-1);
         findViewById(R.id.card).startAnimation(moveSideways);
 
+        cardListener();
+    }
+
+    private void cardListener(){
         cardReader = new SmartCardReaderx(CardPaymentActivity.this);
 //        //Run the thread to enable active listening for changes on the state of the port.
         cardWatcherThread = new Thread(new Runnable() {
@@ -93,6 +73,15 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
             public void run(){
                 // Indicates that the thread is started
                 Log.d(TAG, "Initiated Card reader listener");
+
+                // turn on LED indicator
+                togLED(3, 1);
+
+                if (ttsOption.equals("true")) {
+                    sleep(1 * 500);
+                    // set TTS speech rate
+                    speakWords("Please insert your card");
+                }
                 cardReader.open();
                 while (threadRun){
                     // Indicates that the while loop is running
@@ -102,29 +91,24 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
                         // Listening for insertion of a card
                         if (cardReader.iccPowerOn()){
 //                            String ATR = cardReader.getATRString();
-//                            Log.d(TAG, "ICC Powered On "+ATR);
-                            try {
-                                led.off(3);
-                            } catch (TelpoException e) {
-                                e.printStackTrace();
-                            }
-                            threadRun = false;
+//                            Toast.makeText(CardPaymentActivity.this, "ATR: "+ATR, Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "ICC Powered On ");
                             cardWatcherThread.isInterrupted();
                             Log.d(TAG, "ICC card inserted");
-                            finish();
-
+                            togLED(3, 0);
+                            threadRun = false;
                             Intent transOptions = new Intent(CardPaymentActivity.this, TransactionOptions.class);
                             transOptions.putExtra("cardType", "Master Card");
-                            startActivity(transOptions);
-
+                            startActivityForResult(transOptions, TRAN_OPT_REQ_CODE);
                         }else{
-                            if (!cardReader.iccPowerOff()){
-                                cardReader.iccPowerOff();
-                            }
-                            Log.d(TAG, "ICC Powered off");
+//                            if (!cardReader.iccPowerOff()){
+//                                cardReader.iccPowerOff();
+//                            }
+//                            Log.d(TAG, "ICC Powered off");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        togLED(3, 0);
                         // terminates the thread after catching error
 //                        threadRun = false;
 //                        cardWatcherThread.isInterrupted();
@@ -144,9 +128,23 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
     }
 
-    //act on result of TTS data check
+    private void togLED(int colorId, int state){
+        try {
+            switch (state){
+                case 0: // off
+                    led.off(colorId);
+                    break;
+                case 1: // on
+                    led.on(colorId);
+            }
+        } catch (TelpoException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // TTS
         if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 //the user has the necessary data - create the TTS
@@ -157,6 +155,20 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
                 installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installTTSIntent);
             }
+        }
+        else if(requestCode == TRAN_OPT_REQ_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                // process was completed
+
+                Toast.makeText(CardPaymentActivity.this, "Activity completed!!!", Toast.LENGTH_SHORT).show();
+            }else{
+                // process was interrupted
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+            cardReader.iccPowerOff();
+            cardReader.close();
+            interruptThreads();
         }
     }
 
@@ -172,14 +184,17 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         }
     }
 
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 
+
     private void interruptThreads(){
-        Thread[] threads = {cardWatcherThread, ttsThread};
-        Boolean[] threadsBoo = {threadRun, speakThread};
+        Thread[] threads = {cardWatcherThread};
+        Boolean[] threadsBoo = {threadRun};
+        togLED(3, 0);
 
         for(int i = 0; i < threads.length; i++){
             // interrupt threads
@@ -206,10 +221,24 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
 //        }
 //    }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        try {
+            led.off(3);
+        } catch (TelpoException e) {
+            e.printStackTrace();
+        }
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         interruptThreads();
+        togLED(3, 0);
         myTTS.stop();
         myTTS.shutdown();
         cardReader.iccPowerOff();
@@ -219,6 +248,8 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         } catch (TelpoException e) {
             e.printStackTrace();
         }
+        setResult(RESULT_CANCELED);
+        finish();
     }
 }
 

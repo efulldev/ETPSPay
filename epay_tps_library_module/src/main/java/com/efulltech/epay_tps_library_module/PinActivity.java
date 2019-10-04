@@ -204,7 +204,6 @@ public class PinActivity extends BaseActivity {
                     if( pinInput.getText().toString().length() < 4) {
                         pinInput.setText(pinContent + value);
                     }else{
-                        beep(3);
                         Toast.makeText(PinActivity.this, "PIN must be 4 digits long", Toast.LENGTH_SHORT).show();
                     }
                 }else {
@@ -226,8 +225,8 @@ public class PinActivity extends BaseActivity {
         super.onBackPressed();
         threadRunT = false;
         cardWatcherThread.isInterrupted();
-        ((TimeOutController) getApplication()).cancelTimer();
-        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
+//        ((TimeOutController) getApplication()).cancelTimer();
+//        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
     }
 
     @Override
@@ -235,6 +234,6 @@ public class PinActivity extends BaseActivity {
         super.onDestroy();
         threadRunT = false;
         cardWatcherThread.isInterrupted();
-        ((TimeOutController) getApplication()).cancelTimer();
+//        ((TimeOutController) getApplication()).cancelTimer();
     }
 }

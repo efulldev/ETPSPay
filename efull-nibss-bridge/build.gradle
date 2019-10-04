@@ -42,10 +42,10 @@ dependencies {
 //    implementation group:'org.jpos', name:'jpos', version:'2.1.0'
 //    implementation group: 'oracle', name: 'oracle-jdbc', version: '12.1.0.1.0'
     // dependencies for ISO 8583 message parser
-    implementation group: 'org.eclipse.persistence', name: 'org.eclipse.persistence.moxy', version: '2.5.2'
+//    implementation group: 'org.eclipse.persistence', name: 'org.eclipse.persistence.moxy', version: '2.5.2'
 //    implementation group: 'org.jboss.logging', name: 'jboss-logging', version: '3.3.0.Final'
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.44.0'
-    implementation group: 'com.opera', name: 'operadriver', version: '1.5'
+//    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.44.0'
+//    implementation group: 'com.opera', name: 'operadriver', version: '1.5'
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
