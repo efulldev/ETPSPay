@@ -1,6 +1,7 @@
 package com.efulltech.epay_tps_library_module;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,10 +11,14 @@ import android.util.Log;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.telpo.tps550.api.TelpoException;
 import com.telpo.tps550.api.led.Led900;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.os.SystemClock.sleep;
 
@@ -31,6 +36,8 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
     private Thread cardWatcherThread, ttsThread;
     private boolean threadRun;
     private String ttsOption;
+    private Timer timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +85,7 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
                 togLED(3, 1);
 
                 if (ttsOption.equals("true")) {
-                    sleep(1 * 500);
+                    sleep(500);
                     // set TTS speech rate
                     speakWords("Please insert your card");
                 }
@@ -159,11 +166,17 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         else if(requestCode == TRAN_OPT_REQ_CODE){
             if(resultCode == Activity.RESULT_OK){
                 // process was completed
-
                 Toast.makeText(CardPaymentActivity.this, "Activity completed!!!", Toast.LENGTH_SHORT).show();
             }else{
                 // process was interrupted
-                setResult(RESULT_CANCELED);
+                String response = data.getStringExtra("response");
+                Boolean positive = data.getBooleanExtra("positive", false);
+
+                Intent _data = new Intent();
+                _data.putExtra("response", response);
+                _data.putExtra("positive", positive);
+
+                setResult(RESULT_CANCELED, _data);
                 finish();
             }
             cardReader.iccPowerOff();
@@ -191,6 +204,16 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
     }
 
 
+    private void finishActivityWithErrorMsg(String error){
+        interruptThreads();
+        Intent _data = new Intent();
+        _data.putExtra("response", ""+error);
+        _data.putExtra("positive", false);
+        setResult(RESULT_CANCELED, _data);
+        finish();
+    }
+
+
     private void interruptThreads(){
         Thread[] threads = {cardWatcherThread};
         Boolean[] threadsBoo = {threadRun};
@@ -206,32 +229,10 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
     }
 
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        interruptThreads();
-//        myTTS.stop();
-//        myTTS.shutdown();
-//        cardReader.iccPowerOff();
-//        ((TimeOutController) getApplication()).cancelTimer();
-//        try {
-//            led.off(3);
-//        } catch (TelpoException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        try {
-            led.off(3);
-        } catch (TelpoException e) {
-            e.printStackTrace();
-        }
-        setResult(RESULT_CANCELED);
-        finish();
+        togLED(3, 0);
+        finishActivityWithErrorMsg("Transaction aborted");
     }
 
     @Override
@@ -241,15 +242,9 @@ public class CardPaymentActivity extends BaseActivity implements TextToSpeech.On
         togLED(3, 0);
         myTTS.stop();
         myTTS.shutdown();
-        cardReader.iccPowerOff();
+//        cardReader.iccPowerOff();
         ((TimeOutController) getApplication()).cancelTimer();
-        try {
-            led.off(3);
-        } catch (TelpoException e) {
-            e.printStackTrace();
-        }
-        setResult(RESULT_CANCELED);
-        finish();
+        finishActivityWithErrorMsg("Transaction aborted");
     }
 }
 

@@ -31,7 +31,14 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/eclipse.inf'
     }
+
+//    configurations {
+//        // handle dependencies conflict
+//        all*.exclude group:'org.eclipse.persistence.internal.jaxb' module: 'classes.jar'
+//        all*.exclude group:'com.springsource.org.eclipse.persistence.jaxb-2.0.0' module: 'classes.jar'
+//    }
 }
 
 dependencies {
@@ -46,6 +53,13 @@ dependencies {
 //    implementation group: 'org.jboss.logging', name: 'jboss-logging', version: '3.3.0.Final'
 //    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.44.0'
 //    implementation group: 'com.opera', name: 'operadriver', version: '1.5'
+    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+//    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
+// https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence
+//    implementation group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.2.1'
+// https://mvnrepository.com/artifact/org.eclipse.persistence/com.springsource.org.eclipse.persistence.jaxb
+//    implementation group: 'org.eclipse.persistence', name: 'com.springsource.org.eclipse.persistence.jaxb', version: '2.0.0'
+
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'

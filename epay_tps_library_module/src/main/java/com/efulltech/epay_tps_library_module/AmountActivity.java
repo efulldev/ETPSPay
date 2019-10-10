@@ -30,7 +30,7 @@ import java.util.Locale;
 import static android.os.SystemClock.sleep;
 
 
-public class AmountActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class AmountActivity extends BaseActivity implements TextToSpeech.OnInitListener {
 
     private static final int PIN_RES_CODE = 584;
     Button proceed, cancel;
@@ -48,6 +48,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
     private String cardType;
     private int accType;
     private String ttsOption;
+    private boolean sessionDialogState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         ttsOption = mPreferences.getString("ttsOption", "false");
         threadRunT = true;
+        sessionDialogState = false;
 
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -75,8 +77,7 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
         cancel.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               setResult(RESULT_CANCELED);
-               finish();
+               finishActivityWithErrorMsg("Transaction aborted");
            }
        });
 
@@ -109,23 +110,24 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
                 // Opens the card readerx object in the thread to handle loop
                 readerx.open();
                 if(ttsOption.equals("true")) {
-                    sleep(1 * 500);
-                    CardPaymentActivity.speakWords("Kindly input amount");
+                    sleep(500);
+                    AmountActivity.speakWords("Kindly input amount");
                 }
                 while (threadRunT){
-                    try{
-                        if (!readerx.iccPowerOff()) {
-                            Log.d("Card log error", "Card turned off");
-                            threadRunT = false;
-                            new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
-                            thread.isInterrupted();
-                            if (ttsOption.equals("true")) {
-                                AmountActivity.speakWords("Transaction Error, Card Remove");
+                    sessionDialogState = mPreferences.getBoolean("sessionDialogState", false);
+                    if(!sessionDialogState) { //checks that the session timed out dialog is no displayed
+                        try {
+                            if (!readerx.iccPowerOff()) {
+                                Log.d("Card log error", "Card turned off");
+                                threadRunT = false;
+                                finishActivityWithErrorMsg("Transaction Error, Card Removed");
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            thread.isInterrupted();
                         }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        thread.isInterrupted();
+                    }else{
+                        interruptThreads();
                     }
                 }
             }
@@ -133,6 +135,15 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
         thread.start();
     }
 
+
+    private void finishActivityWithErrorMsg(String error){
+        interruptThreads();
+        Intent _data = new Intent();
+        _data.putExtra("response", ""+error);
+        _data.putExtra("positive", false);
+        setResult(RESULT_CANCELED, _data);
+        finish();
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -150,11 +161,17 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
         else if(requestCode == PIN_RES_CODE){
             if(resultCode == Activity.RESULT_OK){
                 // process was completed
-
                 Toast.makeText(this, "Activity completed!!!", Toast.LENGTH_SHORT).show();
             }else{
                 // process was interrupted
-                setResult(RESULT_CANCELED);
+                String response = data.getStringExtra("response");
+                Boolean positive = data.getBooleanExtra("positive", false);
+
+                Intent _data = new Intent();
+                _data.putExtra("response", response);
+                _data.putExtra("positive", positive);
+
+                setResult(RESULT_CANCELED, _data);
                 finish();
             }
             interruptThreads();
@@ -199,10 +216,6 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
             Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
         }
     }
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 
 
     private void interruptThreads(){
@@ -215,16 +228,21 @@ public class AmountActivity extends AppCompatActivity implements TextToSpeech.On
             // set booleans to false
             threadsBoo[i] = false;
         }
-//        ((TimeOutController) getApplication()).cancelTimer();
+        ((TimeOutController) getApplication()).cancelTimer();
     }
 
+    @Override
+    public void onBackPressed() {
+        finishActivityWithErrorMsg("Transaction aborted");
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        interruptThreads();
         myTTS.stop();
         myTTS.shutdown();
-        interruptThreads();
-        setResult(RESULT_CANCELED);
+        ((TimeOutController) getApplication()).cancelTimer();
+        finishActivityWithErrorMsg("Transaction aborted");
     }
 }

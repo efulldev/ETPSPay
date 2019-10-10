@@ -3,8 +3,10 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
+import com.efulltech.epay_tps_library_module.TransactionOptions;
 import com.efulltech.epay_tps_library_module.misc.ATRParser;
 import com.efulltech.etpspay.R;
 import com.efulltech.etpspay.ui.data.LoginDataSource;
@@ -26,17 +29,23 @@ import com.efulltech.etpspay.ui.data.model.LoggedInUser;
 import com.efulltech.etpspay.ui.preferences.MainPreferencesActivity;
 import com.efulltech.etpspay.utils.Constants;
 import com.efulltech.etpspay.utils.DataProccessor;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.os.SystemClock.sleep;
 
-public class MainActivity extends AppCompatActivity{
+
+public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
 
     private static final String TAG = "MainActivity";
     private static final int CARD_PAY_REQ_CODE = 384;
+    private static final int MY_DATA_CHECK_CODE = 13409;
 
     DataProccessor dataProccessor;
     //    declaration
@@ -44,6 +53,8 @@ public class MainActivity extends AppCompatActivity{
     private LoginDataSource dataSource;
     private LoginRepository loginRepository;
     private LoggedInUser user;
+    private static TextToSpeech myTTS;
+    private String ttsOption;
 
     TextView userNameText;
     TextView permLevelText;
@@ -60,6 +71,7 @@ public class MainActivity extends AppCompatActivity{
 //    Button printReceipt;
     @BindView(R.id.userPreferencesBtn)
     Button userPreferences;
+    private SharedPreferences.Editor mEditor;
 
 
     @Override
@@ -67,6 +79,16 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+//        Text to speech code
+        //check for TTS data
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mPreferences.edit();
+        ttsOption = mPreferences.getString("ttsOption", "false");
 
         eodBtn = findViewById(R.id.eodBtn);
         printEodBtn = findViewById(R.id.printEODBtn);
@@ -76,7 +98,7 @@ public class MainActivity extends AppCompatActivity{
 
 //        on click of print end of the day
         printEodBtn.setOnClickListener(view ->
-                Toast.makeText(this, "Printing end of the day reciept", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Printing end of the day receipt", Toast.LENGTH_SHORT).show()
         );
 
         //        on click of print end of the day
@@ -132,10 +154,6 @@ public class MainActivity extends AppCompatActivity{
     @OnClick(R.id.cardPaymentBtn)
     public void cardPayment(View view) {
         Intent cardPayment = new Intent(MainActivity.this, CardPaymentActivity.class);
-
-//        we have to pass this line of codes anytime we want to implement the tts on any activity
-        String ttsOption = mPreferences.getString("ttsOption", "false");
-
         cardPayment.putExtra("ttsOption", ttsOption);
         startActivityForResult(cardPayment, CARD_PAY_REQ_CODE);
     }
@@ -255,6 +273,14 @@ public class MainActivity extends AppCompatActivity{
         alert.show();
 
     }
+
+
+    public static void speakWords(String speech) {
+        myTTS.setSpeechRate(1.3f);
+        //speak straight away
+        myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
 //
 //    public void checkOsVersion() {
 //
@@ -302,16 +328,76 @@ public class MainActivity extends AppCompatActivity{
 //    }
 
 
+    //    On delete user dialog
+    public void showDialog(String response) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.delete_item_dialog_layout, null);
+
+        // get a reference to add user btn on the dialog
+        Button cancelBtn = (Button) mView.findViewById(R.id.cancelBtn);
+        Button proceedBtn = (Button) mView.findViewById(R.id.proceedBtn);
+        FloatingActionButton fab = mView.findViewById(R.id.floatingActionButton);
+        TextView title =  mView.findViewById(R.id.deleteItemTitle);
+        TextView message =  mView.findViewById(R.id.deleteItemMessageText);
+
+        fab.setImageResource(R.drawable.ic_info_black_24dp);
+        title.setText("Notification");
+        title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        title.setTextSize(20);
+        message.setText(response);
+        message.setTextSize(16);
+        proceedBtn.setVisibility(View.GONE);
+        cancelBtn.setVisibility(View.GONE);
+
+        builder.setView(mView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // TTS
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                //the user has the necessary data - create the TTS
+                myTTS = new TextToSpeech(MainActivity.this,this);
+            } else {
+                //no data - install it now
+                Intent installTTSIntent = new Intent();
+                installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installTTSIntent);
+            }
+        }
         if(requestCode == CARD_PAY_REQ_CODE){
             if(resultCode == Activity.RESULT_OK){
                 // process was completed
                 Toast.makeText(MainActivity.this, "mActivity completed!!!", Toast.LENGTH_SHORT).show();
             }else{
                 // process was interrupted
-                Toast.makeText(MainActivity.this, "mActivity interrupted", Toast.LENGTH_SHORT).show();
+                String response = data.getStringExtra("response");
+                Boolean positive = data.getBooleanExtra("positive", false);
+                ttsOption = mPreferences.getString("ttsOption", "false");
+
+                if(ttsOption.equals("true")) {
+                    sleep(1 * 500);
+                    MainActivity.speakWords(response);
+                }
+                String moreInfo = "\nKindly remove the card and restart the process if you wish to proceed with the transaction.";
+                showDialog(response+moreInfo);
             }
+        }
+    }
+
+    @Override
+    public void onInit(int initStatus) {
+        //check for successful instantiation
+        if (initStatus == TextToSpeech.SUCCESS) {
+            if(myTTS.isLanguageAvailable(Locale.UK)==TextToSpeech.LANG_AVAILABLE)
+                myTTS.setLanguage(Locale.UK);
+        }
+        else if (initStatus == TextToSpeech.ERROR) {
+            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
         }
     }
 }

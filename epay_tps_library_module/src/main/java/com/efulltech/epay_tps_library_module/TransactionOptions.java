@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.telpo.tps550.api.led.Led900;
 
@@ -28,7 +29,7 @@ import java.util.Locale;
 
 import static android.os.SystemClock.sleep;
 
-public class TransactionOptions extends AppCompatActivity  implements TextToSpeech.OnInitListener{
+public class TransactionOptions extends BaseActivity  implements TextToSpeech.OnInitListener{
 
 
     private static final int MY_DATA_CHECK_CODE = 1309;
@@ -42,11 +43,11 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
     private boolean turnedOn;
     private Led900 led;
     private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
-    Button savings,current, credits, defaultBtn;
     private String cardType;
     private int accType;
     private String ttsOption;
+    Button savings, current, credits, defaultBtn;
+    private boolean sessionDialogState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,8 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
         defaultBtn = findViewById(R.id.defaultBtn);
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mEditor = mPreferences.edit();
         ttsOption = mPreferences.getString("ttsOption", "false");
+        sessionDialogState = false;
 
         readerx = new SmartCardReaderx(TransactionOptions.this);
         handler = new Handler(getApplicationContext().getMainLooper());
@@ -81,23 +82,28 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                 readerx.open();
                 // Thread will sleep for 5 seconds
                 if(ttsOption.equals("true")) {
-                    sleep(1 * 500);
+                    sleep(500);
                     TransactionOptions.speakWords(" Choose account type to proceed");
                 }
+
                 while (threadRunT){
-                    try{
-                        if (!readerx.iccPowerOff()){
-                            Log.d("Card log error", "Card turned off");
-                            threadRunT = false;
-                            new CardRemovedFragment().show(getSupportFragmentManager(), "Card Removed");
-                            thread.isInterrupted();
-                            if(ttsOption.equals("true")) {
-                                TransactionOptions.speakWords("Transaction Error, Card Removed");
+                    sessionDialogState = mPreferences.getBoolean("sessionDialogState", false);
+                    if(!sessionDialogState) { //checks that the session timed out dialog is no displayed
+                        try {
+                            if (!readerx.iccPowerOff()) {
+                                Log.d("Card log error", "Card turned off");
+                                threadRunT = false;
+//                            "Transaction interrupted, kindly restart the process"
+                                finishActivityWithErrorMsg("Transaction Error, Card Removed");
+                                thread.isInterrupted();
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            thread.isInterrupted();
                         }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        thread.isInterrupted();
+                    }else{
+                        // interrupt thread
+                        interruptThreads();
                     }
                 }
             }
@@ -115,6 +121,20 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
 
 }
 
+    private void finishActivityWithErrorMsg(String error){
+        thread.isInterrupted();
+        Intent _data = new Intent();
+        _data.putExtra("response", ""+error);
+        _data.putExtra("positive", false);
+        setResult(RESULT_CANCELED, _data);
+        finish();
+    }
+
+    private void showEditDialog(String title, String message, Boolean positive) {
+        FragmentManager fm = getSupportFragmentManager();
+        AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(title, message, positive);
+        alertDialogFragment.show(fm, "fragment_edit_name");
+    }
 
     private void amountActivity(){
         Intent intent = new Intent(TransactionOptions.this, AmountActivity.class);
@@ -144,7 +164,14 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
                 Toast.makeText(this, "Activity completed!!!", Toast.LENGTH_SHORT).show();
             }else{
                 // process was interrupted
-                setResult(RESULT_CANCELED);
+                String response = data.getStringExtra("response");
+                Boolean positive = data.getBooleanExtra("positive", false);
+
+                Intent _data = new Intent();
+                _data.putExtra("response", response);
+                _data.putExtra("positive", positive);
+
+                setResult(RESULT_CANCELED, _data);
                 finish();
             }
             interruptThreads();
@@ -180,16 +207,7 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-//        interruptThreads();
-//        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
-
-
-        // return result to the calling activity
-//        Intent _data = new Intent();
-//        _data.putExtra("response", "Transaction Successful");
-        setResult(RESULT_CANCELED);
-        finish();
+        finishActivityWithErrorMsg("Transaction aborted");
     }
 
 
@@ -199,7 +217,6 @@ public class TransactionOptions extends AppCompatActivity  implements TextToSpee
         myTTS.stop();
         myTTS.shutdown();
         interruptThreads();
-        setResult(RESULT_CANCELED);
     }
 
     private void interruptThreads(){

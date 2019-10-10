@@ -5,10 +5,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +30,9 @@ public class PinActivity extends BaseActivity {
     private String cardType;
     private int accType;
     private String amount;
+    private SharedPreferences mPreferences;
 
+    CountDownTimer countDownTimer;
     RecyclerView mRecycler;
     PinRecycler pinRecycler;
     ArrayList<PinClass> pinClasses;
@@ -36,7 +41,7 @@ public class PinActivity extends BaseActivity {
     ArrayList<Integer> sortArr;
     Button one, two, three, four, five, six, seven, eight, nine, zero, cancel, clear, enter;
     TextView pinInput, custNameText, cardTypeText, accTypeText, amountText;
-
+    private boolean sessionDialogState;
 
 
     @Override
@@ -48,6 +53,9 @@ public class PinActivity extends BaseActivity {
         this.cardType = intent.getStringExtra("cardType");
         this.accType = intent.getIntExtra("accType", 0);
         this.amount = intent.getStringExtra("amount");
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sessionDialogState = false;
 
         pinClasses = new ArrayList<>();
 //        mRecycler = findViewById(R.id.mRecycler);
@@ -79,7 +87,6 @@ public class PinActivity extends BaseActivity {
 
         sortArr = new ArrayList<>();
         readerx = new SmartCardReaderx(PinActivity.this);
-        sharedPreferences = getSharedPreferences("SessionController", MODE_PRIVATE);
         threadRunT = true;
 
         Button txtArr[] = {one, two, three, four, five, six, seven, eight, nine, zero};
@@ -101,29 +108,30 @@ public class PinActivity extends BaseActivity {
                 // Opens the card readerx object in the thread to handle loop
                 readerx.open();
                 Log.d("ICC status", "Running");
-                try{
-                    turnedOn = readerx.iccPowerOn(1);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+//                try{
+//                    turnedOn = readerx.iccPowerOn(1);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
                 while (threadRunT){
-                    Log.d("ICC status", "Extra Running");
+                    sessionDialogState = mPreferences.getBoolean("sessionDialogState", false);
+                    if(!sessionDialogState) { //checks that the session timed out dialog is no displayed
+                        Log.d("ICC status", "Extra Running");
 //                    Log.d("Card type", Integer.toString(readerx.getCardType()));
-                    try{
-                        if (readerx.iccPowerOff()){
-                            Log.d("Card Activity", "Powered on");
-                        }else {
-                            Log.d("Card log error", "Card turned off");
-                            threadRunT = false;
-                            if (sharedPreferences.getString("sessionState", "sessionLoggedIn") != "sessionLogOut") {
-                                new CardRemovedFragment().show(getSupportFragmentManager(), "Cardremoved");
+                        try {
+                            if (!readerx.iccPowerOff()) {
+                                Log.d("Card log error", "Card turned off");
+                                threadRunT = false;
+                                finishActivityWithErrorMsg("Transaction error, card removed");
+                                cardWatcherThread.isInterrupted();
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                             cardWatcherThread.isInterrupted();
                         }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        cardWatcherThread.isInterrupted();
+                    }else{
                         threadRunT = false;
+                        cardWatcherThread.isInterrupted();
                     }
                 }
             }
@@ -134,8 +142,7 @@ public class PinActivity extends BaseActivity {
         cancel.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                beep(1);
-                finish();
+
             }
         }));
 
@@ -157,10 +164,35 @@ public class PinActivity extends BaseActivity {
 //                Transaction transaction = new Transaction();
 //                transaction.setAccType(accType);
 //                transaction.setCardType(cardType);
+
+//        call this method if pin is correct
+        countDownTimer.cancel();
             }
         }));
+
+//        count down timer
+        countDownTimer = new CountDownTimer(15000, 1000){
+            @Override
+            public void onTick(long millisUntilFinished) {
+                cardTypeText.setText(""+millisUntilFinished /1000);
+            }
+
+            @Override
+            public void onFinish() {
+                finishActivityWithErrorMsg("Pin input timed out");
+            }
+        }.start();
     }
 
+
+    private void finishActivityWithErrorMsg(String error){
+        cardWatcherThread.isInterrupted();
+        Intent _data = new Intent();
+        _data.putExtra("response", ""+error);
+        _data.putExtra("positive", false);
+        setResult(RESULT_CANCELED, _data);
+        finish();
+    }
 
     public void getSortStr(Button button, int i){
         String s = sortArr.get(i) + "";
@@ -222,18 +254,18 @@ public class PinActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        threadRunT = false;
-        cardWatcherThread.isInterrupted();
-//        ((TimeOutController) getApplication()).cancelTimer();
-//        new CardErrorFragment("Card Error").show(getSupportFragmentManager(), "Please eject your card");
+//        threadRunT = false;
+//        cardWatcherThread.isInterrupted();
+//        finishActivityWithErrorMsg("Transaction aborted");
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         threadRunT = false;
         cardWatcherThread.isInterrupted();
+//        finishActivityWithErrorMsg("Transaction aborted");
 //        ((TimeOutController) getApplication()).cancelTimer();
     }
 }
