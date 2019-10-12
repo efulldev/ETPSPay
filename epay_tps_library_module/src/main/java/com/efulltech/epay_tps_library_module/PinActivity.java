@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.efulltech.efull_nibss_bridge.Transaction;
+import com.efulltech.efull_nibss_bridge.parser.field.CompoundField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,13 +161,16 @@ public class PinActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 beep(2);
-                // card type
+                if (pinInput.getText().toString().length() >= 4) {
+//                  call this method if pin is correct
+                    // card type
 //                Transaction transaction = new Transaction();
 //                transaction.setAccType(accType);
 //                transaction.setCardType(cardType);
-
-//        call this method if pin is correct
-        countDownTimer.cancel();
+                    parseTransData();
+                    countDownTimer.cancel();
+                    ((TimeOutController) getApplication()).cancelTimer();
+                }
             }
         }));
 
@@ -179,9 +183,14 @@ public class PinActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                finishActivityWithErrorMsg("Pin input timed out");
+                Toast.makeText(PinActivity.this, "Pin input timed out", Toast.LENGTH_SHORT).show();
             }
         }.start();
+    }
+
+    private void parseTransData() {
+//        CompoundField compoundField = new Com
+
     }
 
 
