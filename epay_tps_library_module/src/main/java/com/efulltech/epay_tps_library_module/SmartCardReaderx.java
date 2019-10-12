@@ -21,7 +21,6 @@ public class SmartCardReaderx extends CardReader {
     public static final int SLOT_PSAM1 = 1;
     public static final int SLOT_PSAM2 = 2;
     public static final int SLOT_PSAM3 = 3;
-    public byte[] mATR;
 
     private Context context;
     public  CardReader mCardReader;

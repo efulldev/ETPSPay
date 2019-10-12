@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="grey_lighten_3">#D7D7D7</color>
+    <color name="colorPrimary">#E40C2A</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#E75F04</color>
+    <color name="msg_no_notes">#999</color>
+    <color name="hint_enter_note">#89c3c3c3</color>
+    <color name="timestamp">#858585</color>
+    <color name="note_list_text">#232323</color>
+    <color name="grey_transparent">#A9000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="midnightBlue">#03122E</color>
     <color name="light_grey">#F7F7F5</color>
     <color name="peach_pink">#E40C2A</color>
     <color name="peach_pink_transparent">#A1E40C2A</color>
     <color name="black_transparent">#3B030009</color>
     <color name="nightly_blue">#020016</color>
-    <color name="grey_transparent">#A9000000</color>
+    <color name="transparent">#00333333</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="black_transparent_100">#AA030009</color>
 </resources>
