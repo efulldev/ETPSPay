@@ -1,9 +1,11 @@
 package com.efulltech.etpspay.ui;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
@@ -41,6 +43,7 @@ import butterknife.OnClick;
 import static android.os.SystemClock.sleep;
 
 
+@SuppressLint("NewApi")
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
 
     private static final String TAG = "MainActivity";
@@ -206,12 +209,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 //        confirmPinThenSettings();
         Button setLogo = findViewById(R.id.userPreferencesBtn);
         Intent intent = new Intent(MainActivity.this, MainPreferencesActivity.class);
-
-        Pair[] pairs  = new Pair[1];
-        pairs[0] = new Pair<View, String>(setLogo, "logoTransition");
-        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-
-        startActivity(intent, activityOptions.toBundle());
+        startActivity(intent);
     }
 
     private void confirmPinThenSettings() {
@@ -253,11 +251,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                         Button setLogo = findViewById(R.id.userPreferencesBtn);
                         Intent intent = new Intent(MainActivity.this, MainPreferencesActivity.class);
 //
-                        Pair[] pairs  = new Pair[1];
-                        pairs[0] = new Pair<View, String>(setLogo, "logoTransition");
-                        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-
-                        startActivity(intent, activityOptions.toBundle());
+                        startActivity(intent);
 
                     }else{
 //                            alert invalid PIN
@@ -342,7 +336,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
         fab.setImageResource(R.drawable.ic_info_black_24dp);
         title.setText("Notification");
-        title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
         title.setTextSize(20);
         message.setText(response);
         message.setTextSize(16);

@@ -1,6 +1,7 @@
 package com.efulltech.epay_tps_library_module;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import com.telpo.tps550.api.TelpoException;
@@ -54,14 +55,18 @@ public class SmartCardReaderx extends CardReader {
                 int[] pRevAPDULen = new int[1];
                 int result = this.reader.transmit(apdu, apdu.length, pRecvRes, pRevAPDULen);
                 if (result == 0) {
-                    return Arrays.copyOf(pRecvRes, pRevAPDULen[0]);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                        return Arrays.copyOf(pRecvRes, pRevAPDULen[0]);
+                    }
                 }
 
                 Log.e("SmartCardReaderx", "send APDU failed: " + result);
             } else {
                 int len = send_apdu(apdu, pRecvRes);
                 if (len > 0) {
-                    return Arrays.copyOf(pRecvRes, len);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                        return Arrays.copyOf(pRecvRes, len);
+                    }
                 }
             }
 
@@ -85,14 +90,18 @@ public class SmartCardReaderx extends CardReader {
                 int[] pRevAPDULen = new int[1];
                 int result = this.reader.transmit(apdu, apdu.length, pRecvRes, pRevAPDULen);
                 if (result == 0) {
-                    return Arrays.copyOf(pRecvRes, pRevAPDULen[0]);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                        return Arrays.copyOf(pRecvRes, pRevAPDULen[0]);
+                    }
                 }
 
                 Log.e("SmartCardReaderx", "send APDU failed: " + result);
             } else {
                 int len = send_apdu(apdu, pRecvRes);
                 if (len > 0) {
-                    return Arrays.copyOf(pRecvRes, len);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                        return Arrays.copyOf(pRecvRes, len);
+                    }
                 }
             }
 
@@ -212,4 +221,3 @@ public class SmartCardReaderx extends CardReader {
         return result;
     }
 }
-

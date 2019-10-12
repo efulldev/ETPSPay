@@ -1,5 +1,6 @@
 package com.efulltech.epay_tps_library_module;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -29,6 +30,7 @@ import java.util.Locale;
 
 import static android.os.SystemClock.sleep;
 
+@SuppressLint("NewApi")
 public class TransactionOptions extends BaseActivity  implements TextToSpeech.OnInitListener{
 
 
@@ -75,7 +77,7 @@ public class TransactionOptions extends BaseActivity  implements TextToSpeech.On
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
-       thread = new Thread(new Runnable() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // Opens the card readerx object in the thread to handle loop
@@ -109,7 +111,7 @@ public class TransactionOptions extends BaseActivity  implements TextToSpeech.On
             }
 
         });
-       thread.start();
+        thread.start();
 
         savings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +121,7 @@ public class TransactionOptions extends BaseActivity  implements TextToSpeech.On
             }
         });
 
-}
+    }
 
     private void finishActivityWithErrorMsg(String error){
         thread.isInterrupted();

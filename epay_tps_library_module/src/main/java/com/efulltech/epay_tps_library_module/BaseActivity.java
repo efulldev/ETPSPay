@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -32,16 +33,26 @@ public class BaseActivity extends AppCompatActivity implements LogoutListener {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mPreferences.edit();
         mEditor.putBoolean("sessionDialogState", false);
-        mEditor.apply();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            mEditor.apply();
+        }else{
+            mEditor.commit();
+        }
     }
 
     @Override
     public void onSessionLogOut() {
         mEditor.putBoolean("sessionDialogState", true);
-        mEditor.apply();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            mEditor.apply();
+        }else{
+            mEditor.commit();
+        }
         ((TimeOutController) getApplication()).cancelTimer();
         final ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-        toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 800);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+            toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 800);
+        }
         // Display an alert dialog indicating timeout
         CardErrorFragment errorFragment = new CardErrorFragment("Session timed out");
         errorFragment.show(getSupportFragmentManager(), "Card insertion timed out");

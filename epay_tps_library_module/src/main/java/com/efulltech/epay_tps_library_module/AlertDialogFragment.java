@@ -48,11 +48,14 @@ public class AlertDialogFragment extends DialogFragment {
         message = (TextView) view.findViewById(R.id.dialogMessage);
         positiveBtn = (Button) view.findViewById(R.id.proceedBtn);
         // Fetch arguments from bundle and set title
-        String _title = getArguments().getString("title", "Alert");
-        String _message = getArguments().getString("message", "");
+        String _title = null;
         Boolean positive = getArguments().getBoolean("positive", false);
-        title.setText(_title);
-        message.setText(_message);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR1) {
+            _title = getArguments().getString("title", "Alert");
+            String _message = getArguments().getString("message", "");
+            title.setText(_title);
+            message.setText(_message);
+        }
         if(!positive){
             positiveBtn.setVisibility(view.GONE);
         }

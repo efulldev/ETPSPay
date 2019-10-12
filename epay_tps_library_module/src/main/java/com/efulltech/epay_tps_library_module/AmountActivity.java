@@ -1,6 +1,7 @@
 package com.efulltech.epay_tps_library_module;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import static android.os.SystemClock.sleep;
 
 
+@SuppressLint("NewApi")
 public class AmountActivity extends BaseActivity implements TextToSpeech.OnInitListener {
 
     private static final int PIN_RES_CODE = 584;
