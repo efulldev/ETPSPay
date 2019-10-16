@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Efull-NIBSS-Bridge</string>
+    <string name="http">http://</string>
+    <string name="download">Download</string>
+    <string name="write_file">This app needs access to your file storage so that it can write files.</string>
+    <string name="update_date_time_error">Error Updating Date/Time</string>
+    <string name="write_fail">Write Operation Failed</string>
+    <string name="read_fail">Read Operation Failed</string>
+    <string name="succeed">Success</string>
+    <string name="service_crash">Service Crash</string>
+    <string name="request_exception">Request Exception</string>
+    <string name="device_disable">Device disabled</string>
+    <string name="other_error">Other Error</string>
+    <string name="param_error">Param Error</string>
+    <string name="timeout">Timeout</string>
+
 </resources>

@@ -19,8 +19,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//import com.efulltech.efull_nibss_bridge.MessagePackager;
 import com.efulltech.efull_nibss_bridge.Transaction;
-import com.efulltech.efull_nibss_bridge.parser.field.CompoundField;
+//import com.efulltech.efull_nibss_bridge.parser.field.CompoundField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,8 +191,8 @@ public class PinActivity extends BaseActivity {
     }
 
     private void parseTransData() {
-//        CompoundField compoundField = new Com
-
+//        MessagePackager packager = new MessagePackager(this);
+//        packager.send("");
     }
 
 

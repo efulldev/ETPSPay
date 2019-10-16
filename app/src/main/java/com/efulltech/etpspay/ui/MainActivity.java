@@ -21,6 +21,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.efulltech.efull_nibss_bridge.Downloader;
+//import com.efulltech.efull_nibss_bridge.MessagePackager;
+import com.efulltech.efull_nibss_bridge.epms.CallhomeTask;
+import com.efulltech.efull_nibss_bridge.epms.NewKeysTask;
 import com.efulltech.epay_tps_library_module.CardPaymentActivity;
 import com.efulltech.epay_tps_library_module.TransactionOptions;
 import com.efulltech.epay_tps_library_module.misc.ATRParser;
@@ -82,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        Downloader downloader = new Downloader(this, "isoFieldXML");
+        downloader.downloadFile("https://raw.githubusercontent.com/zheeno/ISO8583_Messages/master/iso8583CustomPackager.xml");
+
 
 //        Text to speech code
         //check for TTS data
@@ -166,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     @OnClick(R.id.walletPaymentBtn)
     public void walletPayment(View view) {
         com.efulltech.epay_tps_library_module.UsbPrinter usbPrinter = new com.efulltech.epay_tps_library_module.UsbPrinter(this);
-        usbPrinter.PrintDemoText();
+//        usbPrinter.PrintDemoText();
 //        Intent walletPayment = new Intent(MainActivity.this, LedActivity.class);
 
 //        we have to pass this line of codes anytime we want to implement the tts on any activity
@@ -174,7 +182,17 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
 //        cardPayment.putExtra("ttsOption", ttsOption);
 //        startActivity(walletPayment);
-    }
+
+        // download new kekys
+        NewKeysTask newKeysTask = new NewKeysTask(this);
+        newKeysTask.execute();
+
+        // call to home
+//        CallhomeTask callhomeTask = new CallhomeTask(this);
+//        callhomeTask.execute();
+
+
+  }
 
 
 
