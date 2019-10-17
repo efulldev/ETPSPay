@@ -49,8 +49,9 @@
 /*  49 */       String host = this.settings.getString("hostip", "");
 /*  50 */       String port = this.settings.getString("hostport", "");
 /*  51 */       String protocol = this.settings.getString("protocol", "");
-                String fieldXML = this.settings.getString("isoFieldXML", "");
-/*     */ 
+                String fieldXMLReq = this.settings.getString("isoFieldXMLReq", "");
+                String fieldXMLRes = this.settings.getString("isoFieldXMLRes", "");
+/*     */
 /*     */ 
 /*     */ 
 /*     */ 
@@ -62,7 +63,7 @@
 /*  61 */       Log.d("ParametersTask", "parameter download:skey:" + skey);
 /*     */ 
 /*     */       
-/*  64 */       String response = Initiate.parametersDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789", skey);
+/*  64 */       String response = Initiate.parametersDownload(fieldXMLReq, fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789", skey);
 /*  65 */       Log.d("ParametersTask", "response : " + response);
 /*     */       
 /*  67 */       if (response == null) {

@@ -87,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        Downloader downloader = new Downloader(this, "isoFieldXML");
-//        downloader.downloadFile("https://raw.githubusercontent.com/zheeno/ISO8583_Messages/master/iso8583CustomPackager.xml");
+        Downloader downloaderReq = new Downloader(this, "isoFieldXMLReq");
+        Downloader downloaderRes = new Downloader(this, "isoFieldXMLRes");
+        downloaderReq.downloadFile("https://raw.githubusercontent.com/EngineerSk/ISO8583messages/master/iso_net_req_msg.xml");
+        downloaderRes.downloadFile("https://raw.githubusercontent.com/EngineerSk/ISO8583messages/master/iso_net_res_msg.xml");
 
 
 //        Text to speech code

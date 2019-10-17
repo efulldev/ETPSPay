@@ -49,13 +49,14 @@
 /*  47 */       String protocol = this.settings.getString("protocol", "0");
 /*  48 */       String key1 = this.settings.getString("key1", "5D25072F04832A2329D93E4F91BA23A2");
 /*  49 */       String key2 = this.settings.getString("key2", "86CBCDE3B0A22354853E04521686863D");
-                String fieldXML = this.settings.getString("isoFieldXML", "");
-/*     */       
+                String fieldXMLReq = this.settings.getString("isoFieldXMLReq", "");
+                String fieldXMLRes = this.settings.getString("isoFieldXMLRes", "");
+/*     */
 /*  51 */       String stan = GetUniqueKey(6);
 /*     */ 
 /*     */       
 /*  54 */       Log.d("CallhomeTask", "callhome");
-/*  55 */       String response = Initiate.callhome(fieldXML, host, port, protocol, stan, terminalid, "123456789");
+/*  55 */       String response = Initiate.callhome(fieldXMLReq, fieldXMLRes, host, port, protocol, stan, terminalid, "123456789");
 /*  56 */       Log.d("CallhomeTask", "response : " + response);
 /*     */       
 /*  58 */       if (response == null) {

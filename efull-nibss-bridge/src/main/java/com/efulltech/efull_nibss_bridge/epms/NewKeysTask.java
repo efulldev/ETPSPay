@@ -47,14 +47,15 @@
 /*  47 */       String protocol = this.settings.getString("protocol", "0");
 /*  48 */       String key1 = this.settings.getString("key1", "5D25072F04832A2329D93E4F91BA23A2");
 /*  49 */       String key2 = this.settings.getString("key2", "86CBCDE3B0A22354853E04521686863D");
-                String fieldXML = this.settings.getString("isoFieldXML", "");
-/*     */       
+                String fieldXMLReq = this.settings.getString("isoFieldXMLReq", "");
+                String fieldXMLRes = this.settings.getString("isoFieldXMLRes", "");
+/*     */
 /*  51 */       Log.d("PrepTask", "key1:" + key1);
 /*  52 */       Log.d("PrepTask", "key2:" + key2);
 /*     */ 
 /*     */       
 /*  55 */       Log.d("PrepTask", "master key download");
-/*  56 */       String response = Initiate.masterKeyDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789");
+/*  56 */       String response = Initiate.masterKeyDownload(fieldXMLReq, fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789");
 /*  57 */       Log.d("PrepTask", "response : " + response);
 /*     */       
 /*  59 */       if (response == null) {
@@ -98,7 +99,7 @@
 /*     */       
 /*  98 */       Log.d("PrepTask", "session key download");
 
-/*  99 */       response = Initiate.sessionKeyDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789");
+/*  99 */       response = Initiate.sessionKeyDownload(fieldXMLReq, fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789");
 
 
 
@@ -139,7 +140,7 @@
 /*     */ 
 /*     */       
 /* 136 */       Log.d("PrepTask", "pin key downlaod");
-/* 137 */       response = Initiate.pinKeyDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789");
+/* 137 */       response = Initiate.pinKeyDownload(fieldXMLReq,fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789");
 /* 138 */       Log.d("PrepTask", "response : " + response);
 /*     */       
 /* 140 */       if (response == null) {

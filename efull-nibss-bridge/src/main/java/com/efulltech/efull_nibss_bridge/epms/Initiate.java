@@ -49,31 +49,31 @@ import org.jpos.iso.packager.GenericPackager;
 
 
 
-   public static String masterKeyDownload(String fieldXML, String host, String port, String protocol, String stan, String terminalid, String posSerial) {
-        return packager("9A0000", fieldXML, host, port, protocol, stan, terminalid, posSerial);
+   public static String masterKeyDownload(String fieldXMLReq, String fieldXMLRes, String host, String port, String protocol, String stan, String terminalid, String posSerial) {
+        return packager("9A0000", fieldXMLReq, fieldXMLRes, host, port, protocol, stan, terminalid, posSerial);
    }
 
-   public static String sessionKeyDownload(String fieldXML, String host, String port, String protocol, String stan, String terminalid, String posSerial) {
-       return packager("9B0000", fieldXML, host, port, protocol, stan, terminalid, posSerial);
+   public static String sessionKeyDownload(String fieldXMLReq, String fieldXMLRes, String host, String port, String protocol, String stan, String terminalid, String posSerial) {
+       return packager("9B0000", fieldXMLReq, fieldXMLRes, host, port, protocol, stan, terminalid, posSerial);
     }
 
 
-   public static String pinKeyDownload(String fieldXML, String host, String port, String protocol, String stan, String terminalid, String posSerial) {
-       return packager("9G0000", fieldXML, host, port, protocol, stan, terminalid, posSerial);
+   public static String pinKeyDownload(String fieldXMLReq, String fieldXMLRes,String host, String port, String protocol, String stan, String terminalid, String posSerial) {
+       return packager("9G0000", fieldXMLReq, fieldXMLRes, host, port, protocol, stan, terminalid, posSerial);
 
    }
 
-    public static String parametersDownload(String fieldXML, String host, String port, String protocol, String stan, String terminalid, String posSerial, String key) {
-        return packager("9C0000", fieldXML, host, port, protocol, stan, terminalid, posSerial);
+    public static String parametersDownload(String fieldXMLReq, String fieldXMLRes, String host, String port, String protocol, String stan, String terminalid, String posSerial, String key) {
+        return packager("9C0000", fieldXMLReq, fieldXMLRes, host, port, protocol, stan, terminalid, posSerial);
     }
 
-    public static String callhome(String fieldXML, String host, String port, String protocol, String stan, String terminalid, String posSerial) {
-        return packager("9D0000", fieldXML, host, port, protocol, stan, terminalid, posSerial);
+    public static String callhome(String fieldXMLReq, String fieldXMLRes, String host, String port, String protocol, String stan, String terminalid, String posSerial) {
+        return packager("9D0000", fieldXMLReq, fieldXMLRes, host, port, protocol, stan, terminalid, posSerial);
     }
 
 
 
-        private static String packager(String ProcCode, String fieldXML, String host, String port, String protocol, String stan, String terminalid, String posSerial){
+        private static String packager(String ProcCode, String fieldXMLReq, String fieldXMLRes, String host, String port, String protocol, String stan, String terminalid, String posSerial){
             String F62 = String.format("01%03d%s", new Object[] { Integer.valueOf(posSerial.length()), posSerial });
             String packedIsoMessage = "", unpackedIsoMessage = "";
             byte[] bIsoMsg = null;
@@ -86,7 +86,7 @@ import org.jpos.iso.packager.GenericPackager;
 
                 ISOMsg m = new ISOMsg();
                 // Setting packager
-                GenericPackager packager = new GenericPackager(fieldXML);
+                GenericPackager packager = new GenericPackager(fieldXMLReq);
 
                 m.set (new ISOField (0, "0800"));
                 m.set (new ISOField(3, ProcCode));
@@ -116,9 +116,9 @@ import org.jpos.iso.packager.GenericPackager;
                     if (response.length > 12) {
                         // unpack ISO Response
                         try {
-                            GenericPackager UnPackager = new GenericPackager(fieldXML);
+                            GenericPackager UnPackager = new GenericPackager(fieldXMLRes);
                             ISOMsg isoMsg = new ISOMsg();
-                            isoMsg.set(7, dateF7); // remove
+//                            isoMsg.set(7, dateF7); // remove
                             isoMsg.setPackager(UnPackager);
                             isoMsg.unpack(response);
                             Log.d(TAG, "Field 14: "+isoMsg.getString("14"));

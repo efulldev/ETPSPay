@@ -48,14 +48,15 @@
 /*  48 */       String protocol = this.settings.getString("protocol", "");
 /*  49 */       String key1 = this.settings.getString("key1", "");
 /*  50 */       String key2 = this.settings.getString("key2", "");
-                String fieldXML = this.settings.getString("isoFieldXML", "");
-/*     */       
+                String fieldXMLReq = this.settings.getString("isoFieldXMLReq", "");
+                String fieldXMLRes = this.settings.getString("isoFieldXMLRes", "");
+/*     */
 /*  52 */       Log.d("PrepTask", "key1:" + key1);
 /*  53 */       Log.d("PrepTask", "key2:" + key2);
 /*     */ 
 /*     */       
 /*  56 */       Log.d("PrepTask", "master key doawload");
-/*  57 */       String response = Initiate.masterKeyDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789");
+/*  57 */       String response = Initiate.masterKeyDownload(fieldXMLReq, fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789");
 /*  58 */       Log.d("PrepTask", "response : " + response);
 /*     */       
 /*  60 */       if (response == null) {
@@ -98,7 +99,7 @@
 /*     */ 
 /*     */       
 /*  99 */       Log.d("PrepTask", "session key download");
-/* 100 */       response = Initiate.sessionKeyDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789");
+/* 100 */       response = Initiate.sessionKeyDownload(fieldXMLReq, fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789");
 /* 101 */       Log.d("PrepTask", "response : " + response);
 /*     */       
 /* 103 */       if (response == null) {
@@ -136,7 +137,7 @@
 /*     */ 
 /*     */       
 /* 137 */       Log.d("PrepTask", "pin key downlaod");
-/* 138 */       response = Initiate.pinKeyDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789");
+/* 138 */       response = Initiate.pinKeyDownload(fieldXMLReq, fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789");
 /* 139 */       Log.d("PrepTask", "response : " + response);
 /*     */       
 /* 141 */       if (response == null) {
@@ -181,7 +182,7 @@
 /* 180 */       Log.d("PrepTask", "parameter download:skey:" + skey);
 /*     */ 
 /*     */       
-/* 183 */       response = Initiate.parametersDownload(fieldXML, host, port, protocol, "123456", terminalid, "123456789", skey);
+/* 183 */       response = Initiate.parametersDownload(fieldXMLReq, fieldXMLRes, host, port, protocol, "123456", terminalid, "123456789", skey);
 /* 184 */       Log.d("PrepTask", "response : " + response);
 /*     */       
 /* 186 */       if (response == null) {
