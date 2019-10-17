@@ -118,6 +118,7 @@ import org.jpos.iso.packager.GenericPackager;
                         try {
                             GenericPackager UnPackager = new GenericPackager(fieldXML);
                             ISOMsg isoMsg = new ISOMsg();
+                            isoMsg.set(7, dateF7); // remove
                             isoMsg.setPackager(UnPackager);
                             isoMsg.unpack(response);
                             Log.d(TAG, "Field 14: "+isoMsg.getString("14"));
