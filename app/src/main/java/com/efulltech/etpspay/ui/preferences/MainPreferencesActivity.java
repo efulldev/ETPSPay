@@ -36,7 +36,7 @@ public class MainPreferencesActivity extends AppCompatActivity implements TextTo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_preferences);
 
-        // Initiate shared preferences
+        // Controller shared preferences
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mPreferences.edit();
 

@@ -1,1 +1,1 @@
-include ':app', ':epay_tps_library_module', ':efull-nibss-bridge', ':org.eclipse.persistence.moxy-2.4.2'
+include ':app', ':epay_tps_library_module', ':efull-nibss-bridge', ':org.eclipse.persistence.moxy-2.4.2', ':epms'

@@ -86,7 +86,7 @@ public class TelpoBaseApplication extends Application {
      */
     public static Context getContext() {
         if (context == null) {
-            throw new RuntimeException("Initiate context failed");
+            throw new RuntimeException("Controller context failed");
         }
 
         return context;

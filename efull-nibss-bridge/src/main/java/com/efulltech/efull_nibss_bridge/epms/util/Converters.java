@@ -116,4 +116,17 @@ public class Converters {
         return builder.toString().toUpperCase();
     }
 
+
+    public static String byteArrToHex(byte[] data) {
+        StringBuilder sb = new StringBuilder();
+
+        for (byte b : data) {
+
+            sb.append(Character.forDigit((b & 0xF0) >> 4, 16));
+            sb.append(Character.forDigit(b & 0xF, 16));
+        }
+
+        return sb.toString().toUpperCase();
+    }
+
 }

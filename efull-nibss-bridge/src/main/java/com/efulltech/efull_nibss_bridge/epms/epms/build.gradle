@@ -1,0 +1,4 @@
+package com.efulltech.efull_nibss_bridge.epms.epms
+
+configurations.maybeCreate("default")
+artifacts.add("default", file('epms.jar'))
